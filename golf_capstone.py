@@ -4,13 +4,14 @@ import mysql.connector
 import os
 import json
 
-
-url= {'ranking':'https://api.sportradar.us/golf/trial/v3/en/players/wgr/2021/rankings.json?',
-'stat':'https://api.sportradar.us/golf/trial/pga/v3/en/2021/players/statistics.json?',
-'pga_player':'https://api.sportradar.us/golf/trial/pga/v3/en/2021/players/profiles.json?',
-'lpga_player':'https://api.sportradar.us/golf/trial/lpga/v3/en/2021/players/profiles.json?',
-'pga_tournament':'https://api.sportradar.us/golf/trial/pga/v3/en/2021/tournaments/schedule.json?',
-'lpga_tournament':'https://api.sportradar.us/golf/trial/lpga/v3/en/2021/tournaments/schedule.json?'
+#how do I pass a year to the url
+year=2021
+url= {'ranking':f'https://api.sportradar.us/golf/trial/v3/en/players/wgr/{year}/rankings.json?',
+'stat':f'https://api.sportradar.us/golf/trial/pga/v3/en/{year}/players/statistics.json?',
+'pga_player':f'https://api.sportradar.us/golf/trial/pga/v3/en/{year}/players/profiles.json?',
+'lpga_player':f'https://api.sportradar.us/golf/trial/lpga/v3/en/{year}/players/profiles.json?',
+# 'pga_tournament':f'https://api.sportradar.us/golf/trial/pga/v3/en/{year}/tournaments/schedule.json?',
+'lpga_tournament':f'https://api.sportradar.us/golf/trial/lpga/v3/en/{year}/tournaments/schedule.json?'
 
 #,'player_profile':'https://api.sportradar.us/golf/trial/v3/en/players/a7041051-eb25-40b9-acb3-dab88cae69c0/profile.json?'
     } #have to edit id
@@ -56,25 +57,21 @@ class Read_Files():
 
     def read_files(self):
         self.file_dict={}
-        for key, value in url.items(): # without the asterisk means just gimme the tuple
+        for key, value in url.items(): 
             self.file_path=os.path.join(self.cwd,self.path,f'{key}_data.json')
 #how would I include the date?
 
-            #file=open(file_path, "r", encoding="utf-8")
             with open(self.file_path) as self.json_file:
-                # data = json.load(json_file)
-            # print(file.read())
                 self.file_dict[f'{key}_data']=json.load(self.json_file)#.rstrip("\n")
     def get_file_dict(self):
         return self.file_dict
 
 
-# do you need to separate read, clean, 
-#read_file can return the data
-#get_file_dict
 
 class Clean_Data():
     def __init__(self):
+
+#how to make this into arguments
         self.rank_dict={}
         self.rank_list=[]
         self.stat_dict={}
@@ -88,67 +85,110 @@ class Clean_Data():
 
 
 
-#maybe pass a list of arguments?
     def clean_rank_data(self):
         for rank_element in fd["ranking_data"]["players"]:
-            self.rank_dict["id"]=rank_element["id"]
-            self.rank_dict["rank"]=rank_element["rank"]
+            for element in ("id","rank"):
+                self.rank_dict[element]=rank_element[element]
+
+            # self.rank_dict["id"]=rank_element["id"]
+            # self.rank_dict["rank"]=rank_element["rank"]
             self.rank_list.append(self.rank_dict.copy())
-        #print(self.rank_list)
+        print(self.rank_list)
     def clean_stat_data(self):
         for stat_element in fd["stat_data"]["players"]:
-            self.stat_dict["id"]=stat_element["id"]
-            self.stat_dict["country"]=stat_element["country"]
-            self.stat_dict["earnings"]=stat_element["statistics"]["earnings"]
-            self.stat_dict["drive_avg"]=stat_element["statistics"]["drive_avg"]
-            self.stat_dict["gir_pct"]=stat_element["statistics"]["gir_pct"]
-            self.stat_dict["putt_avg"]=stat_element["statistics"]["putt_avg"]
-            self.stat_dict["sand_saves_pct"]=stat_element["statistics"]["sand_saves_pct"]
-            self.stat_dict["birdies_per_round"]=stat_element["statistics"]["birdies_per_round"]
-            # self.stat_dict["hole_proximity_avg"]=stat_element["statistics"]["hole_proximity_avg"]
-            # print(stat_element["statistics"])
-            self.stat_dict["scrambling_pct"]=stat_element["statistics"]["scrambling_pct"]
-            self.stat_dict["rank"]=stat_element["statistics"]["world_rank"]
+            for element in (['id'],['country'],('statistics','earnings'),('statistics','drive_avg'),
+            ('statistics','gir_pct'),('statistics','putt_avg'),('statistics','sand_saves_pct'),('statistics','birdies_per_round'),('statistics','hole_proximity_avg'),('statistics','scrambling_pct'),('statistics','world_rank')):
+                try:
+                    if len(element)==1:
+                        self.stat_dict[element[0]]=stat_element[element[0]]
+                    elif len(element)==2:
+                        self.stat_dict[element[1]]=stat_element[element[0]][element[1]]
+
+                # self.stat_dict["id"]=stat_element["id"]
+                # self.stat_dict["country"]=stat_element["country"]
+                # self.stat_dict["earnings"]=stat_element["statistics"]["earnings"]
+                # self.stat_dict["drive_avg"]=stat_element["statistics"]["drive_avg"]
+                # self.stat_dict["gir_pct"]=stat_element["statistics"]["gir_pct"]
+                # self.stat_dict["putt_avg"]=stat_element["statistics"]["putt_avg"]
+                # self.stat_dict["sand_saves_pct"]=stat_element["statistics"]["sand_saves_pct"]
+                # self.stat_dict["birdies_per_round"]=stat_element["statistics"]["birdies_per_round"]
+                # self.stat_dict["hole_proximity_avg"]=stat_element["statistics"]["hole_proximity_avg"]
+                # self.stat_dict["scrambling_pct"]=stat_element["statistics"]["scrambling_pct"]
+                # self.stat_dict["rank"]=stat_element["statistics"]["world_rank"]
+                except KeyError: 
+                    if len(element)==1:
+
+                        self.stat_dict[element[0]]=[]
+                    elif len(element)==2:
+                        self.stat_dict[element[1]]=[]
+
+
+
             self.stat_list.append(self.stat_dict.copy())
 
             print(self.stat_list)
     def clean_pga_player_data(self):
         for pga_player_element in fd["pga_player_data"]["players"]:
-            self.pga_player_dict["id"]=pga_player_element["id"]
-            self.pga_player_dict["first_name"]=pga_player_element["first_name"]
-            self.pga_player_dict["last_name"]=pga_player_element["last_name"]
+            for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
+                try:
+                    self.pga_player_dict[element[0]]=pga_player_element[element[0]]
+                # self.pga_player_dict["id"]=pga_player_element["id"]
+                # self.pga_player_dict["first_name"]=pga_player_element["first_name"]
+                # self.pga_player_dict["last_name"]=pga_player_element["last_name"]
 
-            # self.pga_player_dict["height"]=pga_player_element["height"]
-            #self.pga_player_dict["birthday"]=pga_player_element["birthday"]
-            self.pga_player_dict["country"]=pga_player_element["country"]
-            #self.pga_player_dict["residence"]=pga_player_element["residence"]
-            #self.pga_player_dict["birth_place"]=pga_player_element["birth_place"]
-            #self.pga_player_dict["college"]=pga_player_element["college"]
+                # self.pga_player_dict["height"]=pga_player_element["height"]
+                # self.pga_player_dict["birthday"]=pga_player_element["birthday"]
+                # self.pga_player_dict["country"]=pga_player_element["country"]
+                # self.pga_player_dict["residence"]=pga_player_element["residence"]
+                # self.pga_player_dict["birth_place"]=pga_player_element["birth_place"]
+                # self.pga_player_dict["college"]=pga_player_element["college"]
+                except KeyError: 
+                    self.pga_player_dict[element[0]]=[]
+
+
             self.pga_player_list.append(self.pga_player_dict.copy())
         print(self.pga_player_list)
     def clean_lpga_player_data(self):
         for lpga_player_element in fd["lpga_player_data"]["players"]:
-            self.lpga_player_dict["id"]=lpga_player_element["id"]
-            self.lpga_player_dict["first_name"]=lpga_player_element["first_name"]
-            self.lpga_player_dict["last_name"]=lpga_player_element["last_name"]
+            for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
 
-            # self.lpga_player_dict["height"]=lpga_player_element["height"]
-            #self.lpga_player_dict["birthday"]=lpga_player_element["birthday"]
-            self.lpga_player_dict["country"]=lpga_player_element["country"]
-            #self.lpga_player_dict["residence"]=lpga_player_element["residence"]
-            #self.lpga_player_dict["birth_place"]=lpga_player_element["birth_place"]
-            #self.lpga_player_dict["college"]=lpga_player_element["college"]
+                try:
+                    self.lpga_player_dict[element[0]]=lpga_player_element[element[0]]
+
+                # self.lpga_player_dict["id"]=lpga_player_element["id"]
+                # self.lpga_player_dict["first_name"]=lpga_player_element["first_name"]
+                # self.lpga_player_dict["last_name"]=lpga_player_element["last_name"]
+
+                # self.lpga_player_dict["height"]=lpga_player_element["height"]
+                # self.lpga_player_dict["birthday"]=lpga_player_element["birthday"]
+                # self.lpga_player_dict["country"]=lpga_player_element["country"]
+                # self.lpga_player_dict["residence"]=lpga_player_element["residence"]
+                # self.lpga_player_dict["birth_place"]=lpga_player_element["birth_place"]
+                # self.lpga_player_dict["college"]=lpga_player_element["college"]
+                except KeyError: 
+                    self.lpga_player_dict[element[0]]=[]
+
+
             self.lpga_player_list.append(self.lpga_player_dict.copy())
         print(self.lpga_player_list)
     def clean_lpga_tournament_data(self):
         for lpga_tournament_element in fd["lpga_tournament_data"]["tournaments"]:
             print(lpga_tournament_element)
+    def get_rank_list(self):
+        return self.rank_list
+    def get_stat_list(self):
+        return self.stat_list
+    def get_pga_player(self):
+        return self.clean_pga_player_data
+    def get_lpga_player(self):
+        return self.clean_lpga_player_data
+
     
     #where should I clean practice and round
 class Database:
     def __init__(self):
         pass
-    #create database and check it database exists
+
     def try_connection(self, host_name, user_name, user_password, db_name):
         connection = None
         try:
@@ -168,15 +208,23 @@ class Database:
     def create_connection(self):
         #self.ch_1 = try_connection("localhost", "root", config("mysql_pass"), "sakila")
         self.cursor_1 = ch_1.cursor() #checked
+        
+
+    def create_database(self):
+        self.database_query_create = f"""CREATE DATABASE golf;"""
+
+        self.cursor_1.execute(self.database_query_create)
+
+        ch_1.commit()
 
     def create_table(self):
-        rank_query_create = f"""CREATE TABLE IF NOT EXISTS rank 
+        self.rank_query_create = f"""CREATE TABLE IF NOT EXISTS rank 
         (
         id VARCHAR(255),
         rank INT(10));"""
 
 #put primary key on tables
-        stat_query_create = f"""CREATE TABLE IF NOT EXISTS stat 
+        self.stat_query_create = f"""CREATE TABLE IF NOT EXISTS stat 
         (
         id VARCHAR(255),
         earnings INT(13),
@@ -187,7 +235,7 @@ class Database:
         birdies_per_round FLOAT(3), 
         scrambling_pct FLOAT(3));"""
 
-        pga_player_query_create = f"""CREATE TABLE pga_player 
+        self.pga_player_query_create = f"""CREATE TABLE pga_player 
         (
         id VARCHAR(255),
         first_name VARCHAR(255),
@@ -199,7 +247,7 @@ class Database:
         birth_place VARCHAR(255),
         college VARCHAR(255));"""
 
-        lpga_player_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
+        self.lpga_player_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
         (
         id VARCHAR(255),
         first_name VARCHAR(255),
@@ -213,13 +261,17 @@ class Database:
 
 
 
-        self.cursor_1.execute(query)
+        self.cursor_1.execute(self.rank_query_create)
+        self.cursor_1.execute(self.stat_query_create)
+        self.cursor_1.execute(self.pga_player_query_create)
+        self.cursor_1.execute(self.lpga_player_query_create)
+
 
         ch_1.commit()
 
 
     def insert_data(self):
-        rank_query_insert=f"""
+        self.rank_query_insert=f"""
             INSERT INTO 
                 rank
                 (id,rank)
@@ -228,7 +280,7 @@ class Database:
         """
 
 
-        stat_query_insert = f""" 
+        self.stat_query_insert = f""" 
         (
             INSERT INTO 
                 stat
@@ -237,7 +289,7 @@ class Database:
                 (%(id)s, %(earnings)s, %(driving_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(scrambling_pct)s);
             """     
 
-        pga_player_query_insert= f"""
+        self.pga_player_query_insert= f"""
         (
             INSERT INTO 
             pga_player
@@ -247,7 +299,7 @@ class Database:
 
         )"""
 
-        lpga_player_query_insert= f"""
+        self.lpga_player_query_insert= f"""
         (
             INSERT INTO 
             pga_player
@@ -258,7 +310,11 @@ class Database:
         )"""
 
 
-        self.cursor_1.executemany(query_2, self.data_list)
+        self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
+        self.cursor_1.executemany(self.stat_query_insert, stat_list)
+        self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
+        self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
+
 
         ch_1.commit()
 
@@ -343,11 +399,16 @@ fd=r.get_file_dict()
 
 
 c=Clean_Data()
+rank_list=c.get_rank_list()
+stat_list=c.get_stat_list()
+pga_player_list=c.get_pga_player()
+lpga_player_list=c.get_lpga_player()
+
 #c.clean_rank_data()
 #c.clean_stat_data()
-# c.clean_pga_player_data()
-#c.clean_lpga_player_data()
-c.clean_lpga_tournament_sdata()
+#c.clean_pga_player_data()
+c.clean_lpga_player_data()
+#c.clean_lpga_tournament_sdata()
 
 
 #d=Database()
@@ -386,10 +447,10 @@ function extract data - fetchall
 
 #mostly done
 class api - done
-function pull data player profiles
-function pull data player statistics
-pull data players
-store the data
+function pull data player profiles - done
+function pull data player statistics - done
+pull data players - done
+store the data 
 
 class clean data
 function clean player profiles
@@ -401,17 +462,17 @@ function clean my stat
     from all sessions?
 
 class ask_me_for_data
-is it a round?
-    CLI 
-    date
-    stats
-    notes
+is it a round? - done
+    CLI - done
+    date - done
+    stats - done
+    notes - done
     store the inputs
-is it at the driving range?
-    CLI 
-    date
-    stats
-    notes
+is it at the driving range? - done
+    CLI - done
+    date - done
+    stats - done
+    notes - done
     store the inputs
 
 
@@ -422,13 +483,9 @@ list comp
 generator
 lambda function
 testing
-try except
+try except - done
 inheritance
 
-
-
-#add reference table?
-#Expected should all tables have primary keys 
 
 
 """
