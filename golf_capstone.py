@@ -3,6 +3,8 @@ from decouple import config
 import mysql.connector
 import os
 import json
+from mysql.connector import Error
+
 
 #how do I pass a year to the url
 year=2021
@@ -93,10 +95,11 @@ class Clean_Data():
             # self.rank_dict["id"]=rank_element["id"]
             # self.rank_dict["rank"]=rank_element["rank"]
             self.rank_list.append(self.rank_dict.copy())
-        print(self.rank_list)
+        return self.rank_list
+        # print(self.rank_list)
     def clean_stat_data(self):
         for stat_element in fd["stat_data"]["players"]:
-            for element in (['id'],['country'],('statistics','earnings'),('statistics','drive_avg'),
+            for element in (['id'],('statistics','earnings'),('statistics','drive_avg'),
             ('statistics','gir_pct'),('statistics','putt_avg'),('statistics','sand_saves_pct'),('statistics','birdies_per_round'),('statistics','hole_proximity_avg'),('statistics','scrambling_pct'),('statistics','world_rank')):
                 try:
                     if len(element)==1:
@@ -125,8 +128,10 @@ class Clean_Data():
 
 
             self.stat_list.append(self.stat_dict.copy())
+        return self.stat_list
 
-            print(self.stat_list)
+
+        #print(self.stat_list)
     def clean_pga_player_data(self):
         for pga_player_element in fd["pga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
@@ -147,7 +152,8 @@ class Clean_Data():
 
 
             self.pga_player_list.append(self.pga_player_dict.copy())
-        print(self.pga_player_list)
+        return self.pga_player_list
+        # print(self.pga_player_list)
     def clean_lpga_player_data(self):
         for lpga_player_element in fd["lpga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
@@ -170,18 +176,20 @@ class Clean_Data():
 
 
             self.lpga_player_list.append(self.lpga_player_dict.copy())
-        print(self.lpga_player_list)
+        return self.lpga_player_list
+        # print(self.lpga_player_list)
     def clean_lpga_tournament_data(self):
         for lpga_tournament_element in fd["lpga_tournament_data"]["tournaments"]:
             print(lpga_tournament_element)
     def get_rank_list(self):
         return self.rank_list
+
     def get_stat_list(self):
         return self.stat_list
-    def get_pga_player(self):
-        return self.clean_pga_player_data
-    def get_lpga_player(self):
-        return self.clean_lpga_player_data
+    def get_pga_player_list(self):
+        return self.pga_player_list
+    def get_lpga_player_list(self):
+        return self.lpga_player_list
 
     
     #where should I clean practice and round
@@ -211,17 +219,23 @@ class Database:
         
 
     def create_database(self):
-        self.database_query_create = f"""CREATE DATABASE golf;"""
+        try:
+            self.database_query_create = f"""CREATE DATABASE golf;"""
 
-        self.cursor_1.execute(self.database_query_create)
+            self.cursor_1.execute(self.database_query_create)
 
-        ch_1.commit()
+            ch_1.commit()
+        except Error as e:
+            print("The database exists already")
 
     def create_table(self):
-        self.rank_query_create = f"""CREATE TABLE IF NOT EXISTS rank 
+        self.rank_query_create = f"""CREATE TABLE IF NOT EXISTS world_rank 
         (
         id VARCHAR(255),
-        rank INT(10));"""
+        world_rank INT(10), 
+        PRIMARY KEY(id));"""
+
+
 
 #put primary key on tables
         self.stat_query_create = f"""CREATE TABLE IF NOT EXISTS stat 
@@ -230,10 +244,13 @@ class Database:
         earnings INT(13),
         drive_avg FLOAT(6), 
         gir_pct FLOAT(5),
-        putt_avg FLOAT(3),
-        sand_saves_pct FLOAT(3),
-        birdies_per_round FLOAT(3), 
-        scrambling_pct FLOAT(3));"""
+        putt_avg FLOAT(4),
+        sand_saves_pct FLOAT(4),
+        birdies_per_round FLOAT(4), 
+        hole_proximity_avg VARCHAR(255),
+        scrambling_pct FLOAT(4), 
+        world_rank INT(4),
+        PRIMARY KEY(id));"""
 
         self.pga_player_query_create = f"""CREATE TABLE pga_player 
         (
@@ -242,10 +259,11 @@ class Database:
         last_name VARCHAR(255), 
         height VARCHAR (255),
         birthday DATETIME,
-        country CAR(255),
+        country VARCHAR(255),
         residence VARCHAR(255), 
         birth_place VARCHAR(255),
-        college VARCHAR(255));"""
+        college VARCHAR(255), 
+        PRIMARY KEY(id));"""
 
         self.lpga_player_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
         (
@@ -254,27 +272,30 @@ class Database:
         last_name VARCHAR(255), 
         height VARCHAR (255),
         birthday DATETIME,
-        country CAR(255),
+        country VARCHAR(255),
         residence VARCHAR(255), 
         birth_place VARCHAR(255),
-        college VARCHAR(255));"""
+        college VARCHAR(255), 
+        PRIMARY KEY(id));"""
 
 
+        try: 
+            self.cursor_1.execute(self.rank_query_create)
+            self.cursor_1.execute(self.stat_query_create)
+            self.cursor_1.execute(self.pga_player_query_create)
+            self.cursor_1.execute(self.lpga_player_query_create)
 
-        self.cursor_1.execute(self.rank_query_create)
-        self.cursor_1.execute(self.stat_query_create)
-        self.cursor_1.execute(self.pga_player_query_create)
-        self.cursor_1.execute(self.lpga_player_query_create)
 
-
-        ch_1.commit()
+            ch_1.commit()
+        except Error as e:
+            print("The table exists already")
 
 
     def insert_data(self):
         self.rank_query_insert=f"""
             INSERT INTO 
-                rank
-                (id,rank)
+                world_rank
+                (id,world_rank)
             VALUES
                 (%(id)s, %(rank)s);
         """
@@ -284,9 +305,9 @@ class Database:
         (
             INSERT INTO 
                 stat
-                (id,earnings, driving_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, scrambling_pct)
+                (id,earnings, driving_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
             VALUES
-                (%(id)s, %(earnings)s, %(driving_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(scrambling_pct)s);
+                (%(id)s, %(earnings)s, %(driving_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);
             """     
 
         self.pga_player_query_insert= f"""
@@ -310,10 +331,10 @@ class Database:
         )"""
 
 
-        self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
+        #self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
         self.cursor_1.executemany(self.stat_query_insert, stat_list)
-        self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
-        self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
+        # self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
+        # self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
 
 
         ch_1.commit()
@@ -399,29 +420,28 @@ fd=r.get_file_dict()
 
 
 c=Clean_Data()
-rank_list=c.get_rank_list()
+#rank_list=c.get_rank_list()
 stat_list=c.get_stat_list()
-pga_player_list=c.get_pga_player()
-lpga_player_list=c.get_lpga_player()
+# pga_player_list=c.get_pga_player_list()
+# lpga_player_list=c.get_lpga_player_list()
 
 #c.clean_rank_data()
-#c.clean_stat_data()
+c.clean_stat_data()
 #c.clean_pga_player_data()
-c.clean_lpga_player_data()
+#c.clean_lpga_player_data()
 #c.clean_lpga_tournament_sdata()
 
-
-#d=Database()
-#ch_1=d.try_connection("localhost", "root", config("mysql_pass"), "sakila")
-#d.create_connection()
-#d.pull_data()
-#d.create_table()
-#d.insert_data()
+d=Database()
+ch_1=d.try_connection("localhost", "root", config("mysql_pass"), "golf")
+d.create_connection()
+d.create_database()
+d.create_table()
+d.insert_data()
 
 """
 class: database
 function get connection - done
-function create database 
+function create database - done
     see if database exists
 function create tables - done
     see if table exists - done
