@@ -96,7 +96,7 @@ class Clean_Data():
             # self.rank_dict["rank"]=rank_element["rank"]
             self.rank_list.append(self.rank_dict.copy())
         return self.rank_list
-        # print(self.rank_list)
+        #print(self.rank_list)
     def clean_stat_data(self):
         for stat_element in fd["stat_data"]["players"]:
             for element in (['id'],('statistics','earnings'),('statistics','drive_avg'),
@@ -121,9 +121,9 @@ class Clean_Data():
                 except KeyError: 
                     if len(element)==1:
 
-                        self.stat_dict[element[0]]=[]
+                        self.stat_dict[element[0]]=None
                     elif len(element)==2:
-                        self.stat_dict[element[1]]=[]
+                        self.stat_dict[element[1]]=None
 
 
 
@@ -148,12 +148,12 @@ class Clean_Data():
                 # self.pga_player_dict["birth_place"]=pga_player_element["birth_place"]
                 # self.pga_player_dict["college"]=pga_player_element["college"]
                 except KeyError: 
-                    self.pga_player_dict[element[0]]=[]
+                    self.pga_player_dict[element[0]]=None
 
 
             self.pga_player_list.append(self.pga_player_dict.copy())
-        return self.pga_player_list
-        # print(self.pga_player_list)
+        #return self.pga_player_list
+        print(self.pga_player_list)
     def clean_lpga_player_data(self):
         for lpga_player_element in fd["lpga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
@@ -172,7 +172,7 @@ class Clean_Data():
                 # self.lpga_player_dict["birth_place"]=lpga_player_element["birth_place"]
                 # self.lpga_player_dict["college"]=lpga_player_element["college"]
                 except KeyError: 
-                    self.lpga_player_dict[element[0]]=[]
+                    self.lpga_player_dict[element[0]]=None
 
 
             self.lpga_player_list.append(self.lpga_player_dict.copy())
@@ -237,13 +237,12 @@ class Database:
 
 
 
-#put primary key on tables
         self.stat_query_create = f"""CREATE TABLE IF NOT EXISTS stat 
         (
         id VARCHAR(255),
-        earnings INT(13),
+        earnings FLOAT(13),
         drive_avg FLOAT(6), 
-        gir_pct FLOAT(5),
+        gir_pct FLOAT(4),
         putt_avg FLOAT(4),
         sand_saves_pct FLOAT(4),
         birdies_per_round FLOAT(4), 
@@ -252,18 +251,21 @@ class Database:
         world_rank INT(4),
         PRIMARY KEY(id));"""
 
-        self.pga_player_query_create = f"""CREATE TABLE pga_player 
+
+        self.pga_player_query_create = f"""CREATE TABLE IF NOT EXISTS pga_player 
         (
         id VARCHAR(255),
         first_name VARCHAR(255),
         last_name VARCHAR(255), 
-        height VARCHAR (255),
+        height INT (3),
         birthday DATETIME,
         country VARCHAR(255),
         residence VARCHAR(255), 
         birth_place VARCHAR(255),
         college VARCHAR(255), 
         PRIMARY KEY(id));"""
+
+
 
         self.lpga_player_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
         (
@@ -302,23 +304,29 @@ class Database:
 
 
         self.stat_query_insert = f""" 
-        (
+        
             INSERT INTO 
                 stat
-                (id,earnings, driving_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
+                (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
             VALUES
-                (%(id)s, %(earnings)s, %(driving_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);
+                (%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);
             """     
 
+
+
         self.pga_player_query_insert= f"""
-        (
+        
             INSERT INTO 
             pga_player
             (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
             VALUES
-            (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s)
+            (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
 
-        )"""
+        """
+
+# {'id': '62320f56-8d9e-4a90-a9db-195629d541d2', 'first_name': 'George', 'last_name': 'McNeill', 'height': 73,
+#  'birthday': '1975-10-02T00:00:00+00:00', 'country': 'UNITED STATES', 'residence': 'Fort Myers, FL, USA',
+#   'birth_place': 'Naples, FL, USA', 'college': 'Florida State'}
 
         self.lpga_player_query_insert= f"""
         (
@@ -332,8 +340,8 @@ class Database:
 
 
         #self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
-        self.cursor_1.executemany(self.stat_query_insert, stat_list)
-        # self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
+        #self.cursor_1.executemany(self.stat_query_insert, stat_list)
+        self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
         # self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
 
 
@@ -409,8 +417,8 @@ class Cli:
     
 
 
-#pull=Api()
-#pull.api()
+# pull=Api()
+# pull.api()
 
 r=Read_Files()
 r.read_files()
@@ -420,14 +428,14 @@ fd=r.get_file_dict()
 
 
 c=Clean_Data()
-#rank_list=c.get_rank_list()
+rank_list=c.get_rank_list()
 stat_list=c.get_stat_list()
-# pga_player_list=c.get_pga_player_list()
+pga_player_list=c.get_pga_player_list()
 # lpga_player_list=c.get_lpga_player_list()
 
-#c.clean_rank_data()
+c.clean_rank_data()
 c.clean_stat_data()
-#c.clean_pga_player_data()
+c.clean_pga_player_data()
 #c.clean_lpga_player_data()
 #c.clean_lpga_tournament_sdata()
 
@@ -437,6 +445,16 @@ d.create_connection()
 d.create_database()
 d.create_table()
 d.insert_data()
+
+# rank=c.get_rank_list()
+# stat=c.get_stat_list()
+
+# cwd=os.getcwd()
+# path="Documents\codingnomads\python_capstone"
+# stat_file  = open(os.path.join(cwd,path,f"stat_test_data.json"), "w+")
+# rank_file  = open(os.path.join(cwd,path,f"rank_test_data.json"), "w+")
+# json.dump(stat, stat_file)
+# json.dump(rank, rank_file)
 
 """
 class: database
