@@ -4,6 +4,8 @@ import mysql.connector
 import os
 import json
 from mysql.connector import Error
+from datetime import datetime 
+import pandas as pd
 
 
 #how do I pass a year to the url
@@ -52,7 +54,7 @@ class Api:
             self.file.close()
 
 #instance variable for object in a different class
-class Read_Files():
+class File_Reader():
     def __init__(self):
         self.cwd=os.getcwd()
         self.path="Documents\codingnomads\python_capstone"
@@ -70,7 +72,7 @@ class Read_Files():
 
 
 
-class Clean_Data():
+class Data_Cleaner():
     def __init__(self):
 
 #how to make this into arguments
@@ -95,7 +97,7 @@ class Clean_Data():
             # self.rank_dict["id"]=rank_element["id"]
             # self.rank_dict["rank"]=rank_element["rank"]
             self.rank_list.append(self.rank_dict.copy())
-        return self.rank_list
+        # return self.rank_list
         #print(self.rank_list)
     def clean_stat_data(self):
         for stat_element in fd["stat_data"]["players"]:
@@ -128,7 +130,7 @@ class Clean_Data():
 
 
             self.stat_list.append(self.stat_dict.copy())
-        return self.stat_list
+        # return self.stat_list
 
 
         #print(self.stat_list)
@@ -136,7 +138,11 @@ class Clean_Data():
         for pga_player_element in fd["pga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
                 try:
-                    self.pga_player_dict[element[0]]=pga_player_element[element[0]]
+                    if element[0]=="birthday":
+                        self.pga_player_dict[element[0]]=datetime.strptime(pga_player_element[element[0]], "%Y-%m-%dT%H:%M:%S+00:00")
+
+                    else:
+                        self.pga_player_dict[element[0]]=pga_player_element[element[0]]
                 # self.pga_player_dict["id"]=pga_player_element["id"]
                 # self.pga_player_dict["first_name"]=pga_player_element["first_name"]
                 # self.pga_player_dict["last_name"]=pga_player_element["last_name"]
@@ -153,13 +159,17 @@ class Clean_Data():
 
             self.pga_player_list.append(self.pga_player_dict.copy())
         #return self.pga_player_list
-        print(self.pga_player_list)
+        # print(self.pga_player_list)
     def clean_lpga_player_data(self):
         for lpga_player_element in fd["lpga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
 
                 try:
-                    self.lpga_player_dict[element[0]]=lpga_player_element[element[0]]
+                    if element[0]=="birthday":
+                        self.lpga_player_dict[element[0]]=datetime.strptime(lpga_player_element[element[0]], "%Y-%m-%dT%H:%M:%S+00:00")
+
+                    else:
+                        self.lpga_player_dict[element[0]]=lpga_player_element[element[0]]
 
                 # self.lpga_player_dict["id"]=lpga_player_element["id"]
                 # self.lpga_player_dict["first_name"]=lpga_player_element["first_name"]
@@ -176,7 +186,7 @@ class Clean_Data():
 
 
             self.lpga_player_list.append(self.lpga_player_dict.copy())
-        return self.lpga_player_list
+        # return self.lpga_player_list
         # print(self.lpga_player_list)
     def clean_lpga_tournament_data(self):
         for lpga_tournament_element in fd["lpga_tournament_data"]["tournaments"]:
@@ -329,20 +339,20 @@ class Database:
 #   'birth_place': 'Naples, FL, USA', 'college': 'Florida State'}
 
         self.lpga_player_query_insert= f"""
-        (
+        
             INSERT INTO 
-            pga_player
+            lpga_player
             (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
             VALUES
-            (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s)
+            (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
 
-        )"""
+        """
 
 
         #self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
         #self.cursor_1.executemany(self.stat_query_insert, stat_list)
-        self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
-        # self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
+        #self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
+        #self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
 
 
         ch_1.commit()
@@ -420,23 +430,23 @@ class Cli:
 # pull=Api()
 # pull.api()
 
-r=Read_Files()
+r=File_Reader()
 r.read_files()
 fd=r.get_file_dict()
 #getter or accessor
 #argument in method of
 
 
-c=Clean_Data()
+c=Data_Cleaner()
 rank_list=c.get_rank_list()
 stat_list=c.get_stat_list()
 pga_player_list=c.get_pga_player_list()
-# lpga_player_list=c.get_lpga_player_list()
+lpga_player_list=c.get_lpga_player_list()
 
 c.clean_rank_data()
 c.clean_stat_data()
 c.clean_pga_player_data()
-#c.clean_lpga_player_data()
+c.clean_lpga_player_data()
 #c.clean_lpga_tournament_sdata()
 
 d=Database()
