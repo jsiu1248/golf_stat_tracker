@@ -421,7 +421,7 @@ class Cli:
                 self.round_goals=input("Did you have goals? ")
 
                 self.round_dict["id"]=self.id
-                self.round_dict["round_date"]=self.date
+                self.round_dict["date"]=self.date
                 self.round_dict["round_course"]=self.round_course
                 self.round_dict["round_hole"]=self.round_hole
                 self.round_dict["round_drive"]=self.round_drive
@@ -434,18 +434,17 @@ class Cli:
                 self.round_dict["round_notes"]=self.round_notes
                 self.round_dict["round_goals"]=self.round_goals
                 self.round_list.append(self.round_dict.copy())
-            df_round=pd.DataFrame(self.round_list)
+            self.df_round=pd.DataFrame(self.round_list)
 
             #print(df)
-            df_round_melt=pd.melt(df_round, id_vars=['id','round_date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
+            self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
             'round_scramble','round_notes','round_goals'])
-            print(df_round_melt)
+            print(self.df_round_melt)
 
             
 # melt the data figure out how to get unique ids
 
         if self.session=="practice":
-            # how do I keep adding loops
             # how do I change the data when I did something wrong?
             self.num_type=int(input("How many types of shots were you try this time?"))
             self.practice_list=[]
@@ -476,38 +475,14 @@ class Cli:
             
     def insert_data_practice(self):
         self.df_practice_melt.to_sql(con=engine, name="practice", if_exists='append')
-        #Execution failed on sql 'SELECT name FROM sqlite_master WHERE type='table' AND name=?;': Not all parameters were used in the SQL statement
-        #             self.practice_query_insert= f"""
-        
-        #     INSERT INTO 
-        #     practice
-        #     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
-        #     VALUES
-        #     (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
-
-        # """
 
 
-        #self.cursor_1.executemany(self.practice_query_insert, practice_list) #change the dataset
 
     def insert_data_round(self):
-            pass
-        # self.round_query_insert= f"""
-        
-        #     INSERT INTO 
-        #     round
-        #     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
-        #     VALUES
-        #     (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
-
-        # """
-
-
-        #self.cursor_1.executemany(self.round_query_insert, round_list) #change the dataset
+        self.df_round_melt.to_sql(con=engine, name="round", if_exists='append')
 
 
 
-#I need to save the cli data in a way that can be inserted into database
 
 
 
@@ -521,8 +496,6 @@ class Cli:
 r=File_Reader()
 r.read_files()
 fd=r.get_file_dict()
-#getter or accessor
-#argument in method of
 
 
 c=Data_Cleaner()
@@ -548,7 +521,9 @@ d.insert_data()
 
 me=Cli()
 me.cli()
-me.insert_data_practice()
+#me.insert_data_practice()
+me.insert_data_round()
+
 
 # rank=c.get_rank_list()
 # stat=c.get_stat_list()
