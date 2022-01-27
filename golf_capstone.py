@@ -7,6 +7,8 @@ from mysql.connector import Error
 from datetime import datetime 
 import pandas as pd
 import uuid
+from sqlalchemy import create_engine
+import pymysql
 
 
 #how do I pass a year to the url
@@ -291,8 +293,9 @@ class Database:
         college VARCHAR(255), 
         PRIMARY KEY(id));"""
 
-        self.round_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
+        self.round_query_create = f"""CREATE TABLE IF NOT EXISTS round 
         (
+        index INT(10),
         id VARCHAR(255),
         date DATETIME,
         course VARCHAR(255), 
@@ -309,8 +312,9 @@ class Database:
 
 
 
-        self.practice_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
+        self.practice_query_create = f"""CREATE TABLE IF NOT EXISTS practice 
         (
+        index INT(10),
         id VARCHAR(255),
         date DATETIME,
         shot_type VARCHAR(255), 
@@ -455,7 +459,7 @@ class Cli:
                 self.practice_goals=input("Did you have goals? ")
 
                 self.practice_dict["id"]=self.id
-                self.practice_dict["practice_date"]=self.date
+                self.practice_dict["date"]=self.date
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
@@ -467,11 +471,12 @@ class Cli:
             self.df_practice=pd.DataFrame(self.practice_list)
 
             #print(df)
-            self.df_practice_melt=pd.melt(self.df_practice, id_vars=['id','practice_date'],value_vars=['shot_type','success','total','distance','notes','goals'])
+            self.df_practice_melt=pd.melt(self.df_practice, id_vars=['id','date'],value_vars=['shot_type','success','total','distance','notes','goals'])
             print(self.df_practice_melt)
             
     def insert_data_practice(self):
-        self.df_practice_melt.to_sql(con=ch_1, name="practice")
+        self.df_practice_melt.to_sql(con=engine, name="practice", if_exists='append')
+        #Execution failed on sql 'SELECT name FROM sqlite_master WHERE type='table' AND name=?;': Not all parameters were used in the SQL statement
         #             self.practice_query_insert= f"""
         
         #     INSERT INTO 
@@ -534,6 +539,8 @@ c.clean_lpga_player_data()
 
 d=Database()
 ch_1=d.try_connection("localhost", "root", config("mysql_pass"), "golf")
+engine = create_engine(f"mysql+pymysql://root:{config('mysql_pass')}@localhost/golf")
+# con=engine.connect()
 d.create_connection()
 d.create_database()
 d.create_table()
