@@ -6,6 +6,7 @@ import json
 from mysql.connector import Error
 from datetime import datetime 
 import pandas as pd
+import uuid
 
 
 #how do I pass a year to the url
@@ -290,12 +291,48 @@ class Database:
         college VARCHAR(255), 
         PRIMARY KEY(id));"""
 
+        self.round_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
+        (
+        id VARCHAR(255),
+        date DATETIME,
+        course VARCHAR(255), 
+        hole INT(2),
+        green_reg INT(1),
+        score INT(3),
+        putt INT(1), 
+        fairway INT(1),
+        proximity_to_hole FLOAT(5), 
+        scramble INT(1),
+        notes LONGTEXT,
+        goals LONGTEXT,
+        PRIMARY KEY(id));"""
+
+
+
+        self.practice_query_create = f"""CREATE TABLE IF NOT EXISTS lpga_player 
+        (
+        id VARCHAR(255),
+        date DATETIME,
+        shot_type VARCHAR(255), 
+        success INT(3),
+        total INT(3),
+        distance FLOAT(5),
+        notes LONGTEXT, 
+        goals LONGTEXT,
+        PRIMARY KEY(id));"""
+
+
+
 
         try: 
             self.cursor_1.execute(self.rank_query_create)
             self.cursor_1.execute(self.stat_query_create)
             self.cursor_1.execute(self.pga_player_query_create)
             self.cursor_1.execute(self.lpga_player_query_create)
+            self.cursor_1.execute(self.round_query_create)
+            self.cursor_1.execute(self.practice_query_create)
+
+
 
 
             ch_1.commit()
@@ -334,9 +371,6 @@ class Database:
 
         """
 
-# {'id': '62320f56-8d9e-4a90-a9db-195629d541d2', 'first_name': 'George', 'last_name': 'McNeill', 'height': 73,
-#  'birthday': '1975-10-02T00:00:00+00:00', 'country': 'UNITED STATES', 'residence': 'Fort Myers, FL, USA',
-#   'birth_place': 'Naples, FL, USA', 'college': 'Florida State'}
 
         self.lpga_player_query_insert= f"""
         
@@ -362,24 +396,29 @@ class Cli:
     def __init__(self):
         pass
     def cli(self):
-        self.date=input("What date is it? ex. ")
-        self.session=input("Is it a round or a practice?")
+        self.date=input("What date is it? i.e. 12-12-2021 ")
+        self.session=input("Is it a round or a practice? ")
+        self.id=uuid.uuid4()
+
         if self.session=="round":
             self.round_list=[]
             self.round_dict={}
-            self.round_course=input("What is the name of the course?")
-            self.round_num_holes=int(input("How many number of holes did you play?"))
-            for self.round_hole in range(1,self.num_holes+1):
-                self.round_drive=input("What was the driving distince?")
-                self.round_green_reg=input("What is greens in regulation?")
-                self.round_score=input("What was the score?")
-                self.round_putt=input("How many putts?")
-                self.round_fairway=input("Did you hit the fairway?")
-                self.round_proximity_to_hole=input("What was the promity to the hole?")
-                self.round_scramble=input("Did you scramble?")
-                self.round_notes=input("Did you have notes?")
-                self.round_goals=input("Did you have goals?")
+            self.round_course=input("What is the name of the course? i.e. Harding Park ")
+            self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
+            for self.round_hole in range(1,self.round_num_holes+1):
+                self.round_drive=input("What was the driving distance? i.e 300. ")
+                self.round_green_reg=input("What is greens in regulation? i.e. 1 or 0 ")
+                self.round_score=input("What was the score? i.e. 59 ")
+                self.round_putt=input("How many putts? i.e. 2 ")
+                self.round_fairway=input("Did you hit the fairway? i.e. 1 or 0 ")
+                self.round_proximity_to_hole=input("What was the promity to the hole? i.e. 39 ")
+                self.round_scramble=input("Did you scramble? i.e. 1 or 0 ")
+                self.round_notes=input("Did you have notes? ")
+                self.round_goals=input("Did you have goals? ")
 
+                self.round_dict["id"]=self.id
+                self.round_dict["round_date"]=self.date
+                self.round_dict["round_course"]=self.round_course
                 self.round_dict["round_hole"]=self.round_hole
                 self.round_dict["round_drive"]=self.round_drive
                 self.round_dict["round_green_reg"]=self.round_green_reg
@@ -390,8 +429,16 @@ class Cli:
                 self.round_dict["round_scramble"]=self.round_scramble
                 self.round_dict["round_notes"]=self.round_notes
                 self.round_dict["round_goals"]=self.round_goals
-                
-            self.round_list.append(self.round_dict.copy())
+                self.round_list.append(self.round_dict.copy())
+            df_round=pd.DataFrame(self.round_list)
+
+            #print(df)
+            df_round_melt=pd.melt(df_round, id_vars=['id','round_date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
+            'round_scramble','round_notes','round_goals'])
+            print(df_round_melt)
+
+            
+# melt the data figure out how to get unique ids
 
         if self.session=="practice":
             # how do I keep adding loops
@@ -400,13 +447,15 @@ class Cli:
             self.practice_list=[]
             self.practice_dict={}
             for num in range(1,self.num_type+1):
-                self.practice_shot_type=input("What is the shot type? ie. chip, drive, putt, pitch, sand, iron")
-                self.practice_success=input(f"What many types did you success the {self.shot_type}")
-                self.practice_total=input(f"How many total {self.shot_type} did you make?")
-                self.practice_distance=input(f"What was the distance of {self.shot_type} were you trying?")
-                self.practice_notes=input("Did you have notes?")
-                self.practice_goals=input("Did you have goals?")
+                self.practice_shot_type=input("What is the shot type? ie. chip, drive, putt, pitch, sand, iron ")
+                self.practice_success=input(f"What many times did you success the {self.practice_shot_type} ")
+                self.practice_total=input(f"How many total {self.practice_shot_type} did you make? ")
+                self.practice_distance=input(f"What was the distance of {self.practice_shot_type} were you trying? ")
+                self.practice_notes=input("Did you have notes? ")
+                self.practice_goals=input("Did you have goals? ")
 
+                self.practice_dict["id"]=self.id
+                self.practice_dict["practice_date"]=self.date
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
@@ -415,8 +464,42 @@ class Cli:
                 self.practice_dict['goals']=self.practice_goals
 
                 self.practice_list.append(self.practice_dict.copy())
+            self.df_practice=pd.DataFrame(self.practice_list)
 
+            #print(df)
+            self.df_practice_melt=pd.melt(self.df_practice, id_vars=['id','practice_date'],value_vars=['shot_type','success','total','distance','notes','goals'])
+            print(self.df_practice_melt)
             
+    def insert_data_practice(self):
+        self.df_practice_melt.to_sql(con=ch_1, name="practice")
+        #             self.practice_query_insert= f"""
+        
+        #     INSERT INTO 
+        #     practice
+        #     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+        #     VALUES
+        #     (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
+
+        # """
+
+
+        #self.cursor_1.executemany(self.practice_query_insert, practice_list) #change the dataset
+
+    def insert_data_round(self):
+            pass
+        # self.round_query_insert= f"""
+        
+        #     INSERT INTO 
+        #     round
+        #     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+        #     VALUES
+        #     (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
+
+        # """
+
+
+        #self.cursor_1.executemany(self.round_query_insert, round_list) #change the dataset
+
 
 
 #I need to save the cli data in a way that can be inserted into database
@@ -455,6 +538,10 @@ d.create_connection()
 d.create_database()
 d.create_table()
 d.insert_data()
+
+me=Cli()
+me.cli()
+me.insert_data_practice()
 
 # rank=c.get_rank_list()
 # stat=c.get_stat_list()
@@ -498,7 +585,7 @@ class api - done
 function pull data player profiles - done
 function pull data player statistics - done
 pull data players - done
-store the data 
+store the data - done
 
 class clean data
 function clean player profiles
