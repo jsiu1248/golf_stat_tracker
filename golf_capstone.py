@@ -326,6 +326,19 @@ class Database:
         PRIMARY KEY(id));"""
 
 
+        self.golf_course_query_create = f"""CREATE TABLE IF NOT EXISTS practice 
+        (
+        id INT(5),
+        course_name VARCHAR(255),
+        hole INT(2), 
+        PRIMARY KEY(id));"""
+
+        self.session_type_query_create = f"""CREATE TABLE IF NOT EXISTS practice 
+        (
+        type_id INT(2),
+        name VARCHAR(255), 
+        PRIMARY KEY(type_id));"""
+
 
 
         try: 
@@ -335,6 +348,10 @@ class Database:
             self.cursor_1.execute(self.lpga_player_query_create)
             self.cursor_1.execute(self.round_query_create)
             self.cursor_1.execute(self.practice_query_create)
+            self.cursor_1.execute(self.golf_course_query_create)
+            self.cursor_1.execute(self.session_type_query_create)
+
+
 
 
 
@@ -407,18 +424,32 @@ class Cli:
         if self.session=="round":
             self.round_list=[]
             self.round_dict={}
-            self.round_course=input("What is the name of the course? i.e. Harding Park ")
-            self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
+            try:
+                self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
+            except ValueError:
+                print("Has to be text.")
+            try:
+                self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
+            except ValueError:
+                print("Has to be a number.")
+
             for self.round_hole in range(1,self.round_num_holes+1):
-                self.round_drive=input("What was the driving distance? i.e 300. ")
-                self.round_green_reg=input("What is greens in regulation? i.e. 1 or 0 ")
-                self.round_score=input("What was the score? i.e. 59 ")
-                self.round_putt=input("How many putts? i.e. 2 ")
-                self.round_fairway=input("Did you hit the fairway? i.e. 1 or 0 ")
-                self.round_proximity_to_hole=input("What was the promity to the hole? i.e. 39 ")
-                self.round_scramble=input("Did you scramble? i.e. 1 or 0 ")
-                self.round_notes=input("Did you have notes? ")
-                self.round_goals=input("Did you have goals? ")
+                try:
+                    self.round_drive=int(input("What was the driving distance? i.e 300. "))
+                    self.round_green_reg=int(input("What is greens in regulation? i.e. 1 or 0 "))
+
+                    self.round_score=int(input("What was the score? i.e. 59 "))
+                    self.round_putt=int(input("How many putts? i.e. 2 "))
+                    self.round_fairway=int(input("Did you hit the fairway? i.e. 1 or 0 "))
+                    self.round_proximity_to_hole=int(input("What was the promity to the hole in feet? i.e. 39 "))
+                    self.round_scramble=int(input("Did you scramble? i.e. 1 or 0 "))
+                except ValueError:
+                    print("Has to be a number.")
+                try:
+                    self.round_notes=str(input("Did you have notes? "))
+                    self.round_goals=str(input("Did you have goals? "))
+                except ValueError:
+                    print("Has to be text.")
 
                 self.round_dict["id"]=self.id
                 self.round_dict["date"]=self.date
@@ -446,16 +477,28 @@ class Cli:
 
         if self.session=="practice":
             # how do I change the data when I did something wrong?
-            self.num_type=int(input("How many types of shots were you try this time?"))
+            try:
+                self.num_type=int(input("How many types of shots were you try this time?"))
+            except ValueError:
+                print("Has to be a number")
             self.practice_list=[]
             self.practice_dict={}
             for num in range(1,self.num_type+1):
-                self.practice_shot_type=input("What is the shot type? ie. chip, drive, putt, pitch, sand, iron ")
-                self.practice_success=input(f"What many times did you success the {self.practice_shot_type} ")
-                self.practice_total=input(f"How many total {self.practice_shot_type} did you make? ")
-                self.practice_distance=input(f"What was the distance of {self.practice_shot_type} were you trying? ")
-                self.practice_notes=input("Did you have notes? ")
-                self.practice_goals=input("Did you have goals? ")
+                try:
+                    self.practice_shot_type=str(input("What is the shot type? ie. chip, drive, putt, pitch, sand, iron "))
+                except ValueError:
+                    print("Has to be text.")
+                try: 
+                    self.practice_success=int(input(f"What many times did you success the {self.practice_shot_type} "))
+                    self.practice_total=int(input(f"How many total {self.practice_shot_type} did you make? "))
+                    self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
+                except ValueError:
+                    print("Has to be a number")
+                try:
+                    self.practice_notes=str(input("Did you have notes? "))
+                    self.practice_goals=str(input("Did you have goals? "))
+                except ValueError:
+                    print("Has to be text")
 
                 self.practice_dict["id"]=self.id
                 self.practice_dict["date"]=self.date
@@ -584,13 +627,13 @@ is it a round? - done
     date - done
     stats - done
     notes - done
-    store the inputs
+    store the inputs - done
 is it at the driving range? - done
     CLI - done
     date - done
     stats - done
     notes - done
-    store the inputs
+    store the inputs - done
 
 
 things to practice
