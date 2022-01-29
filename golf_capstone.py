@@ -11,7 +11,6 @@ from sqlalchemy import create_engine
 import pymysql
 
 
-#how do I pass a year to the url
 year=2021
 url= {'ranking':f'https://api.sportradar.us/golf/trial/v3/en/players/wgr/{year}/rankings.json?',
 'stat':f'https://api.sportradar.us/golf/trial/pga/v3/en/{year}/players/statistics.json?',
@@ -105,7 +104,8 @@ class Data_Cleaner():
     def clean_stat_data(self):
         for stat_element in fd["stat_data"]["players"]:
             for element in (['id'],('statistics','earnings'),('statistics','drive_avg'),
-            ('statistics','gir_pct'),('statistics','putt_avg'),('statistics','sand_saves_pct'),('statistics','birdies_per_round'),('statistics','hole_proximity_avg'),('statistics','scrambling_pct'),('statistics','world_rank')):
+            ('statistics','gir_pct'),('statistics','putt_avg'),('statistics','sand_saves_pct'),('statistics','birdies_per_round'),
+            ('statistics','hole_proximity_avg'),('statistics','scrambling_pct'),('statistics','world_rank')):
                 try:
                     if len(element)==1:
                         self.stat_dict[element[0]]=stat_element[element[0]]
@@ -203,6 +203,8 @@ class Data_Cleaner():
         return self.pga_player_list
     def get_lpga_player_list(self):
         return self.lpga_player_list
+        #getters and setters
+        #can be encapsulated like properties
 
     
     #where should I clean practice and round
@@ -352,12 +354,13 @@ class Database:
             self.cursor_1.execute(self.session_type_query_create)
 
 
-
+#list of queries can it be automatic or manual?
+#loop and grab query run through execute then try block
 
 
 
             ch_1.commit()
-        except Error as e:
+        except Error as e: #f"{e}":
             print("The table exists already")
 
 
@@ -420,6 +423,8 @@ class Cli:
         self.date=input("What date is it? i.e. 12-12-2021 ")
         self.session=input("Is it a round or a practice? ")
         self.id=uuid.uuid4()
+#autoincrementing
+#I can try using integers
 
         if self.session=="round":
             self.round_list=[]
@@ -566,6 +571,9 @@ me=Cli()
 me.cli()
 #me.insert_data_practice()
 me.insert_data_round()
+
+#functions and arguments?
+#more general? Would I have multiple data cleaners?
 
 
 # rank=c.get_rank_list()
