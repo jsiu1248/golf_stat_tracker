@@ -10,6 +10,10 @@ import uuid
 from sqlalchemy import create_engine
 import pymysql
 
+#TODO
+#decorator with property, how to loop through variables, indexing, try insert data, make data back into wide
+#club id and name table
+
 
 year=2021
 url= {'ranking':f'https://api.sportradar.us/golf/trial/v3/en/players/wgr/{year}/rankings.json?',
@@ -19,7 +23,6 @@ url= {'ranking':f'https://api.sportradar.us/golf/trial/v3/en/players/wgr/{year}/
 # 'pga_tournament':f'https://api.sportradar.us/golf/trial/pga/v3/en/{year}/tournaments/schedule.json?',
 'lpga_tournament':f'https://api.sportradar.us/golf/trial/lpga/v3/en/{year}/tournaments/schedule.json?'
 
-#,'player_profile':'https://api.sportradar.us/golf/trial/v3/en/players/a7041051-eb25-40b9-acb3-dab88cae69c0/profile.json?'
     } #have to edit id
 
 # if I have multiple methods in each class then it would make sense to put in constructor
@@ -78,6 +81,7 @@ class Data_Cleaner():
     def __init__(self):
 
 #how to make this into arguments
+        # for i in ["rank","stat","pga_player","lpga_player"]:
         self.rank_dict={}
         self.rank_list=[]
         self.stat_dict={}
@@ -96,33 +100,21 @@ class Data_Cleaner():
             for element in ("id","rank"):
                 self.rank_dict[element]=rank_element[element]
 
-            # self.rank_dict["id"]=rank_element["id"]
-            # self.rank_dict["rank"]=rank_element["rank"]
             self.rank_list.append(self.rank_dict.copy())
         # return self.rank_list
         #print(self.rank_list)
     def clean_stat_data(self):
+        self.stat="statistics"
         for stat_element in fd["stat_data"]["players"]:
-            for element in (['id'],('statistics','earnings'),('statistics','drive_avg'),
-            ('statistics','gir_pct'),('statistics','putt_avg'),('statistics','sand_saves_pct'),('statistics','birdies_per_round'),
-            ('statistics','hole_proximity_avg'),('statistics','scrambling_pct'),('statistics','world_rank')):
+            for element in (['id'],(self.stat,'earnings'),(self.stat,'drive_avg'),
+            (self.stat,'gir_pct'),(self.stat,'putt_avg'),(self.stat,'sand_saves_pct'),(self.stat,'birdies_per_round'),
+            (self.stat,'hole_proximity_avg'),(self.stat,'scrambling_pct'),(self.stat,'world_rank')):
                 try:
                     if len(element)==1:
                         self.stat_dict[element[0]]=stat_element[element[0]]
                     elif len(element)==2:
                         self.stat_dict[element[1]]=stat_element[element[0]][element[1]]
 
-                # self.stat_dict["id"]=stat_element["id"]
-                # self.stat_dict["country"]=stat_element["country"]
-                # self.stat_dict["earnings"]=stat_element["statistics"]["earnings"]
-                # self.stat_dict["drive_avg"]=stat_element["statistics"]["drive_avg"]
-                # self.stat_dict["gir_pct"]=stat_element["statistics"]["gir_pct"]
-                # self.stat_dict["putt_avg"]=stat_element["statistics"]["putt_avg"]
-                # self.stat_dict["sand_saves_pct"]=stat_element["statistics"]["sand_saves_pct"]
-                # self.stat_dict["birdies_per_round"]=stat_element["statistics"]["birdies_per_round"]
-                # self.stat_dict["hole_proximity_avg"]=stat_element["statistics"]["hole_proximity_avg"]
-                # self.stat_dict["scrambling_pct"]=stat_element["statistics"]["scrambling_pct"]
-                # self.stat_dict["rank"]=stat_element["statistics"]["world_rank"]
                 except KeyError: 
                     if len(element)==1:
 
@@ -146,16 +138,6 @@ class Data_Cleaner():
 
                     else:
                         self.pga_player_dict[element[0]]=pga_player_element[element[0]]
-                # self.pga_player_dict["id"]=pga_player_element["id"]
-                # self.pga_player_dict["first_name"]=pga_player_element["first_name"]
-                # self.pga_player_dict["last_name"]=pga_player_element["last_name"]
-
-                # self.pga_player_dict["height"]=pga_player_element["height"]
-                # self.pga_player_dict["birthday"]=pga_player_element["birthday"]
-                # self.pga_player_dict["country"]=pga_player_element["country"]
-                # self.pga_player_dict["residence"]=pga_player_element["residence"]
-                # self.pga_player_dict["birth_place"]=pga_player_element["birth_place"]
-                # self.pga_player_dict["college"]=pga_player_element["college"]
                 except KeyError: 
                     self.pga_player_dict[element[0]]=None
 
@@ -174,16 +156,6 @@ class Data_Cleaner():
                     else:
                         self.lpga_player_dict[element[0]]=lpga_player_element[element[0]]
 
-                # self.lpga_player_dict["id"]=lpga_player_element["id"]
-                # self.lpga_player_dict["first_name"]=lpga_player_element["first_name"]
-                # self.lpga_player_dict["last_name"]=lpga_player_element["last_name"]
-
-                # self.lpga_player_dict["height"]=lpga_player_element["height"]
-                # self.lpga_player_dict["birthday"]=lpga_player_element["birthday"]
-                # self.lpga_player_dict["country"]=lpga_player_element["country"]
-                # self.lpga_player_dict["residence"]=lpga_player_element["residence"]
-                # self.lpga_player_dict["birth_place"]=lpga_player_element["birth_place"]
-                # self.lpga_player_dict["college"]=lpga_player_element["college"]
                 except KeyError: 
                     self.lpga_player_dict[element[0]]=None
 
@@ -229,8 +201,7 @@ class Database:
 
 
     def create_connection(self):
-        #self.ch_1 = try_connection("localhost", "root", config("mysql_pass"), "sakila")
-        self.cursor_1 = ch_1.cursor() #checked
+        self.cursor_1 = ch_1.cursor() 
         
 
     def create_database(self):
@@ -297,10 +268,7 @@ class Database:
 
         self.round_query_create = f"""CREATE TABLE IF NOT EXISTS round 
         (
-        index INT(10),
-        id VARCHAR(255),
-        date DATETIME,
-        course VARCHAR(255), 
+        session_id INT(10),
         hole INT(2),
         green_reg INT(1),
         score INT(3),
@@ -308,50 +276,77 @@ class Database:
         fairway INT(1),
         proximity_to_hole FLOAT(5), 
         scramble INT(1),
-        notes LONGTEXT,
-        goals LONGTEXT,
         PRIMARY KEY(id));"""
 
 
 
         self.practice_query_create = f"""CREATE TABLE IF NOT EXISTS practice 
         (
-        index INT(10),
-        id VARCHAR(255),
-        date DATETIME,
+        session_id INT(10),
         shot_type VARCHAR(255), 
         success INT(3),
         total INT(3),
         distance FLOAT(5),
-        notes LONGTEXT, 
-        goals LONGTEXT,
+        club VARCHAR(255),
         PRIMARY KEY(id));"""
 
 
-        self.golf_course_query_create = f"""CREATE TABLE IF NOT EXISTS practice 
+        self.golf_course_query_create = f"""CREATE TABLE IF NOT EXISTS golf_course 
         (
-        id INT(5),
+        id INT(5) AUTO_INCREMENT,
         course_name VARCHAR(255),
         hole INT(2), 
         PRIMARY KEY(id));"""
 
-        self.session_type_query_create = f"""CREATE TABLE IF NOT EXISTS practice 
+        self.session_query_create = f"""CREATE TABLE IF NOT EXISTS session
         (
-        type_id INT(2),
+            session_id INT(10), 
+            type_id INT(2), 
+            course_id INT(10), 
+            date DATETIME, 
+            notes LONGTEXT, 
+            goals LONGTEXT, 
+            PRIMARY KEY(session_id));
+        )
+        
+        
+        """
+
+        self.session_type_query_create = f"""CREATE TABLE IF NOT EXISTS session_type 
+        (
+        session_type_id INT(2) AUTO_INCREMENT,
         name VARCHAR(255), 
         PRIMARY KEY(type_id));"""
 
 
+        self.stat_type_query_create = f"""CREATE TABLE IF NOT EXISTS stat_type 
+        (
+        stat_id INT(4) AUTO_INCREMENT,
+        name VARCHAR(255), 
+        PRIMARY KEY(stat_id));"""
+
+        self.swing_type_query_create = f"""CREATE TABLE IF NOT EXISTS swing_type 
+        (
+        swing_id INT(3) AUTO_INCREMENT,
+        name VARCHAR(255), 
+        PRIMARY KEY(swing_id));"""
+
+        self.distance_tracking_query_create = f"""CREATE TABLE IF NOT EXISTS distance_tracking
+        (
+        id INT(7) AUTO_INCREMENT,
+        date DATETIME,
+        club VARCHAR(255),
+        distance FLOAT(5),
+
+        PRIMARY KEY(id));"""
+
+
+
 
         try: 
-            self.cursor_1.execute(self.rank_query_create)
-            self.cursor_1.execute(self.stat_query_create)
-            self.cursor_1.execute(self.pga_player_query_create)
-            self.cursor_1.execute(self.lpga_player_query_create)
-            self.cursor_1.execute(self.round_query_create)
-            self.cursor_1.execute(self.practice_query_create)
-            self.cursor_1.execute(self.golf_course_query_create)
-            self.cursor_1.execute(self.session_type_query_create)
+            for element in ["rank", "stat", "pga_player", "lpga_player", "round", "practice", "golf_course", 
+            "session","session_type","swing_type","distance_tracking"]:
+                self.cursor_1.execute(f"self.{element}_query_create")
 
 
 #list of queries can it be automatic or manual?
@@ -361,7 +356,7 @@ class Database:
 
             ch_1.commit()
         except Error as e: #f"{e}":
-            print("The table exists already")
+            print(f"The {element}_query_create table exists already")
 
 
     def insert_data(self):
@@ -407,6 +402,19 @@ class Database:
         """
 
 
+        self.swing_type_query_insert=f"""
+        
+        INSERT INTO 
+        swing_type
+        (name)
+        VALUES
+        ('sand', 'chip', 'pitch', 'drive', 'iron', 'putt')
+        """
+
+
+
+
+
         #self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
         #self.cursor_1.executemany(self.stat_query_insert, stat_list)
         #self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
@@ -422,7 +430,7 @@ class Cli:
     def cli(self):
         self.date=input("What date is it? i.e. 12-12-2021 ")
         self.session=input("Is it a round or a practice? ")
-        self.id=uuid.uuid4()
+        self.id=uuid.uuid4() # where should I change the id?
 #autoincrementing
 #I can try using integers
 
@@ -473,9 +481,9 @@ class Cli:
             self.df_round=pd.DataFrame(self.round_list)
 
             #print(df)
-            self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
-            'round_scramble','round_notes','round_goals'])
-            print(self.df_round_melt)
+            # self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
+            # 'round_scramble','round_notes','round_goals'])
+            # print(self.df_round_melt)
 
             
 # melt the data figure out how to get unique ids
@@ -518,16 +526,16 @@ class Cli:
             self.df_practice=pd.DataFrame(self.practice_list)
 
             #print(df)
-            self.df_practice_melt=pd.melt(self.df_practice, id_vars=['id','date'],value_vars=['shot_type','success','total','distance','notes','goals'])
-            print(self.df_practice_melt)
+            # self.df_practice_melt=pd.melt(self.df_practice, id_vars=['id','date'],value_vars=['shot_type','success','total','distance','notes','goals'])
+            # print(self.df_practice_melt)
             
-    def insert_data_practice(self):
-        self.df_practice_melt.to_sql(con=engine, name="practice", if_exists='append')
+    # def insert_data_practice(self):
+    #     self.df_practice_melt.to_sql(con=engine, name="practice", if_exists='append')
 
 
 
-    def insert_data_round(self):
-        self.df_round_melt.to_sql(con=engine, name="round", if_exists='append')
+    # def insert_data_round(self):
+    #     self.df_round_melt.to_sql(con=engine, name="round", if_exists='append')
 
 
 
@@ -570,21 +578,11 @@ d.insert_data()
 me=Cli()
 me.cli()
 #me.insert_data_practice()
-me.insert_data_round()
+# me.insert_data_round()
 
 #functions and arguments?
 #more general? Would I have multiple data cleaners?
 
-
-# rank=c.get_rank_list()
-# stat=c.get_stat_list()
-
-# cwd=os.getcwd()
-# path="Documents\codingnomads\python_capstone"
-# stat_file  = open(os.path.join(cwd,path,f"stat_test_data.json"), "w+")
-# rank_file  = open(os.path.join(cwd,path,f"rank_test_data.json"), "w+")
-# json.dump(stat, stat_file)
-# json.dump(rank, rank_file)
 
 """
 class: database
