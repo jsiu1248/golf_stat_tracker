@@ -3,27 +3,62 @@ import pandas as pd
 import uuid
 from sqlalchemy import create_engine
 import pymysql
-# from Database import Database
+from Database import *
 
 
 
 class Cli:
     def __init__(self):
         pass
-    def cli(self):
-        self.date=input("What date is it? i.e. 12-12-2021 ")
+    def session(self):
         self.session=input("Is it a round or a practice? ")
         self.id=uuid.uuid4() # where should I change the id?
-        session_list=[]
-        session_dict={}
-        #session id, course_id, date, notes, goals
+        self.session_dict={}
+        #session id, course_id
+        self.session_dict["date"]=input("What date is it? i.e. 12-12-2021 ")
+        try:
+            self.session_dict["notes"]=str(input("Did you have notes? "))
+            self.session_dict["goals"]=str(input("Did you have goals? "))
+        except ValueError:
+            print("Has to be text.")
+
+        try:
+            self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
+        except ValueError:
+            print("Has to be text.")
+    
+        self.type_id_query="""SELECT * FROM GOLF.SESSION_TYPE WHERE NAME=%s"""
+        self.course_id_query="""SELECT * FROM GOLF.GOLF_COURSE WHERE COURSE_NAME=%s"""
+
+        self.cursor_2.execute(self.type_id_query, self.session)
+        # self.cursor_2.execute(self.course_id_query, self.round_course)
+        row = self.cursor_2.fetchall() 
+        while row:
+            print (search)
+            row = self.cursor_2.fetchall()
+
+
+        self.session_query_insert= f"""
+        
+            INSERT INTO 
+            session
+            (type_id, course_id, date, notes, goals)
+            VALUES
+            (%(type_id)s, %(course_id))s, %(date)s, %(notes)s, %(goals)s);
+
+        """
+
+        try:
+            for data in ((self.session_query_insert)):
+                self.cursor_2.executemany(data[0],data[1]) 
+                ch_2.commit()
+
+        except Error as e: #f"{e}":
+                print(f"The {data}'s data exists already")
+
         if self.session=="round":
             self.round_list=[]
             self.round_dict={}
-            try:
-                self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
-            except ValueError:
-                print("Has to be text.")
             try:
                 self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
             except ValueError:
@@ -41,14 +76,8 @@ class Cli:
                     self.round_scramble=int(input("Did you scramble? i.e. 1 or 0 "))
                 except ValueError:
                     print("Has to be a number.")
-                try:
-                    self.round_notes=str(input("Did you have notes? "))
-                    self.round_goals=str(input("Did you have goals? "))
-                except ValueError:
-                    print("Has to be text.")
 
                 self.round_dict["id"]=self.id
-                self.round_dict["date"]=self.date
                 self.round_dict["round_course"]=self.round_course
                 self.round_dict["round_hole"]=self.round_hole
                 self.round_dict["round_drive"]=self.round_drive
@@ -58,8 +87,6 @@ class Cli:
                 self.round_dict["round_fairway"]=self.round_fairway
                 self.round_dict["round_proximity_to_hole"]=self.round_proximity_to_hole
                 self.round_dict["round_scramble"]=self.round_scramble
-                self.round_dict["round_notes"]=self.round_notes
-                self.round_dict["round_goals"]=self.round_goals
                 self.round_list.append(self.round_dict.copy())
             self.df_round=pd.DataFrame(self.round_list)
 
@@ -90,20 +117,11 @@ class Cli:
                     self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
                 except ValueError:
                     print("Has to be a number")
-                try:
-                    self.practice_notes=str(input("Did you have notes? "))
-                    self.practice_goals=str(input("Did you have goals? "))
-                except ValueError:
-                    print("Has to be text")
-
                 self.practice_dict["id"]=self.id
-                self.practice_dict["date"]=self.date
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
-                self.practice_dict['notes']=self.practice_notes
-                self.practice_dict['goals']=self.practice_goals
 
                 self.practice_list.append(self.practice_dict.copy())
             self.df_practice=pd.DataFrame(self.practice_list)
