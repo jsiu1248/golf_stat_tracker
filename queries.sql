@@ -1,5 +1,6 @@
-CREATE DATABASE golf;
+CREATE DATABASE IF NOT EXISTS golf;
 
+USE GOLF;
 
 CREATE TABLE IF NOT EXISTS world_rank 
         (
@@ -118,43 +119,48 @@ CREATE TABLE IF NOT EXISTS distance_tracking
         PRIMARY KEY(id));
 
 
-INSERT INTO 
-    world_rank
+CREATE PROCEDURE insert_rank
+(
+    IN ID CHAR(255),
+    IN WORLD_RANK INT(10)
+)
+
+INSERT INTO world_rank
     (id,world_rank)
 VALUES
-    (%(id)s, %(rank)s);
+    (id, rank);
 
 
-INSERT INTO 
-    stat
-    (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
-VALUES
-    (%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);
+-- INSERT INTO 
+--     stat
+--     (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
+-- VALUES
+--     (%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);
 
 
-INSERT INTO 
-pga_player
-(id, first_name, last_name, height, birthday, country, residence, birth_place, college)
-VALUES
-(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
+-- INSERT INTO 
+-- pga_player
+-- (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+-- VALUES
+-- (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
 
 
-INSERT INTO 
-lpga_player
-(id, first_name, last_name, height, birthday, country, residence, birth_place, college)
-VALUES
-(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
+-- INSERT INTO 
+-- lpga_player
+-- (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+-- VALUES
+-- (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
 
 
-INSERT INTO 
-swing_type
-(name)
-VALUES
-('sand'), ('chip'), ('pitch'), ('drive'), ('iron'), ('putt');
+-- INSERT INTO 
+-- swing_type
+-- (name)
+-- VALUES
+-- ('sand'), ('chip'), ('pitch'), ('drive'), ('iron'), ('putt');
 
 
-INSERT INTO 
-session_type
-(name)
-VALUES
-('round'),('practice');
+-- INSERT INTO 
+-- session_type
+-- (name)
+-- VALUES
+-- ('round'),('practice');

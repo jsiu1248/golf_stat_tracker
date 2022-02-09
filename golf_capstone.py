@@ -1,3 +1,4 @@
+from distutils.util import execute
 import requests
 from decouple import config
 import mysql.connector
@@ -10,9 +11,6 @@ import uuid
 from sqlalchemy import create_engine
 import pymysql
 
-#TODO
-#decorator with property, how to loop through variables, indexing, try insert data, make data back into wide
-#club id and name table
 
 
 year=2021
@@ -276,7 +274,7 @@ class Database:
         fairway INT(1),
         proximity_to_hole FLOAT(5), 
         scramble INT(1),
-        PRIMARY KEY(id));"""
+        PRIMARY KEY(session_id));"""
 
 
 
@@ -288,7 +286,7 @@ class Database:
         total INT(3),
         distance FLOAT(5),
         club VARCHAR(255),
-        PRIMARY KEY(id));"""
+        PRIMARY KEY(session_id));"""
 
 
         self.golf_course_query_create = f"""CREATE TABLE IF NOT EXISTS golf_course 
@@ -301,13 +299,13 @@ class Database:
         self.session_query_create = f"""CREATE TABLE IF NOT EXISTS session
         (
             session_id INT(10), 
-            type_id INT(2), 
+            session_type_id INT(2), 
             course_id INT(10), 
             date DATETIME, 
             notes LONGTEXT, 
             goals LONGTEXT, 
             PRIMARY KEY(session_id));
-        )
+        
         
         
         """
@@ -316,20 +314,26 @@ class Database:
         (
         session_type_id INT(2) AUTO_INCREMENT,
         name VARCHAR(255), 
-        PRIMARY KEY(type_id));"""
+        UNIQUE(name),
+        PRIMARY KEY(session_type_id));
+        """
 
 
         self.stat_type_query_create = f"""CREATE TABLE IF NOT EXISTS stat_type 
         (
         stat_id INT(4) AUTO_INCREMENT,
         name VARCHAR(255), 
-        PRIMARY KEY(stat_id));"""
+        UNIQUE(name),
+        PRIMARY KEY(stat_id));
+        """
 
         self.swing_type_query_create = f"""CREATE TABLE IF NOT EXISTS swing_type 
         (
         swing_id INT(3) AUTO_INCREMENT,
         name VARCHAR(255), 
-        PRIMARY KEY(swing_id));"""
+        UNIQUE(name),
+        PRIMARY KEY(swing_id));
+        """
 
         self.distance_tracking_query_create = f"""CREATE TABLE IF NOT EXISTS distance_tracking
         (
@@ -338,15 +342,17 @@ class Database:
         club VARCHAR(255),
         distance FLOAT(5),
 
-        PRIMARY KEY(id));"""
+        PRIMARY KEY(id));
+        """
 
 
 
 
         try: 
-            for element in ["rank", "stat", "pga_player", "lpga_player", "round", "practice", "golf_course", 
-            "session","session_type","swing_type","distance_tracking"]:
-                self.cursor_1.execute(f"self.{element}_query_create")
+            for element in [self.rank_query_create, self.stat_query_create, self.pga_player_query_create, self.lpga_player_query_create, 
+                self.round_query_create, self.practice_query_create, self.golf_course_query_create, 
+            self.session_query_create, self.session_type_query_create, self.swing_type_query_create, self.distance_tracking_query_create]:
+                self.cursor_1.execute(element)
 
 
 #list of queries can it be automatic or manual?
@@ -408,20 +414,35 @@ class Database:
         swing_type
         (name)
         VALUES
-        ('sand', 'chip', 'pitch', 'drive', 'iron', 'putt')
+        ('sand'), ('chip'), ('pitch'), ('drive'), ('iron'), ('putt')
         """
 
+        self.session_type_query_insert="""
+        INSERT INTO 
+        session_type
+        (name)
+        VALUES
+        ('round'),('practice')"""
 
 
 
 
-        #self.cursor_1.executemany(self.rank_query_insert, rank_list) #change the dataset
-        #self.cursor_1.executemany(self.stat_query_insert, stat_list)
-        #self.cursor_1.executemany(self.pga_player_query_insert, pga_player_list)
-        #self.cursor_1.executemany(self.lpga_player_query_insert, lpga_player_list)
+        try:
+            for data in ((self.rank_query_insert, rank_list),(self.stat_query_insert, stat_list), (self.pga_player_query_insert, pga_player_list), (self.lpga_player_query_insert, lpga_player_list)):
+                self.cursor_1.executemany(data[0],data[1]) 
+                ch_1.commit()
 
+        except Error as e: #f"{e}":
+                print(f"The {data}'s data exists already")
+        
+        try:
+            for d in (self.swing_type_query_insert, self.session_type_query_insert):
+                self.cursor_1.execute(d)
+                ch_1.commit()
 
-        ch_1.commit()
+        except Error as e:
+            print(f"The {d}'s data exists already")
+
 
 
 class Cli:
@@ -431,9 +452,9 @@ class Cli:
         self.date=input("What date is it? i.e. 12-12-2021 ")
         self.session=input("Is it a round or a practice? ")
         self.id=uuid.uuid4() # where should I change the id?
-#autoincrementing
-#I can try using integers
-
+        session_list=[]
+        session_dict={}
+        #session id, course_id, date, notes, goals
         if self.session=="round":
             self.round_list=[]
             self.round_dict={}
@@ -576,7 +597,7 @@ d.create_table()
 d.insert_data()
 
 me=Cli()
-me.cli()
+#me.cli()
 #me.insert_data_practice()
 # me.insert_data_round()
 
