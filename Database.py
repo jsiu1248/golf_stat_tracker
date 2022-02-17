@@ -58,7 +58,7 @@ class Database:
         for command in sqlCommands:
             try:
                 self.cursor_1.execute(command)
-            except OperationalError as msg:
+            except OperationalError  as msg:
                 print(f"Command skipped:  {msg}") 
         ch_1.commit()
 
@@ -206,7 +206,7 @@ ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
 d.create_connection()
 # d.create_connection_db()
 d.read_file()
-d.insert_file()
+#d.insert_file()
 #d.create_database()
 #d.create_table()
 #d.insert_data()
