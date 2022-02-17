@@ -70,4 +70,4 @@ How to insert the data and call it? - low
 
 # --CREATE OR ALTER maybe
 # --BEGIN AND END
-
+#I think create table error is file now. But, now insert query says empty erro

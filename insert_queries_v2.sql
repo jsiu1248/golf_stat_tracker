@@ -1,6 +1,7 @@
 
 USE GOLF;
 
+DROP insert_stat;
 CREATE PROCEDURE insert_stat
 (
     IN id CHAR(255),
@@ -23,7 +24,7 @@ INSERT INTO golf.stat
 VALUES
     (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank);
 
-
+DROP insert_pga_player;
 CREATE PROCEDURE insert_pga_player
 (
         IN id VARCHAR(255),
@@ -42,6 +43,7 @@ INSERT INTO golf.pga_player
 VALUES
     (id, first_name, last_name, height, birthday, country, residence, birth_place, college);  
 
+DROP insert_lpga_player;
 CREATE PROCEDURE insert_lpga_player
 (
         IN id VARCHAR(255),

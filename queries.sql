@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS golf_course
         PRIMARY KEY(id));
 
 
-CREATE TABLE IF NOT EXISTS session
+CREATE TABLE IF NOT EXISTS self_session
         (
             session_id INT(10), 
             session_type_id INT(2), 
@@ -117,50 +117,3 @@ CREATE TABLE IF NOT EXISTS distance_tracking
         distance FLOAT(5),
 
         PRIMARY KEY(id));
-
-
--- CREATE PROCEDURE insert_rank
--- (
---     IN ID CHAR(255),
---     IN WORLD_RANK INT(10)
--- )
-
--- INSERT INTO world_rank
---     (id,world_rank)
--- VALUES
---     (id, rank);
-
-
--- INSERT INTO 
---     stat
---     (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
--- VALUES
---     (%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);
-
-
--- INSERT INTO 
--- pga_player
--- (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
--- VALUES
--- (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
-
-
--- INSERT INTO 
--- lpga_player
--- (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
--- VALUES
--- (%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);
-
-
--- INSERT INTO 
--- swing_type
--- (name)
--- VALUES
--- ('sand'), ('chip'), ('pitch'), ('drive'), ('iron'), ('putt');
-
-
--- INSERT INTO 
--- session_type
--- (name)
--- VALUES
--- ('round'),('practice');
