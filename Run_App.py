@@ -24,8 +24,6 @@ def Run_App():
 run=Run_App()
 
 #TODO
-# fix so it doesn't kick back error when exists and inserting data
-
 #decorator with property, how to loop through variables, indexing, try insert data
 #club id and name table
         #getters and setters
@@ -35,9 +33,6 @@ run=Run_App()
 
 #plotly - low
 
-#think about how to put comments in the sql file so that it runs.  - high
-#also, are my errors running correctly?  #how to have procedures not keep creating  - high 
-#needed to create tables using mysql - fix that - high
 """
 How to put the database instances in the right place? - low 
 
@@ -70,4 +65,3 @@ How to insert the data and call it? - low
 
 # --CREATE OR ALTER maybe
 # --BEGIN AND END
-#I think create table error is file now. But, now insert query says empty erro
