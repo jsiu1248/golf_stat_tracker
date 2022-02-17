@@ -119,16 +119,16 @@ CREATE TABLE IF NOT EXISTS distance_tracking
         PRIMARY KEY(id));
 
 
-CREATE PROCEDURE insert_rank
-(
-    IN ID CHAR(255),
-    IN WORLD_RANK INT(10)
-)
+-- CREATE PROCEDURE insert_rank
+-- (
+--     IN ID CHAR(255),
+--     IN WORLD_RANK INT(10)
+-- )
 
-INSERT INTO world_rank
-    (id,world_rank)
-VALUES
-    (id, rank);
+-- INSERT INTO world_rank
+--     (id,world_rank)
+-- VALUES
+--     (id, rank);
 
 
 -- INSERT INTO 

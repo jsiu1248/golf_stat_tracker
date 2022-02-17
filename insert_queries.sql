@@ -1,24 +1,91 @@
-USE GOLF;
 
-CREATE PROCEDURE insert_stat
+BEGIN;
+IF NOT EXISTS (SELECT COUNT(*)
+        FROM INFORMATION_SCHEMA.ROUTINES WHERE
+        ROUTINE_TYPE='PROCEDURE' 
+AND ROUTINE_SCHEMA='golf'
+AND ROUTINE_NAME = 'insert_lpga_player'
+
+    ) > 0
+THEN BEGIN
+    CREATE PROCEDURE insert_lpga_player
 (
-    IN id CHAR(255),
-    IN earnings FLOAT(13),
-    IN drive_avg FLOAT(6), 
-    IN gir_pct FLOAT(4),
-    IN putt_avg FLOAT(4),
-    IN sand_saves_pct FLOAT(4),
-    IN birdies_per_round FLOAT(4), 
-    IN hole_proximity_avg VARCHAR(255),
-    IN scrambling_pct FLOAT(4), 
-    IN world_rank INT(4)
-
+        IN id VARCHAR(255),
+        IN first_name VARCHAR(255),
+        IN last_name VARCHAR(255), 
+        IN height INT (3),
+        IN birthday DATETIME,
+        IN country VARCHAR(255),
+        IN residence VARCHAR(255), 
+        IN birth_place VARCHAR(255),
+        IN college VARCHAR(255)
 )
+  
 
-INSERT IGNORE INTO stat
-    (id,earnings, driving_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
+INSERT INTO golf.lpga_player
+    (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
 VALUES
-    (id,earnings, driving_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank);
+    (id, first_name, last_name, height, birthday, country, residence, birth_place, college);
+    END;
+    END IF
 
+-- USE GOLF;
 
+-- DELIMITER $$
+--     CREATE PROCEDURE insert_lpga_player
+-- (
+--         IN id VARCHAR(255),
+--         IN first_name VARCHAR(255),
+--         IN last_name VARCHAR(255), 
+--         IN height INT (3),
+--         IN birthday DATETIME,
+--         IN country VARCHAR(255),
+--         IN residence VARCHAR(255), 
+--         IN birth_place VARCHAR(255),
+--         IN college VARCHAR(255)
+-- )
+--     IF (SELECT COUNT(*)
+--         FROM INFORMATION_SCHEMA.ROUTINES WHERE
+--         ROUTINE_TYPE='PROCEDURE' 
+-- AND ROUTINE_SCHEMA='golf'
+-- AND ROUTINE_NAME = 'insert_lpga_player'
 
+--     ) = 0
+-- THEN BEGIN
+
+-- INSERT INTO golf.lpga_player
+--     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+-- VALUES
+--     (id, first_name, last_name, height, birthday, country, residence, birth_place, college);
+--     END;
+--     END IF
+-- $$
+                 
+-- SELECT count(*) > 0
+-- into @myvar 
+-- FROM INFORMATION_SCHEMA.ROUTINES 
+-- WHERE 
+--        ROUTINE_TYPE='PROCEDURE' 
+--    AND ROUTINE_SCHEMA='golf'
+--    AND ROUTINE_NAME = 'insert_lpga_player'
+
+-- CREATE PROCEDURE insert_lpga_player
+-- (
+--         IN id VARCHAR(255),
+--         IN first_name VARCHAR(255),
+--         IN last_name VARCHAR(255), 
+--         IN height INT (3),
+--         IN birthday DATETIME,
+--         IN country VARCHAR(255),
+--         IN residence VARCHAR(255), 
+--         IN birth_place VARCHAR(255),
+--         IN college VARCHAR(255)
+-- )
+
+-- INSERT INTO golf.lpga_player
+--     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+-- VALUES
+--     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+--     
+--     WHERE NOT EXISTS ();
+-- END$$

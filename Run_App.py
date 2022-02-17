@@ -24,15 +24,50 @@ def Run_App():
 run=Run_App()
 
 #TODO
-#have to correct the database to create and kick an error if it isn't created
-#how to insert the data
-#decorator with property, how to loop through variables, indexing, try insert data, make data back into wide
+# fix so it doesn't kick back error when exists and inserting data
+
+#decorator with property, how to loop through variables, indexing, try insert data
 #club id and name table
         #getters and setters
         #can be encapsulated like properties
-# date add to the files, think about if it is going to be rerunned.
-# figure out session tables and the logic for figuring out the joining
+# date add to the files, think about if it is going to be rerunned. - low
+# figure out session tables and the logic for figuring out the joining -mediumm for now
 
-#plotly
-#try to put Database instances here
-#export
+#plotly - low
+
+#think about how to put comments in the sql file so that it runs.  - high
+#also, are my errors running correctly?  #how to have procedures not keep creating  - high 
+#needed to create tables using mysql - fix that - high
+"""
+How to put the database instances in the right place? - low 
+
+How to insert the data and call it? - low 
+        self.rank_dict={}
+        self.rank_list=[]
+        self.stat_dict={}
+        self.stat_list=[]
+        self.pga_player_dict={}
+        self.pga_player_list=[]
+        self.lpga_player_dict={}
+        self.lpga_player_list=[]
+        self.lpga_tounament_dict={}
+        self.lpga_tounament_list=[]
+        #how to break into smaller pieces of code
+        # functions and what it would take
+        #json and some structure in turning into a list
+        #tricky multiple json things are different structure. 
+        #use classes and inheritance
+        #composition, design patterns
+        #grab json file, single responsibility
+        #class that takes json and abstract class process function or method
+        #other classes that herit from that abstract class
+        #json processor lpga json processor, process to find it needs to do and output to 
+        $process the list
+
+
+
+"""
+
+# --CREATE OR ALTER maybe
+# --BEGIN AND END
+
