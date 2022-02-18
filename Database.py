@@ -83,16 +83,13 @@ class Database:
             pga_insert_query="CALL GOLF.INSERT_PGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
             stat_insert_query="CALL GOLF.INSERT_STAT(%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);"
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
-            #session_type_insert_query="CALL GOLF.INSERT_SESSION_TYPE(%(name)s);"
             #swing type
-            stat_type_insert_query="CALL GOLF.INSERT_STAT_TYPE(%(name)s);"
-            round_insert_query="CALL GOLF.INSERT_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
-            practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s)"
-            session_insert_query="CALL GOLF.INSERT_SESSION(%(session_id)s,%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s)"
-            distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club)s, %(distance)s)"
+
+            session_type_insert_query="CALL GOLF.INSERT_SESSION_TYPE;"
+            stat_type_insert_query="CALL GOLF.INSERT_STAT_TYPE;"
+            swing_type_insert_query="CALL GOLF.INSERT_SWING_TYPE"
 
 
-        
         
 
             for list in (lpga_player_list, pga_player_list, stat_list):
@@ -106,6 +103,23 @@ class Database:
             ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
+
+        try:
+            for query in (#stat_type_insert_query, 
+            #session_type_insert_query, 
+            swing_type_insert_query):
+                self.cursor_1.execute(query)
+                ch_1.commit()
+        except mysql.connector.Error as err:
+            print(err)
+
+
+    def insert_cli_data(self):
+        pass
+        round_insert_query="CALL GOLF.INSERT_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
+        practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s)"
+        session_insert_query="CALL GOLF.INSERT_SESSION(%(session_id)s,%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s)"
+        distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club)s, %(distance)s)"
 
 
 

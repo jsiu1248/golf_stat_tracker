@@ -12,7 +12,7 @@ class Cli:
         pass
     def session(self):
         self.session=input("Is it a round or a practice? ")
-        self.id=uuid.uuid4() # where should I change the id?
+        # self.id=uuid.uuid4() # where should I change the id?
         self.session_dict={}
         #session id, course_id
         self.session_dict["date"]=input("What date is it? i.e. 12-12-2021 ")
@@ -27,34 +27,6 @@ class Cli:
         except ValueError:
             print("Has to be text.")
     
-        self.type_id_query="""SELECT * FROM GOLF.SESSION_TYPE WHERE NAME=%s"""
-        self.course_id_query="""SELECT * FROM GOLF.GOLF_COURSE WHERE COURSE_NAME=%s"""
-
-        self.cursor_2.execute(self.type_id_query, self.session)
-        # self.cursor_2.execute(self.course_id_query, self.round_course)
-        row = self.cursor_2.fetchall() 
-        while row:
-            print (search)
-            row = self.cursor_2.fetchall()
-
-
-        self.session_query_insert= f"""
-        
-            INSERT INTO 
-            session
-            (type_id, course_id, date, notes, goals)
-            VALUES
-            (%(type_id)s, %(course_id))s, %(date)s, %(notes)s, %(goals)s);
-
-        """
-
-        try:
-            for data in ((self.session_query_insert)):
-                self.cursor_2.executemany(data[0],data[1]) 
-                ch_2.commit()
-
-        except Error as e: #f"{e}":
-                print(f"The {data}'s data exists already")
 
         if self.session=="round":
             self.round_list=[]
@@ -77,7 +49,7 @@ class Cli:
                 except ValueError:
                     print("Has to be a number.")
 
-                self.round_dict["id"]=self.id
+                # self.round_dict["id"]=self.id
                 self.round_dict["round_course"]=self.round_course
                 self.round_dict["round_hole"]=self.round_hole
                 self.round_dict["round_drive"]=self.round_drive
@@ -94,9 +66,7 @@ class Cli:
             # self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
             # 'round_scramble','round_notes','round_goals'])
             # print(self.df_round_melt)
-
-            
-# melt the data figure out how to get unique ids
+            # melt the data figure out how to get unique ids
 
         if self.session=="practice":
             # how do I change the data when I did something wrong?
@@ -117,7 +87,7 @@ class Cli:
                     self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
                 except ValueError:
                     print("Has to be a number")
-                self.practice_dict["id"]=self.id
+                # self.practice_dict["id"]=self.id
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total

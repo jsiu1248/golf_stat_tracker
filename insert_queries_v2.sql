@@ -64,7 +64,6 @@ VALUES
 DROP PROCEDURE IF EXISTS insert_session_type;
 CREATE PROCEDURE insert_session_type
 (
-        IN name VARCHAR(255)
 )
 INSERT INTO golf.session_type
     (name)
@@ -82,7 +81,6 @@ VALUES
 DROP PROCEDURE IF EXISTS insert_swing_type;
 CREATE PROCEDURE insert_swing_type
 (
-        IN name VARCHAR(255)
 )
 INSERT INTO golf.swing_type
     (name)

@@ -15,8 +15,8 @@ from Database import *
 def Run_App():
     pass
 
-    #me=Cli()
-    #me.session()
+    me=Cli()
+    me.session()
     #me.session_type()
     #me.insert_data_practice()
     # me.insert_data_round()
@@ -32,7 +32,7 @@ run=Run_App()
 # figure out session tables and the logic for figuring out the joining -mediumm for now
 
 #plotly - low
-
+#have to add data for the tables
 """
 How to put the database instances in the right place? - low 
 
@@ -63,5 +63,3 @@ How to insert the data and call it? - low
 
 """
 
-# --CREATE OR ALTER maybe
-# --BEGIN AND END
