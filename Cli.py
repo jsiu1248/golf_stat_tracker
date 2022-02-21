@@ -17,9 +17,25 @@ class Cli:
         # ch_1=d_2.try_connection("localhost", "root", config("mysql_pass"))
         # d_2.create_connection()
         self.cursor_1 = ch_1.cursor() 
+        try:
+            self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
+        except ValueError:
+            print("Has to be text.")
 
 
         self.session_type_name=input("Is it a round or a practice? ")
+        self.new_course=input("Is it a new course? yes or no.")
+        self.hole=input("How many holes? 9 or 18?")
+        if self.new_course is "yes":
+            golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
+            self.course_data_dict={}
+            self.course_data_dict["course_name"]=self.round_course
+            self.course_data_dict["hole"]=self.hole
+            self.cursor_1.execute(golf_course_insert_query, self.course_data_dict)
+
+
+        elif self.new_course is "no":
+            pass
         # self.id=uuid.uuid4() # where should I change the id?
         self.session_dict={}
         #session id, course_id
@@ -30,10 +46,7 @@ class Cli:
         except ValueError:
             print("Has to be text.")
 
-        try:
-            self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
-        except ValueError:
-            print("Has to be text.")
+        
 
 
 #fix this to use th variable
@@ -82,8 +95,14 @@ class Cli:
                 self.round_dict["proximity_to_hole"]=self.round_proximity_to_hole
                 self.round_dict["scramble"]=self.round_scramble
                 self.round_list.append(self.round_dict.copy())
-            round_insert_query="CALL GOLF.INSERT_ROUND(%(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
-            self.cursor_1.execute(round_insert_query, self.round_list)
+            try:
+                round_insert_query="CALL GOLF.INSERT_ROUND(%(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
+                self.cursor_1.execute(round_insert_query, self.round_list)
+                for element in self.round_list:
+                        self.cursor_1.execute(round_insert_query, element)
+                ch_1.commit()
+            except mysql.connector.Error as err:
+                print(err)
 
             self.df_round=pd.DataFrame(self.round_list)
 
@@ -113,18 +132,26 @@ class Cli:
                 try: 
                     self.practice_success=int(input(f"What many times did you success the {self.practice_shot_type} "))
                     self.practice_total=int(input(f"How many total {self.practice_shot_type} did you make? "))
-                    self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
+                    self.practice_club=input(f"What club did you use for the {self.practice_shot_type}? ")
                 except ValueError:
                     print("Has to be a number")
+                self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
                 # self.practice_dict["id"]=self.id
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
+                self.practice_dict['club']=self.practice_club
 
                 self.practice_list.append(self.practice_dict.copy())
-            practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s);"
-            self.cursor_1.execute(practice_insert_query, self.practice_list)
+            try:
+                    practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s);"
+                    for element in self.practice_list:
+                        self.cursor_1.execute(practice_insert_query, element)
+                    ch_1.commit()
+            except mysql.connector.Error as err:
+                print(err)
+
             self.df_practice=pd.DataFrame(self.practice_list)
 
 
