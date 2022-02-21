@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS self_session
             session_id INT(10) AUTO_INCREMENT, 
             session_type_id INT(2), 
             course_id INT(10), 
-            date DATETIME, 
+            date DATE, 
             notes LONGTEXT, 
             goals LONGTEXT, 
             PRIMARY KEY(session_id));
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS swing_type
 CREATE TABLE IF NOT EXISTS distance_tracking
         (
         id INT(7) AUTO_INCREMENT,
-        date DATETIME,
+        date DATE,
         club VARCHAR(255),
         distance FLOAT(5),
         PRIMARY KEY(id));

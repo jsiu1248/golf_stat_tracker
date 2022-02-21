@@ -26,16 +26,19 @@ class Cli:
         self.session_type_name=input("Is it a round or a practice? ")
         self.new_course=input("Is it a new course? yes or no.")
         self.hole=input("How many holes? 9 or 18?")
-        if self.new_course is "yes":
-            golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
+        if self.new_course == "yes":
+            #golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
+            golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE('harding', 18);"
+
             self.golf_course_dict={}
             self.golf_course_dict["course_name"]=self.round_course
             self.golf_course_dict["hole"]=self.hole
-            self.cursor_1.execute(golf_course_insert_query, self.golf_course_dict)
+            # self.cursor_1.execute(golf_course_insert_query, self.golf_course_dict)
+            # self.cursor_1.execute(golf_course_insert_query)
             ch_1.commit()
 
 
-        elif self.new_course is "no":
+        elif self.new_course == "no":
             pass
         self.session_dict={}
         self.session_dict["date"]=input("What date is it? i.e. 12-12-2021 ")
@@ -63,7 +66,7 @@ class Cli:
             self.session_type_id=i[0]
 
 
-        course_id_query="SELECT DISTINCT course_id from golf.golf_course WHERE course_name='harding';"
+        course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name='harding';"
 
         # self.cursor_1.execute(session_type_code_query, self.session)
         self.cursor_1.execute(course_id_query)

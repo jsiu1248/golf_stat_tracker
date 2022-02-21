@@ -117,21 +117,20 @@ VALUES
 DROP PROCEDURE IF EXISTS insert_session;
 CREATE PROCEDURE insert_session
 (
-            IN session_id INT(10), 
             IN session_type_id INT(2), 
             IN course_id INT(10), 
-            IN date DATETIME, 
+            IN date DATE, 
             IN notes LONGTEXT, 
             IN goals LONGTEXT
 )
-INSERT INTO golf.session
-    (session_id, session_type_id, course_id, date, notes, goals)
+INSERT INTO golf.self_session
+    ( session_type_id, course_id, date, notes, goals)
 VALUES
-    (session_id, session_type_id, course_id, date, notes, goals);
+    ( session_type_id, course_id, date, notes, goals);
 DROP PROCEDURE IF EXISTS insert_distance_tracking;
 CREATE PROCEDURE insert_distance_tracking
 (        
-        IN date DATETIME,
+        IN date DATE,
         IN club VARCHAR(255),
         IN distance FLOAT(5)
 )
