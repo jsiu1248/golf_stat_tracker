@@ -19,7 +19,7 @@ class Cli:
         self.cursor_1 = ch_1.cursor() 
 
 
-        self.session=input("Is it a round or a practice? ")
+        self.session_type_name=input("Is it a round or a practice? ")
         # self.id=uuid.uuid4() # where should I change the id?
         self.session_dict={}
         #session id, course_id
@@ -46,13 +46,13 @@ class Cli:
 
         record=self.cursor_1.fetchall()
         for i in record:
-            self.session_id=i[0]
+            self.session_type_id=i[0]
 
 
     #session id, type_id, course_id, 
     # done date, notes, goal
 
-        if self.session=="round":
+        if self.session_type_name=="round":
             self.round_list=[]
             self.round_dict={}
             try:
@@ -74,7 +74,7 @@ class Cli:
                     print("Has to be a number.")
 
                 # self.round_dict["id"]=self.id
-                self.round_dict['round_session_id']=self.session_id
+                self.round_dict['round_session_type_id']=self.session_type_id
                 self.round_dict["round_course"]=self.round_course
                 self.round_dict["round_hole"]=self.round_hole
                 self.round_dict["round_drive"]=self.round_drive
@@ -97,7 +97,7 @@ class Cli:
             # id should be cascaded here
             #round would have a number that would be in this table
 
-        if self.session=="practice":
+        if self.session_type_name=="practice":
             # how do I change the data when I did something wrong?
             try:
                 self.num_type=int(input("How many types of shots were you try this time?"))
@@ -117,7 +117,7 @@ class Cli:
                 except ValueError:
                     print("Has to be a number")
                 # self.practice_dict["id"]=self.id
-                self.pracitice_dict['practice_session_id']=self.session_id
+                self.practice_dict['practice_session_type_id']=self.session_type_id
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
