@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS golf_course
         PRIMARY KEY(id));
 CREATE TABLE IF NOT EXISTS self_session
         (
-            session_id INT(10), 
+            session_id INT(10) AUTO_INCREMENT, 
             session_type_id INT(2), 
             course_id INT(10), 
             date DATETIME, 

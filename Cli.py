@@ -28,17 +28,16 @@ class Cli:
         self.hole=input("How many holes? 9 or 18?")
         if self.new_course is "yes":
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
-            self.course_data_dict={}
-            self.course_data_dict["course_name"]=self.round_course
-            self.course_data_dict["hole"]=self.hole
-            self.cursor_1.execute(golf_course_insert_query, self.course_data_dict)
+            self.golf_course_dict={}
+            self.golf_course_dict["course_name"]=self.round_course
+            self.golf_course_dict["hole"]=self.hole
+            self.cursor_1.execute(golf_course_insert_query, self.golf_course_dict)
+            ch_1.commit()
 
 
         elif self.new_course is "no":
             pass
-        # self.id=uuid.uuid4() # where should I change the id?
         self.session_dict={}
-        #session id, course_id
         self.session_dict["date"]=input("What date is it? i.e. 12-12-2021 ")
         try:
             self.session_dict["notes"]=str(input("Did you have notes? "))
@@ -51,15 +50,42 @@ class Cli:
 
 #fix this to use th variable
         # session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name=%(name)s;"
+
+        # self.cursor_1.execute(session_type_code_query, self.session)
+
         session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name='practice';" #self.session_id
         session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name='round';"
 
-        # self.cursor_1.execute(session_type_code_query, self.session)
         self.cursor_1.execute(session_type_code_query)
 
         record=self.cursor_1.fetchall()
         for i in record:
             self.session_type_id=i[0]
+
+
+        course_id_query="SELECT DISTINCT course_id from golf.golf_course WHERE course_name='harding';"
+
+        # self.cursor_1.execute(session_type_code_query, self.session)
+        self.cursor_1.execute(course_id_query)
+
+        record=self.cursor_1.fetchall()
+        for i in record:
+            self.course_id=i[0]
+        self.session_dict["course_id"]=self.course_id
+        self.session_dict["session_type_id"]=self.session_type_id
+
+
+        #start making session_table
+        try:
+            session_insert_query="CALL GOLF.INSERT_SESSION(%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s);"
+            self.cursor_1.execute(session_insert_query, self.session_dict)
+            for element in self.session_list:
+                    self.cursor_1.execute(session_insert_query, element)
+            ch_1.commit()
+        except mysql.connector.Error as err:
+            print(err)
+
+
 
 
     #session id, type_id, course_id, 
