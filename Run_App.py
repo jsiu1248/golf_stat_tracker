@@ -30,10 +30,8 @@ run=Run_App()
         #getters and setters
         #can be encapsulated like properties
 # date add to the files, think about if it is going to be rerunned. - low
-# figure out session tables and the logic for figuring out the joining -mediumm for now
 
 #plotly - low
-#have to add data for the tables
 #maybe take out the rank table
 """
 How to put the database instances in the right place? - low 
