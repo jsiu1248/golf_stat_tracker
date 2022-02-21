@@ -79,7 +79,7 @@ class Cli:
         try:
             session_insert_query="CALL GOLF.INSERT_SESSION(%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s);"
             self.cursor_1.execute(session_insert_query, self.session_dict)
-            for element in self.session_list:
+            for element in self.session_dict:
                     self.cursor_1.execute(session_insert_query, element)
             ch_1.commit()
         except mysql.connector.Error as err:
