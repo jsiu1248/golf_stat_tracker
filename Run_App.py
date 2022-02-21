@@ -32,7 +32,6 @@ run=Run_App()
 # date add to the files, think about if it is going to be rerunned. - low
 
 #plotly - low
-#maybe take out the rank table
 """
 How to put the database instances in the right place? - low 
 
@@ -63,3 +62,7 @@ How to insert the data and call it? - low
 
 """
 
+#add views now and joining data
+#join all of the player data and make that a view
+#join all of my data and make my own stats
+#maybe take out the rank table
