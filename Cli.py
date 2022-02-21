@@ -74,17 +74,17 @@ class Cli:
                     print("Has to be a number.")
 
                 # self.round_dict["id"]=self.id
-                self.round_dict['round_session_type_id']=self.session_type_id
-                self.round_dict["round_course"]=self.round_course
-                self.round_dict["round_hole"]=self.round_hole
-                self.round_dict["round_drive"]=self.round_drive
-                self.round_dict["round_green_reg"]=self.round_green_reg
-                self.round_dict["round_score"]=self.round_score
-                self.round_dict["round_putt"]=self.round_putt
-                self.round_dict["round_fairway"]=self.round_fairway
-                self.round_dict["round_proximity_to_hole"]=self.round_proximity_to_hole
-                self.round_dict["round_scramble"]=self.round_scramble
+                self.round_dict["hole"]=self.round_hole
+                self.round_dict["green_reg"]=self.round_green_reg
+                self.round_dict["score"]=self.round_score
+                self.round_dict["putt"]=self.round_putt
+                self.round_dict["fairway"]=self.round_fairway
+                self.round_dict["proximity_to_hole"]=self.round_proximity_to_hole
+                self.round_dict["scramble"]=self.round_scramble
                 self.round_list.append(self.round_dict.copy())
+            round_insert_query="CALL GOLF.INSERT_ROUND(%(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
+            self.cursor_1.execute(round_insert_query, self.round_list)
+
             self.df_round=pd.DataFrame(self.round_list)
 
             #print(df)
@@ -117,14 +117,19 @@ class Cli:
                 except ValueError:
                     print("Has to be a number")
                 # self.practice_dict["id"]=self.id
-                self.practice_dict['practice_session_type_id']=self.session_type_id
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
 
                 self.practice_list.append(self.practice_dict.copy())
+            practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s);"
+            self.cursor_1.execute(practice_insert_query, self.practice_list)
             self.df_practice=pd.DataFrame(self.practice_list)
+
+
+
+
 
             #print(df)
             # self.df_practice_melt=pd.melt(self.df_practice, id_vars=['id','date'],value_vars=['shot_type','success','total','distance','notes','goals'])
