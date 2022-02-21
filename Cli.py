@@ -1,3 +1,4 @@
+from socket import create_connection
 from decouple import config
 import pandas as pd
 import uuid
@@ -11,6 +12,13 @@ class Cli:
     def __init__(self):
         pass
     def session(self):
+        """trying to not call self.cursor_1 here again"""
+        # d_2=Database()
+        # ch_1=d_2.try_connection("localhost", "root", config("mysql_pass"))
+        # d_2.create_connection()
+        self.cursor_1 = ch_1.cursor() 
+
+
         self.session=input("Is it a round or a practice? ")
         # self.id=uuid.uuid4() # where should I change the id?
         self.session_dict={}
@@ -26,7 +34,23 @@ class Cli:
             self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
         except ValueError:
             print("Has to be text.")
-    
+
+
+#fix this to use th variable
+        # session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name=%(name)s;"
+        session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name='practice';" #self.session_id
+        session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name='round';"
+
+        # self.cursor_1.execute(session_type_code_query, self.session)
+        self.cursor_1.execute(session_type_code_query)
+
+        record=self.cursor_1.fetchall()
+        for i in record:
+            self.session_id=i[0]
+
+
+    #session id, type_id, course_id, 
+    # done date, notes, goal
 
         if self.session=="round":
             self.round_list=[]
@@ -50,6 +74,7 @@ class Cli:
                     print("Has to be a number.")
 
                 # self.round_dict["id"]=self.id
+                self.round_dict['round_session_id']=self.session_id
                 self.round_dict["round_course"]=self.round_course
                 self.round_dict["round_hole"]=self.round_hole
                 self.round_dict["round_drive"]=self.round_drive
@@ -67,6 +92,10 @@ class Cli:
             # 'round_scramble','round_notes','round_goals'])
             # print(self.df_round_melt)
             # melt the data figure out how to get unique ids
+            
+            #insert data here if round
+            # id should be cascaded here
+            #round would have a number that would be in this table
 
         if self.session=="practice":
             # how do I change the data when I did something wrong?
@@ -88,6 +117,7 @@ class Cli:
                 except ValueError:
                     print("Has to be a number")
                 # self.practice_dict["id"]=self.id
+                self.pracitice_dict['practice_session_id']=self.session_id
                 self.practice_dict['shot_type']=self.practice_shot_type
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
@@ -110,7 +140,11 @@ class Cli:
 
 
 
+            #insert data here if round
+            # id should be cascaded here
+            #session would have a number that would be in this table
 
 
-
-
+# for name in dir():
+#     value = globals()[name]
+#     print(name, type(value), value)

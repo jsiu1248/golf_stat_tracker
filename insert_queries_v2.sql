@@ -72,12 +72,11 @@ VALUES
 DROP PROCEDURE IF EXISTS insert_stat_type;
 CREATE PROCEDURE insert_stat_type
 (
-        IN name VARCHAR(255)
 )
 INSERT INTO golf.stat_type
     (name)
 VALUES
-    (name);
+    ('driving_distance'),('green_in_regulation'),('total_score'),('putts'),('fairway_hit'),('proximity_to_hole'),('scramble');
 DROP PROCEDURE IF EXISTS insert_swing_type;
 CREATE PROCEDURE insert_swing_type
 (

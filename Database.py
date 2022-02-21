@@ -1,9 +1,8 @@
 from distutils.util import execute
 from sqlite3 import OperationalError
-from winreg import QueryValueEx
 from decouple import config
 import mysql.connector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 from sqlalchemy import create_engine
 import pymysql
 from Data_Cleaner import Data_Cleaner
@@ -72,8 +71,6 @@ class Database:
         sqlCommands=query_file.split(";")
         for command in sqlCommands:
             try:
-                pass
-                # have to make if exists
                 self.cursor_1.execute(command)
             except OperationalError as msg:
                 print(f"Command skipped:  {msg}") 
@@ -83,11 +80,11 @@ class Database:
             pga_insert_query="CALL GOLF.INSERT_PGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
             stat_insert_query="CALL GOLF.INSERT_STAT(%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);"
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
-            #swing type
 
             session_type_insert_query="CALL GOLF.INSERT_SESSION_TYPE;"
             stat_type_insert_query="CALL GOLF.INSERT_STAT_TYPE;"
-            swing_type_insert_query="CALL GOLF.INSERT_SWING_TYPE"
+            swing_type_insert_query="CALL GOLF.INSERT_SWING_TYPE;"
+
 
 
         
@@ -105,8 +102,8 @@ class Database:
             print(err)
 
         try:
-            for query in (#stat_type_insert_query, 
-            #session_type_insert_query, 
+            for query in (stat_type_insert_query, 
+            session_type_insert_query, 
             swing_type_insert_query):
                 self.cursor_1.execute(query)
                 ch_1.commit()

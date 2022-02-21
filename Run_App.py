@@ -16,6 +16,7 @@ def Run_App():
     pass
 
     me=Cli()
+
     me.session()
     #me.session_type()
     #me.insert_data_practice()
@@ -33,6 +34,7 @@ run=Run_App()
 
 #plotly - low
 #have to add data for the tables
+#maybe take out the rank table
 """
 How to put the database instances in the right place? - low 
 
