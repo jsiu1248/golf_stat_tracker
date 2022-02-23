@@ -66,3 +66,10 @@ How to insert the data and call it? - low
 #join all of the player data and make that a view
 #join all of my data and make my own stats
 #maybe take out the rank table
+#clean up the cli code into functions
+
+#run view script
+#Add data to distance tracking
+#change shot type to decode
+#table for clubs?
+#do I need stat_type anymore?

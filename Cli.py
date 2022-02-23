@@ -206,8 +206,3 @@ class Cli:
 
 
 
-            #insert data here if round
-            # id should be cascaded here
-            #session would have a number that would be in this table
-
-
