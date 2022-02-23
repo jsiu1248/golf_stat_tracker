@@ -77,11 +77,11 @@ INSERT INTO golf.stat_type
     (name)
 VALUES
     ('driving_distance'),('green_in_regulation'),('total_score'),('putts'),('fairway_hit'),('proximity_to_hole'),('scramble');
-DROP PROCEDURE IF EXISTS insert_swing_type;
-CREATE PROCEDURE insert_swing_type
+DROP PROCEDURE IF EXISTS insert_shot_type;
+CREATE PROCEDURE insert_shot_type
 (
 )
-INSERT INTO golf.swing_type
+INSERT INTO golf.shot_type
     (name)
 VALUES
     ('sand'), ('chip'), ('pitch'), ('drive'), ('iron'), ('putt');
@@ -105,7 +105,7 @@ DROP PROCEDURE IF EXISTS insert_practice;
 CREATE PROCEDURE insert_practice
 (
         IN session_id INT(10),
-        IN shot_type VARCHAR(255), 
+        IN shot_type INT(3), 
         IN success INT(3),
         IN total INT(3),
         IN distance FLOAT(5),

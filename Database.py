@@ -83,7 +83,7 @@ class Database:
 
             session_type_insert_query="CALL GOLF.INSERT_SESSION_TYPE;"
             stat_type_insert_query="CALL GOLF.INSERT_STAT_TYPE;"
-            swing_type_insert_query="CALL GOLF.INSERT_SWING_TYPE;"
+            shot_type_insert_query="CALL GOLF.INSERT_SHOT_TYPE;"
 
 
 
@@ -98,13 +98,13 @@ class Database:
                     if list==stat_list:
                         self.cursor_1.execute(stat_insert_query, element)
             ch_1.commit()
+            print("trying")
         except mysql.connector.Error as err:
             print(err)
 
         try:
-            for query in (stat_type_insert_query, 
-            session_type_insert_query, 
-            swing_type_insert_query):
+            for query in (shot_type_insert_query, stat_type_insert_query, 
+            session_type_insert_query):
                 self.cursor_1.execute(query)
                 ch_1.commit()
         except mysql.connector.Error as err:
@@ -150,7 +150,7 @@ ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
 # engine = create_engine(f"mysql+pymysql://root:{config('mysql_pass')}@localhost/golf")
 d.create_connection()
 # d.create_connection_db()
-# d.read_file()
+d.read_file()
 d.insert_file()
 #d.create_database()
 #d.create_table()

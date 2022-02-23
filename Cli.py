@@ -171,11 +171,30 @@ class Cli:
                     print("Has to be a number")
                 self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
                 self.practice_dict["session_id"]=self.session_id
+
+
+                shot_type_query="SELECT DISTINCT shot_id from golf.shot_type WHERE name=%s;"
+
+
+                self.cursor_1.execute(shot_type_query, (self.practice_shot_type, ))
+
+                shot_type_record=self.cursor_1.fetchall()
+                for i in shot_type_record:
+                    self.practice_shot_type=i[0]
+                print(self.practice_shot_type)
+                print(i)
+
+                self.session_dict["course_id"]=self.course_id
+
+                
                 self.practice_dict['shot_type']=self.practice_shot_type
+
+
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
                 self.practice_dict['club']=self.practice_club
+
 
                 self.practice_list.append(self.practice_dict.copy())
             try:
