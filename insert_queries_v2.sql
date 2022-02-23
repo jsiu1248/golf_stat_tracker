@@ -140,3 +140,11 @@ INSERT INTO golf.distance_tracking
     (date, club_id, distance)
 VALUES
     (date, club_id, distance);
+DROP PROCEDURE IF EXISTS insert_club;
+CREATE PROCEDURE insert_club
+(
+)
+INSERT INTO golf.club
+    (name)
+VALUES
+    ('5_iron'), ('6_iron'), ('7_iron'), ('8_iron'), ('9_iron'), ('pitching wedge'), ('52 degree'), ('58 degree'), ('3 hybrid'),('4 hybrid'),('driver');

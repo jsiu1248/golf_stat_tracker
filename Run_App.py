@@ -81,3 +81,4 @@ How to insert the data and call it? - low
 # 1062 (23000): Duplicate entry '4e1d40b0-e8e5-4f00-aa67-6962561fd43f' for key 'lpga_player.PRIMARY'
 # 1062 (23000): Duplicate entry 'sand' for key 'shot_type.name'
 #change read file to be generalized and passing parameter
+#get club not to repeat

@@ -97,3 +97,8 @@ CREATE TABLE IF NOT EXISTS distance_tracking
         club_id VARCHAR(255),
         distance FLOAT(5),
         PRIMARY KEY(id));
+CREATE TABLE IF NOT EXISTS club
+        (
+        club_id INT(5) AUTO_INCREMENT,
+        name VARCHAR(255),
+        PRIMARY KEY(club_id));

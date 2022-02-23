@@ -192,15 +192,15 @@ class Cli:
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
 
-                # shot_type_query="SELECT DISTINCT shot_id from golf.shot_type WHERE name=%s;"
-                # self.cursor_1.execute(shot_type_query, (self.practice_shot_type, ))
+                club_query="SELECT DISTINCT club_id from golf.club WHERE name=%s;"
+                self.cursor_1.execute(club_query, (self.practice_club, ))
 
-                # shot_type_record=self.cursor_1.fetchall()
-                # for i in shot_type_record:
-                #     self.practice_shot_type_id=i[0]
+                club_record=self.cursor_1.fetchall()
+                for i in club_record:
+                    self.practice_club_id=i[0]
 
 
-                self.practice_dict['club_id']=self.practice_club
+                self.practice_dict['club_id']=self.practice_club_id
                 #need to change this to the id
 
                 self.practice_list.append(self.practice_dict.copy())

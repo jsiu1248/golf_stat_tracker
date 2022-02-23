@@ -84,6 +84,8 @@ class Database:
             session_type_insert_query="CALL GOLF.INSERT_SESSION_TYPE;"
             stat_type_insert_query="CALL GOLF.INSERT_STAT_TYPE;"
             shot_type_insert_query="CALL GOLF.INSERT_SHOT_TYPE;"
+            club_insert_query="CALL GOLF.INSERT_CLUB;"
+
 
 
 
@@ -103,7 +105,7 @@ class Database:
             print(err)
 
         try:
-            for query in (shot_type_insert_query, stat_type_insert_query, 
+            for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
             session_type_insert_query):
                 self.cursor_1.execute(query)
                 ch_1.commit()
