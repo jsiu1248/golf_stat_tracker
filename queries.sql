@@ -1,10 +1,5 @@
 CREATE DATABASE IF NOT EXISTS golf;
 USE GOLF;
-CREATE TABLE IF NOT EXISTS world_rank 
-        (
-        id VARCHAR(255),
-        world_rank INT(10), 
-        PRIMARY KEY(id));
 CREATE TABLE IF NOT EXISTS stat 
         (
         id VARCHAR(255),
