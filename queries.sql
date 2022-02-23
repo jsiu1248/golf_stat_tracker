@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS round
         PRIMARY KEY(id));
 CREATE TABLE IF NOT EXISTS practice 
         (
+        id INT(10) AUTO_INCREMENT,
         session_id INT(10),
         shot_type_id INT(3), 
         success INT(3),

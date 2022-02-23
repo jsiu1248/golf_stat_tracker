@@ -25,8 +25,8 @@ class Cli:
 
         self.session_type_name=input("Is it a round or a practice? ")
         self.new_course=input("Is it a new course? yes or no.")
-        self.hole=input("How many holes? 9 or 18?")
         if self.new_course == "yes":
+            self.hole=input("How many holes? 9 or 18?")
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
             self.golf_course_dict={}
             self.golf_course_dict["course_name"]=self.round_course
@@ -109,10 +109,10 @@ class Cli:
 
             for self.round_hole in range(1,self.round_num_holes+1):
                 try:
-                    self.round_drive=int(input("What was the driving distance? i.e 300. "))
+                    # self.round_drive=int(input("What was the driving distance? i.e 300. "))
                     self.round_green_reg=int(input("What is greens in regulation? i.e. 1 or 0 "))
 
-                    self.round_score=int(input("What was the score? i.e. 59 "))
+                    self.round_score=int(input("What was the score? i.e. 5 "))
                     self.round_putt=int(input("How many putts? i.e. 2 "))
                     self.round_fairway=int(input("Did you hit the fairway? i.e. 1 or 0 "))
                     self.round_proximity_to_hole=int(input("What was the promity to the hole in feet? i.e. 39 "))
