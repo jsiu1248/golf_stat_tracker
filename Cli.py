@@ -131,7 +131,6 @@ class Cli:
                 self.round_list.append(self.round_dict.copy())
             try:
                 round_insert_query="CALL GOLF.insert_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
-                self.cursor_1.execute(round_insert_query, self.round_list)
                 for element in self.round_list:
                         self.cursor_1.execute(round_insert_query, element)
                 ch_1.commit()
@@ -139,6 +138,8 @@ class Cli:
                 print(err)
 
             self.df_round=pd.DataFrame(self.round_list)
+
+
 
             #print(df)
             # self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
