@@ -63,6 +63,10 @@ How to insert the data and call it? - low
 """
 
 #add views now and joining data
+#need view for averaged data for practice and round
+#need to figure out how to compare data
+
+
 #join all of my data and make my own stats
 #clean up the cli code into functions
 

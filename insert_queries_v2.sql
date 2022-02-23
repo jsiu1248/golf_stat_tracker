@@ -105,17 +105,17 @@ DROP PROCEDURE IF EXISTS insert_practice;
 CREATE PROCEDURE insert_practice
 (
         IN session_id INT(10),
-        IN shot_type INT(3), 
+        IN shot_type_id INT(3), 
         IN success INT(3),
         IN total INT(3),
         IN distance FLOAT(5),
-        IN club VARCHAR(255)
+        IN club_id INT(5)
 
 )
 INSERT INTO golf.practice
-    (session_id, shot_type, success, total, distance, club)
+    (session_id, shot_type_id, success, total, distance, club_id)
 VALUES
-    (session_id, shot_type, success, total, distance, club);
+    (session_id, shot_type_id, success, total, distance, club_id);
 DROP PROCEDURE IF EXISTS insert_session;
 CREATE PROCEDURE insert_session
 (
@@ -133,10 +133,10 @@ DROP PROCEDURE IF EXISTS insert_distance_tracking;
 CREATE PROCEDURE insert_distance_tracking
 (        
         IN date DATE,
-        IN club VARCHAR(255),
+        IN club_id INT(5),
         IN distance FLOAT(5)
 )
 INSERT INTO golf.distance_tracking
-    (date, club, distance)
+    (date, club_id, distance)
 VALUES
-    (date, club, distance);
+    (date, club_id, distance);

@@ -180,25 +180,32 @@ class Cli:
 
                 shot_type_record=self.cursor_1.fetchall()
                 for i in shot_type_record:
-                    self.practice_shot_type=i[0]
-                print(self.practice_shot_type)
-                print(i)
+                    self.practice_shot_type_id=i[0]
 
                 self.session_dict["course_id"]=self.course_id
 
                 
-                self.practice_dict['shot_type']=self.practice_shot_type
+                self.practice_dict['shot_type_id']=self.practice_shot_type_id
 
 
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
-                self.practice_dict['club']=self.practice_club
 
+                # shot_type_query="SELECT DISTINCT shot_id from golf.shot_type WHERE name=%s;"
+                # self.cursor_1.execute(shot_type_query, (self.practice_shot_type, ))
+
+                # shot_type_record=self.cursor_1.fetchall()
+                # for i in shot_type_record:
+                #     self.practice_shot_type_id=i[0]
+
+
+                self.practice_dict['club_id']=self.practice_club
+                #need to change this to the id
 
                 self.practice_list.append(self.practice_dict.copy())
             try:
-                    practice_insert_query="CALL GOLF.insert_PRACTICE(%(session_id)s, %(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s);"
+                    practice_insert_query="CALL GOLF.insert_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s);"
                     for element in self.practice_list:
                         self.cursor_1.execute(practice_insert_query, element)
                     ch_1.commit()

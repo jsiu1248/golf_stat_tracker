@@ -114,9 +114,9 @@ class Database:
     def insert_cli_data(self):
         pass
         round_insert_query="CALL GOLF.INSERT_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
-        practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type)s, %(success)s, %(total)s, %(distance)s, %(club)s)"
+        practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s)"
         session_insert_query="CALL GOLF.INSERT_SESSION(%(session_id)s,%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s)"
-        distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club)s, %(distance)s)"
+        distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club_id)s, %(distance)s)"
 
 
 

@@ -51,11 +51,11 @@ CREATE TABLE IF NOT EXISTS round
 CREATE TABLE IF NOT EXISTS practice 
         (
         session_id INT(10),
-        shot_type INT(3), 
+        shot_type_id INT(3), 
         success INT(3),
         total INT(3),
         distance FLOAT(5),
-        club VARCHAR(255),
+        club_id INT(5),
         PRIMARY KEY(session_id));
 CREATE TABLE IF NOT EXISTS golf_course 
         (
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS stat_type
         PRIMARY KEY(stat_id));
 CREATE TABLE IF NOT EXISTS shot_type 
         (
-        shot_id INT(3) AUTO_INCREMENT,
+        shot_type_id INT(3) AUTO_INCREMENT,
         name VARCHAR(255), 
         UNIQUE(name),
         PRIMARY KEY(shot_id));
@@ -94,6 +94,6 @@ CREATE TABLE IF NOT EXISTS distance_tracking
         (
         id INT(7) AUTO_INCREMENT,
         date DATE,
-        club VARCHAR(255),
+        club_id VARCHAR(255),
         distance FLOAT(5),
         PRIMARY KEY(id));
