@@ -19,6 +19,10 @@ LEFT JOIN GOLF.GOLF_COURSE ON SELF_SESSION.COURSE_ID=GOLF_COURSE.ID
 CREATE VIEW round_data_summary AS 
 SELECT session_id, ROUND(AVG(green_reg),1)  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
  ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),1) scramble_avg FROM golf.round group by session_id;
- CREARE VIEW round_data_dim AS
+ CREATE VIEW round_data_dim AS
  SELECT ROUND(AVG(green_reg),1)  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
  ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),1) scramble_avg FROM golf.round;
+ CREATE VIEW practice_data_summary AS 
+SELECT session_id, shot_type_id, ROUND(SUM(success)/SUM(total),2) succes_rate, club_id FROM GOLF.PRACTICE GROUP BY SESSION_ID, SHOT_TYPE_ID;
+ CREATE VIEW practice_data_dim AS 
+SELECT shot_type_id, ROUND(SUM(success)/SUM(total),2) succes_rate FROM GOLF.PRACTICE GROUP BY SESSION_ID, SHOT_TYPE_ID;

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS stat
         scrambling_pct FLOAT(4), 
         world_rank INT(4),
         PRIMARY KEY(id));
-CREATE TABLE IF NOT EXISTS pga_player 
+CREATE TABLE IF NOT EXISTS pga_player
         (
         id VARCHAR(255),
         first_name VARCHAR(255),
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS pga_player
         birth_place VARCHAR(255),
         college VARCHAR(255), 
         PRIMARY KEY(id));
-CREATE TABLE IF NOT EXISTS lpga_player 
+CREATE TABLE IF NOT EXISTS lpga_player
         (
         id VARCHAR(255),
         first_name VARCHAR(255),
