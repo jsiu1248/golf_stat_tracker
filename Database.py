@@ -75,7 +75,7 @@ class Database:
             except OperationalError as msg:
                 print(f"Command skipped:  {msg}") 
 
-        try:
+        try: #don't need this
             lpga_insert_query="CALL GOLF.INSERT_LPGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
             pga_insert_query="CALL GOLF.INSERT_PGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
             stat_insert_query="CALL GOLF.INSERT_STAT(%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);"
@@ -92,7 +92,7 @@ class Database:
         
 
             for list in (lpga_player_list, pga_player_list, stat_list):
-                for element in list:
+                for element in list: #put try except here
                     if list==lpga_player_list:
                         self.cursor_1.execute(lpga_insert_query, element)
                     if list==pga_player_list:
@@ -101,8 +101,8 @@ class Database:
                         self.cursor_1.execute(stat_insert_query, element)
             ch_1.commit()
             print("trying")
-        except mysql.connector.Error as err:
-            print(err)
+        except mysql.connector.Error as err: # try to find a more specific error 
+            print(err) # maybe general database error. look for the type of expection
 
         try:
             for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
