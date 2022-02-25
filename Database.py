@@ -48,32 +48,32 @@ class Database:
     def create_connection_db(self):
         self.cursor_2 = ch_2.cursor()
 
-    def read_file(self):
-        file=open(os.path.join(self.cwd, self.path, f"queries.sql"), 'r')
+    # def read_file(self):
+    #     file=open(os.path.join(self.cwd, self.path, f"queries.sql"), 'r')
 
-        query_file=file.read()
-        file.close()
-        sqlCommands=query_file.split(";")
-        for command in sqlCommands:
-            try:
-                self.cursor_1.execute(command)
-            except OperationalError  as msg:
-                print(f"Command skipped:  {msg}") 
-        ch_1.commit()
+    #     query_file=file.read()
+    #     file.close()
+    #     sqlCommands=query_file.split(";")
+    #     for command in sqlCommands:
+    #         try:
+    #             self.cursor_1.execute(command)
+    #         except OperationalError  as msg:
+    #             print(f"Command skipped:  {msg}") 
+    #     ch_1.commit()
 
 
     def insert_file(self):
-        file=open(os.path.join(self.cwd, self.path, f"insert_queries_v2.sql"), 'r')
+        # file=open(os.path.join(self.cwd, self.path, f"insert_queries_v2.sql"), 'r')
         
-        query_file=file.read()
-        file.close()
+        # query_file=file.read()
+        # file.close()
 
-        sqlCommands=query_file.split(";")
-        for command in sqlCommands:
-            try:
-                self.cursor_1.execute(command)
-            except OperationalError as msg:
-                print(f"Command skipped:  {msg}") 
+        # sqlCommands=query_file.split(";")
+        # for command in sqlCommands:
+        #     try:
+        #         self.cursor_1.execute(command)
+        #     except OperationalError as msg:
+        #         print(f"Command skipped:  {msg}") 
 
         try: #don't need this
             lpga_insert_query="CALL GOLF.INSERT_LPGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
@@ -113,12 +113,12 @@ class Database:
             print(err)
 
 
-    def insert_cli_data(self):
-        pass
-        round_insert_query="CALL GOLF.INSERT_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
-        practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s)"
-        session_insert_query="CALL GOLF.INSERT_SESSION(%(session_id)s,%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s)"
-        distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club_id)s, %(distance)s)"
+    # def insert_cli_data(self):
+    #     pass
+    #     round_insert_query="CALL GOLF.INSERT_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
+    #     practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s)"
+    #     session_insert_query="CALL GOLF.INSERT_SESSION(%(session_id)s,%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s)"
+    #     distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club_id)s, %(distance)s)"
 
 
 
@@ -152,7 +152,7 @@ ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
 # engine = create_engine(f"mysql+pymysql://root:{config('mysql_pass')}@localhost/golf")
 d.create_connection()
 # d.create_connection_db()
-d.read_file()
+# d.read_file()
 d.insert_file()
 #d.create_database()
 #d.create_table()

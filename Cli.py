@@ -98,7 +98,7 @@ class Cli:
 #cascade to create a new row if round or practice
 # update the new row using update with data here in python - pretty sure this part is almost done unless I need to use update vs insert
 
-
+    def round(self):
         if self.session_type_name=="round":
             self.round_list=[]
             self.round_dict={}
@@ -150,7 +150,7 @@ class Cli:
             #insert data here if round
             # id should be cascaded here
             #round would have a number that would be in this table
-
+    def practice(self):
         if self.session_type_name=="practice":
             # how do I change the data when I did something wrong?
             try:
