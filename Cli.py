@@ -11,7 +11,9 @@ from Database import *
 class Cli:
     def __init__(self):
         pass
-    def session(self):
+    # maybe some things can be added to the constructor
+    def session(self): 
+        # *arg and **kwags maybe here
         """trying to not call self.cursor_1 here again"""
         # d_2=Database()
         # ch_1=d_2.try_connection("localhost", "root", config("mysql_pass"))
@@ -56,7 +58,7 @@ class Cli:
         session_type_record=self.cursor_1.fetchall()
         for i in session_type_record:
             self.session_type_id=i[0]
-
+        #list comp maybe
 
         course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
 
@@ -66,6 +68,8 @@ class Cli:
         course_id_record=self.cursor_1.fetchall()
         for i in course_id_record:
             self.course_id=i[0]
+                #list comp maybe
+
         self.session_dict["course_id"]=self.course_id
         self.session_dict["session_type_id"]=self.session_type_id
 
@@ -85,6 +89,8 @@ class Cli:
             session_id_record=self.cursor_1.fetchall()
             for i in session_id_record:
                 self.session_id=i[0]
+                #list comp maybe
+
             print(f"{self.session_id} is the session id")
             ch_1.commit()
         except mysql.connector.Error as err:
@@ -99,6 +105,7 @@ class Cli:
 # update the new row using update with data here in python - pretty sure this part is almost done unless I need to use update vs insert
 
     def round(self):
+        #*arg and **kwags maybe here
         if self.session_type_name=="round":
             self.round_list=[]
             self.round_dict={}
@@ -151,6 +158,7 @@ class Cli:
             # id should be cascaded here
             #round would have a number that would be in this table
     def practice(self):
+        #*arg and **kwags maybe here
         if self.session_type_name=="practice":
             # how do I change the data when I did something wrong?
             try:
@@ -180,6 +188,8 @@ class Cli:
                 self.cursor_1.execute(shot_type_query, (self.practice_shot_type, ))
 
                 shot_type_record=self.cursor_1.fetchall()
+
+                #not sure where to put a lambda. But, I can probably put this as a list comp again
                 for i in shot_type_record:
                     self.practice_shot_type_id=i[0]
 

@@ -100,11 +100,11 @@ class Database:
                     if list==stat_list:
                         self.cursor_1.execute(stat_insert_query, element)
             ch_1.commit()
-            print("trying")
         except mysql.connector.Error as err: # try to find a more specific error 
             print(err) # maybe general database error. look for the type of expection
 
         try:
+            #list comprehension maybe
             for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
             session_type_insert_query):
                 self.cursor_1.execute(query)
