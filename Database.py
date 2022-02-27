@@ -5,13 +5,19 @@ import mysql.connector
 from mysql.connector import Error
 from sqlalchemy import create_engine
 import pymysql
-from Data_Cleaner import Data_Cleaner
+# from Data_Cleaner import Data_Cleaner
 import os
 
 class Database:
-    def __init__(self):
+    def __init__(self,c):
         self.cwd=os.getcwd()
         self.path="Documents\codingnomads\python_capstone"
+        self.rank_list=c.get_rank_list()
+        self.stat_list=c.get_stat_list()
+        self.pga_player_list=c.get_pga_player_list()
+        self.lpga_player_list=c.get_lpga_player_list()
+        
+
 
     def try_connection(self, host_name, user_name, user_password):
         connection = None
@@ -25,6 +31,12 @@ class Database:
             print(f"The error '{e}' occurred")
 
         return connection
+
+    @classmethod
+    def connection(cls,ch_1 ):
+        cls.ch_1=ch_1
+
+
 
     def try_connection_db(self, host_name, user_name, user_password , db_name):
         connection = None
@@ -43,37 +55,14 @@ class Database:
 
 
     def create_connection(self):
-        self.cursor_1 = ch_1.cursor() 
+        self.cursor_1 = self.ch_1.cursor() 
 
     def create_connection_db(self):
-        self.cursor_2 = ch_2.cursor()
+        self.cursor_2 = self.ch_2.cursor()
 
-    # def read_file(self):
-    #     file=open(os.path.join(self.cwd, self.path, f"queries.sql"), 'r')
-
-    #     query_file=file.read()
-    #     file.close()
-    #     sqlCommands=query_file.split(";")
-    #     for command in sqlCommands:
-    #         try:
-    #             self.cursor_1.execute(command)
-    #         except OperationalError  as msg:
-    #             print(f"Command skipped:  {msg}") 
-    #     ch_1.commit()
 
 
     def insert_file(self):
-        # file=open(os.path.join(self.cwd, self.path, f"insert_queries_v2.sql"), 'r')
-        
-        # query_file=file.read()
-        # file.close()
-
-        # sqlCommands=query_file.split(";")
-        # for command in sqlCommands:
-        #     try:
-        #         self.cursor_1.execute(command)
-        #     except OperationalError as msg:
-        #         print(f"Command skipped:  {msg}") 
 
         try: #don't need this
             lpga_insert_query="CALL GOLF.INSERT_LPGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
@@ -91,15 +80,15 @@ class Database:
 
         
 
-            for list in (lpga_player_list, pga_player_list, stat_list):
+            for list in (self.lpga_player_list, self.pga_player_list, self.stat_list):
                 for element in list: #put try except here
-                    if list==lpga_player_list:
+                    if list==self.lpga_player_list:
                         self.cursor_1.execute(lpga_insert_query, element)
-                    if list==pga_player_list:
+                    if list==self.pga_player_list:
                         self.cursor_1.execute(pga_insert_query, element)
-                    if list==stat_list:
+                    if list==self.stat_list:
                         self.cursor_1.execute(stat_insert_query, element)
-            ch_1.commit()
+            self.ch_1.commit()
         except mysql.connector.Error as err: # try to find a more specific error 
             print(err) # maybe general database error. look for the type of expection
 
@@ -108,17 +97,9 @@ class Database:
             for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
             session_type_insert_query):
                 self.cursor_1.execute(query)
-                ch_1.commit()
+                self.ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
-
-
-    # def insert_cli_data(self):
-    #     pass
-    #     round_insert_query="CALL GOLF.INSERT_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
-    #     practice_insert_query="CALL GOLF.INSERT_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s)"
-    #     session_insert_query="CALL GOLF.INSERT_SESSION(%(session_id)s,%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s)"
-    #     distance_tracking_insert_query="CALL GOLF.INSERT_DISTANCE_TRACKING(%(date)s, %(club_id)s, %(distance)s)"
 
 
 
@@ -133,27 +114,24 @@ class Database:
 
 
 
-c=Data_Cleaner()
-c.clean_stat_data()
-c.clean_rank_data()
-c.clean_pga_player_data()
-c.clean_lpga_player_data()
+# c=Data_Cleaner()
+# c.clean_stat_data()
+# c.clean_rank_data()
+# c.clean_pga_player_data()
+# c.clean_lpga_player_data()
 
-rank_list=c.get_rank_list()
-stat_list=c.get_stat_list()
-pga_player_list=c.get_pga_player_list()
-lpga_player_list=c.get_lpga_player_list()
+# rank_list=c.get_rank_list()
+# stat_list=c.get_stat_list()
+# pga_player_list=c.get_pga_player_list()
+# lpga_player_list=c.get_lpga_player_list()
 
-d=Database()
+# d=Database()
 
-ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
+# ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
 # ch_2=d.try_connection_db("localhost", "root", config("mysql_pass"), "golf")
 
 # engine = create_engine(f"mysql+pymysql://root:{config('mysql_pass')}@localhost/golf")
-d.create_connection()
+# d.create_connection()
 # d.create_connection_db()
-# d.read_file()
-d.insert_file()
+# d.insert_file()
 #d.create_database()
-#d.create_table()
-#d.insert_data()

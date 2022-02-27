@@ -1,5 +1,7 @@
 CREATE DATABASE IF NOT EXISTS golf;
+
 USE GOLF;
+
 CREATE TABLE IF NOT EXISTS stat 
         (
         id VARCHAR(255),
@@ -13,6 +15,7 @@ CREATE TABLE IF NOT EXISTS stat
         scrambling_pct FLOAT(4), 
         world_rank INT(4),
         PRIMARY KEY(id));
+
 CREATE TABLE IF NOT EXISTS pga_player
         (
         id VARCHAR(255),
@@ -25,6 +28,7 @@ CREATE TABLE IF NOT EXISTS pga_player
         birth_place VARCHAR(255),
         college VARCHAR(255), 
         PRIMARY KEY(id));
+
 CREATE TABLE IF NOT EXISTS lpga_player
         (
         id VARCHAR(255),
@@ -37,6 +41,7 @@ CREATE TABLE IF NOT EXISTS lpga_player
         birth_place VARCHAR(255),
         college VARCHAR(255), 
         PRIMARY KEY(id));
+
 CREATE TABLE IF NOT EXISTS round 
         (
         id INT(10) AUTO_INCREMENT,
@@ -49,6 +54,7 @@ CREATE TABLE IF NOT EXISTS round
         proximity_to_hole FLOAT(5), 
         scramble INT(1),
         PRIMARY KEY(id));
+
 CREATE TABLE IF NOT EXISTS practice 
         (
         id INT(10) AUTO_INCREMENT,
@@ -59,6 +65,7 @@ CREATE TABLE IF NOT EXISTS practice
         distance FLOAT(5),
         club_id INT(5),
         PRIMARY KEY(session_id));
+
 CREATE TABLE IF NOT EXISTS golf_course 
         (
         id INT(5) AUTO_INCREMENT,
@@ -66,6 +73,7 @@ CREATE TABLE IF NOT EXISTS golf_course
         UNIQUE(course_name),
         hole INT(2), 
         PRIMARY KEY(id));
+
 CREATE TABLE IF NOT EXISTS self_session
         (
             session_id INT(10) AUTO_INCREMENT, 
@@ -75,24 +83,28 @@ CREATE TABLE IF NOT EXISTS self_session
             notes LONGTEXT, 
             goals LONGTEXT, 
             PRIMARY KEY(session_id));
+
 CREATE TABLE IF NOT EXISTS session_type 
         (
         session_type_id INT(2) AUTO_INCREMENT,
         name VARCHAR(255), 
         UNIQUE(name),
         PRIMARY KEY(session_type_id));
+
 CREATE TABLE IF NOT EXISTS stat_type 
         (
         stat_id INT(4) AUTO_INCREMENT,
         name VARCHAR(255), 
         UNIQUE(name),
         PRIMARY KEY(stat_id));
+
 CREATE TABLE IF NOT EXISTS shot_type 
         (
         shot_type_id INT(3) AUTO_INCREMENT,
         name VARCHAR(255), 
         UNIQUE(name),
         PRIMARY KEY(shot_id));
+
 CREATE TABLE IF NOT EXISTS distance_tracking
         (
         id INT(7) AUTO_INCREMENT,
@@ -100,6 +112,7 @@ CREATE TABLE IF NOT EXISTS distance_tracking
         club_id VARCHAR(255),
         distance FLOAT(5),
         PRIMARY KEY(id));
+        
 CREATE TABLE IF NOT EXISTS club
         (
         club_id INT(5) AUTO_INCREMENT,

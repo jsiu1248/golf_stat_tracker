@@ -11,11 +11,31 @@ import uuid
 from sqlalchemy import create_engine
 import pymysql
 from Cli import Cli
+from File_Reader import File_Reader
+from Data_Cleaner import Data_Cleaner
 from Database import *
 def Run_App():
     pass
+    # pull=Api()
+    # pull.api()
+    r=File_Reader()
+    r.read_files()
+    fd=r.get_file_dict()
 
-    me=Cli()
+    c=Data_Cleaner(r, fd)
+    c.clean_stat_data()
+    c.clean_rank_data()
+    c.clean_pga_player_data()
+    c.clean_lpga_player_data()
+
+    d=Database(c)
+    ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
+    d_2=Database(c)
+    d_2.connection(ch_1)
+    d_2.create_connection()
+    d_2.insert_file()
+
+    me=Cli(ch_1)
 
     me.session()
     #me.session_type()
@@ -82,3 +102,7 @@ How to insert the data and call it? - low
 
 #pull request
 #testing 
+#static method - don't use self or cls
+#*args pass a variable positional arguements not list, but tuple
+#* unpacks iterables ** unpacks dictionaries
+

@@ -1,4 +1,5 @@
 USE GOLF;
+
 DROP PROCEDURE IF EXISTS insert_stat;
 CREATE PROCEDURE insert_stat
 (
@@ -17,6 +18,8 @@ INSERT IGNORE INTO golf.stat
     (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
 VALUES
     (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank);
+
+
 DROP PROCEDURE IF EXISTS insert_pga_player;
 CREATE PROCEDURE insert_pga_player
 (
@@ -34,6 +37,8 @@ INSERT IGNORE INTO golf.pga_player
     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
 VALUES
     (id, first_name, last_name, height, birthday, country, residence, birth_place, college);
+
+
 DROP PROCEDURE IF EXISTS insert_lpga_player;
 CREATE PROCEDURE insert_lpga_player
 (
@@ -51,6 +56,8 @@ INSERT IGNORE INTO golf.lpga_player
     (id, first_name, last_name, height, birthday, country, residence, birth_place, college)
 VALUES
     (id, first_name, last_name, height, birthday, country, residence, birth_place, college);
+
+
 DROP PROCEDURE IF EXISTS insert_golf_course;
 CREATE PROCEDURE insert_golf_course
 (
@@ -61,6 +68,8 @@ INSERT IGNORE INTO golf.golf_course
     (course_name, hole)
 VALUES
     (course_name, hole);
+
+
 DROP PROCEDURE IF EXISTS insert_session_type;
 CREATE PROCEDURE insert_session_type
 (
@@ -69,6 +78,8 @@ INSERT IGNORE INTO golf.session_type
     (name)
 VALUES
     ('round'),('practice');
+
+
 DROP PROCEDURE IF EXISTS insert_stat_type;
 CREATE PROCEDURE insert_stat_type
 (
@@ -77,6 +88,8 @@ INSERT IGNORE INTO golf.stat_type
     (name)
 VALUES
     ('driving_distance'),('green_in_regulation'),('total_score'),('putts'),('fairway_hit'),('proximity_to_hole'),('scramble');
+
+
 DROP PROCEDURE IF EXISTS insert_shot_type;
 CREATE PROCEDURE insert_shot_type
 (
@@ -85,6 +98,8 @@ INSERT IGNORE INTO golf.shot_type
     (name)
 VALUES
     ('sand'), ('chip'), ('pitch'), ('drive'), ('iron'), ('putt');
+
+
 DROP PROCEDURE IF EXISTS insert_round;
 CREATE PROCEDURE insert_round
 (
@@ -101,6 +116,8 @@ INSERT IGNORE INTO golf.round
     (session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble)
 VALUES
     (session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble);
+
+
 DROP PROCEDURE IF EXISTS insert_practice;
 CREATE PROCEDURE insert_practice
 (
@@ -116,6 +133,8 @@ INSERT IGNORE INTO golf.practice
     (session_id, shot_type_id, success, total, distance, club_id)
 VALUES
     (session_id, shot_type_id, success, total, distance, club_id);
+
+
 DROP PROCEDURE IF EXISTS insert_session;
 CREATE PROCEDURE insert_session
 (
@@ -129,6 +148,8 @@ INSERT IGNORE INTO golf.self_session
     ( session_type_id, course_id, date, notes, goals)
 VALUES
     ( session_type_id, course_id, date, notes, goals);
+
+
 DROP PROCEDURE IF EXISTS insert_distance_tracking;
 CREATE PROCEDURE insert_distance_tracking
 (        
@@ -140,6 +161,8 @@ INSERT IGNORE INTO golf.distance_tracking
     (date, club_id, distance)
 VALUES
     (date, club_id, distance);
+
+    
 DROP PROCEDURE IF EXISTS insert_club;
 CREATE PROCEDURE insert_club
 (

@@ -9,8 +9,8 @@ from Database import *
 
 
 class Cli:
-    def __init__(self):
-        pass
+    def __init__(self,ch_1):
+        self.ch_1=ch_1
     # maybe some things can be added to the constructor
     def session(self): 
         # *arg and **kwags maybe here
@@ -18,7 +18,7 @@ class Cli:
         # d_2=Database()
         # ch_1=d_2.try_connection("localhost", "root", config("mysql_pass"))
         # d_2.create_connection()
-        self.cursor_1 = ch_1.cursor() 
+        self.cursor_1 = self.ch_1.cursor() 
         try:
             self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
         except ValueError:
@@ -34,7 +34,7 @@ class Cli:
             self.golf_course_dict["course_name"]=self.round_course
             self.golf_course_dict["hole"]=self.hole
             self.cursor_1.execute(golf_course_insert_query, self.golf_course_dict)
-            ch_1.commit()
+            self.ch_1.commit()
 
 
         elif self.new_course == "no":
@@ -77,7 +77,7 @@ class Cli:
         try:
             session_insert_query="CALL GOLF.INSERT_SESSION(%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s);"
             self.cursor_1.execute(session_insert_query, self.session_dict)
-            ch_1.commit()
+            self.ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
 
@@ -92,9 +92,13 @@ class Cli:
                 #list comp maybe
 
             print(f"{self.session_id} is the session id")
-            ch_1.commit()
+            self.ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
+        if self.session_type_name=="round":
+            Cli.round(self)
+        if self.session_type_name=="practice":
+            Cli.practice(self)
 
 
 #invalid use of group gunction
@@ -106,7 +110,6 @@ class Cli:
 
     def round(self):
         #*arg and **kwags maybe here
-        if self.session_type_name=="round":
             self.round_list=[]
             self.round_dict={}
             try:
@@ -140,7 +143,7 @@ class Cli:
                 round_insert_query="CALL GOLF.insert_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
                 for element in self.round_list:
                         self.cursor_1.execute(round_insert_query, element)
-                ch_1.commit()
+                self.ch_1.commit()
             except mysql.connector.Error as err:
                 print(err)
 
@@ -156,10 +159,8 @@ class Cli:
             
             #insert data here if round
             # id should be cascaded here
-            #round would have a number that would be in this table
     def practice(self):
         #*arg and **kwags maybe here
-        if self.session_type_name=="practice":
             # how do I change the data when I did something wrong?
             try:
                 self.num_type=int(input("How many types of shots were you try this time?"))
@@ -219,12 +220,11 @@ class Cli:
                     practice_insert_query="CALL GOLF.insert_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s);"
                     for element in self.practice_list:
                         self.cursor_1.execute(practice_insert_query, element)
-                    ch_1.commit()
+                    self.ch_1.commit()
             except mysql.connector.Error as err:
                 print(err)
 
             self.df_practice=pd.DataFrame(self.practice_list)
-
 
 
 

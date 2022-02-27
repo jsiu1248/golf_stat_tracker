@@ -3,10 +3,10 @@ from mysql.connector import Error
 from datetime import datetime 
 import pandas as pd
 from sqlalchemy import create_engine
-from File_Reader import File_Reader
+# from File_Reader import File_Reader
 
 class Data_Cleaner():
-    def __init__(self):
+    def __init__(self,r, fd):
 
 #how to make this into arguments
         # for i in ["rank","stat","pga_player","lpga_player"]:
@@ -20,11 +20,12 @@ class Data_Cleaner():
         self.lpga_player_list=[]
         self.lpga_tounament_dict={}
         self.lpga_tounament_list=[]
+        self.fd=fd
 
 
 
     def clean_rank_data(self):
-        for rank_element in fd["ranking_data"]["players"]:
+        for rank_element in self.fd["ranking_data"]["players"]:
             for element in ("id","rank"):
                 self.rank_dict[element]=rank_element[element]
 
@@ -33,7 +34,7 @@ class Data_Cleaner():
         #print(self.rank_list)
     def clean_stat_data(self):
         self.stat="statistics"
-        for stat_element in fd["stat_data"]["players"]:
+        for stat_element in self.fd["stat_data"]["players"]:
             for element in (['id'],(self.stat,'earnings'),(self.stat,'drive_avg'),
             (self.stat,'gir_pct'),(self.stat,'putt_avg'),(self.stat,'sand_saves_pct'),(self.stat,'birdies_per_round'),
             (self.stat,'hole_proximity_avg'),(self.stat,'scrambling_pct'),(self.stat,'world_rank')):
@@ -58,7 +59,7 @@ class Data_Cleaner():
 
         #print(self.stat_list)
     def clean_pga_player_data(self):
-        for pga_player_element in fd["pga_player_data"]["players"]:
+        for pga_player_element in self.fd["pga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
                 try:
                     if element[0]=="birthday":
@@ -74,7 +75,7 @@ class Data_Cleaner():
         #return self.pga_player_list
         # print(self.pga_player_list)
     def clean_lpga_player_data(self):
-        for lpga_player_element in fd["lpga_player_data"]["players"]:
+        for lpga_player_element in self.fd["lpga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
 
                 try:
@@ -92,7 +93,7 @@ class Data_Cleaner():
         # return self.lpga_player_list
         # print(self.lpga_player_list)
     def clean_lpga_tournament_data(self):
-        for lpga_tournament_element in fd["lpga_tournament_data"]["tournaments"]:
+        for lpga_tournament_element in self.fd["lpga_tournament_data"]["tournaments"]:
             print(lpga_tournament_element)
     def get_rank_list(self):
         return self.rank_list
@@ -106,6 +107,3 @@ class Data_Cleaner():
         #getters and setters
         #can be encapsulated like properties
 
-r=File_Reader()
-r.read_files()
-fd=r.get_file_dict()
