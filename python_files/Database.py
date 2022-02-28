@@ -1,0 +1,137 @@
+from distutils.util import execute
+from sqlite3 import OperationalError
+from decouple import config
+import mysql.connector
+from mysql.connector import Error
+from sqlalchemy import create_engine
+import pymysql
+# from Data_Cleaner import Data_Cleaner
+import os
+
+class Database:
+    def __init__(self,c):
+        self.cwd=os.getcwd()
+        self.path="Documents\codingnomads\python_capstone"
+        self.rank_list=c.get_rank_list()
+        self.stat_list=c.get_stat_list()
+        self.pga_player_list=c.get_pga_player_list()
+        self.lpga_player_list=c.get_lpga_player_list()
+        
+
+
+    def try_connection(self, host_name, user_name, user_password):
+        connection = None
+        try:
+            connection = mysql.connector.connect(
+                host=host_name,
+                user=user_name,
+                passwd=user_password)
+            print("Connection to MySQL DB successful")
+        except Error as e:
+            print(f"The error '{e}' occurred")
+
+        return connection
+
+    @classmethod
+    def connection(cls,ch_1 ):
+        cls.ch_1=ch_1
+
+
+
+    def try_connection_db(self, host_name, user_name, user_password , db_name):
+        connection = None
+        try:
+            connection = mysql.connector.connect(
+                host=host_name,
+                user=user_name,
+                passwd=user_password,
+                database=db_name)
+            print("Connection to MySQL DB successful")
+        except Error as e:
+            print(f"The error '{e}' occurred")
+
+        return connection
+
+
+
+    def create_connection(self):
+        self.cursor_1 = self.ch_1.cursor() 
+
+    def create_connection_db(self):
+        self.cursor_2 = self.ch_2.cursor()
+
+
+
+    def insert_file(self):
+
+        try: #don't need this
+            lpga_insert_query="CALL GOLF.INSERT_LPGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
+            pga_insert_query="CALL GOLF.INSERT_PGA_PLAYER(%(id)s, %(first_name)s, %(last_name)s, %(height)s, %(birthday)s, %(country)s, %(residence)s, %(birth_place)s, %(college)s);"
+            stat_insert_query="CALL GOLF.INSERT_STAT(%(id)s, %(earnings)s, %(drive_avg)s, %(gir_pct)s, %(putt_avg)s, %(sand_saves_pct)s, %(birdies_per_round)s, %(hole_proximity_avg)s, %(scrambling_pct)s, %(world_rank)s);"
+            golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
+
+            session_type_insert_query="CALL GOLF.INSERT_SESSION_TYPE;"
+            stat_type_insert_query="CALL GOLF.INSERT_STAT_TYPE;"
+            shot_type_insert_query="CALL GOLF.INSERT_SHOT_TYPE;"
+            club_insert_query="CALL GOLF.INSERT_CLUB;"
+
+
+
+
+        
+
+            for list in (self.lpga_player_list, self.pga_player_list, self.stat_list):
+                for element in list: #put try except here
+                    if list==self.lpga_player_list:
+                        self.cursor_1.execute(lpga_insert_query, element)
+                    if list==self.pga_player_list:
+                        self.cursor_1.execute(pga_insert_query, element)
+                    if list==self.stat_list:
+                        self.cursor_1.execute(stat_insert_query, element)
+            self.ch_1.commit()
+        except mysql.connector.Error as err: # try to find a more specific error 
+            print(err) # maybe general database error. look for the type of expection
+
+        try:
+            #list comprehension maybe
+            for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
+            session_type_insert_query):
+                self.cursor_1.execute(query)
+                self.ch_1.commit()
+        except mysql.connector.Error as err:
+            print(err)
+
+
+
+        #make sure the type is correct to prevent sql injection
+        #strings not invalid characters
+        #stop it and give me something else
+#actually shouldn't do it this way because all of it would execute all of the time. 
+
+
+
+
+
+
+
+# c=Data_Cleaner()
+# c.clean_stat_data()
+# c.clean_rank_data()
+# c.clean_pga_player_data()
+# c.clean_lpga_player_data()
+
+# rank_list=c.get_rank_list()
+# stat_list=c.get_stat_list()
+# pga_player_list=c.get_pga_player_list()
+# lpga_player_list=c.get_lpga_player_list()
+
+# d=Database()
+
+# ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
+# ch_2=d.try_connection_db("localhost", "root", config("mysql_pass"), "golf")
+
+# engine = create_engine(f"mysql+pymysql://root:{config('mysql_pass')}@localhost/golf")
+# d.create_connection()
+# d.create_connection_db()
+# d.insert_file()
+#d.create_database()
