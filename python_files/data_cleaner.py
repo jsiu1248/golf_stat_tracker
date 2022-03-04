@@ -10,8 +10,8 @@ class Data_Cleaner():
 
 #how to make this into arguments
         # for i in ["rank","stat","pga_player","lpga_player"]:
-        self.rank_dict={}
-        self.rank_list=[]
+        # self.rank_dict={}
+        # self.rank_list=[]
         self.stat_dict={}
         self.stat_list=[]
         self.pga_player_dict={}
@@ -24,12 +24,12 @@ class Data_Cleaner():
 
 
 
-    def clean_rank_data(self):
-        for rank_element in self.fd["ranking_data"]["players"]:
-            for element in ("id","rank"):
-                self.rank_dict[element]=rank_element[element]
+    # def clean_rank_data(self):
+    #     for rank_element in self.fd["ranking_data"]["players"]:
+    #         for element in ("id","rank"):
+    #             self.rank_dict[element]=rank_element[element]
 
-            self.rank_list.append(self.rank_dict.copy())
+    #         self.rank_list.append(self.rank_dict.copy())
         # return self.rank_list
         #print(self.rank_list)
     def clean_stat_data(self):
@@ -95,8 +95,8 @@ class Data_Cleaner():
     def clean_lpga_tournament_data(self):
         for lpga_tournament_element in self.fd["lpga_tournament_data"]["tournaments"]:
             print(lpga_tournament_element)
-    def get_rank_list(self):
-        return self.rank_list
+    # def get_rank_list(self):
+    #     return self.rank_list
 
     def get_stat_list(self):
         return self.stat_list

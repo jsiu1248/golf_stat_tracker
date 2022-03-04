@@ -7,7 +7,7 @@ from Url import url
 class File_Reader():
     def __init__(self):
         self.cwd=os.getcwd()
-        self.path="Documents\codingnomads\python_capstone"
+        self.path="Documents\codingnomads\python_capstone\data"
 
     def read_files(self):
         self.file_dict={}

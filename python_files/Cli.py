@@ -11,9 +11,11 @@ from Database import *
 class Cli:
     def __init__(self,ch_1):
         self.ch_1=ch_1
+        #You can pass a few things here to set some of the classes self variables ####
     # maybe some things can be added to the constructor
     def session(self): 
         # *arg and **kwags maybe here
+        #This is a possibility, but I'd like to hear from you what you think can be *args/**kwargs in this function :)
         """trying to not call self.cursor_1 here again"""
         # d_2=Database()
         # ch_1=d_2.try_connection("localhost", "root", config("mysql_pass"))
@@ -56,9 +58,14 @@ class Cli:
 
         self.cursor_1.execute(session_type_code_query, (self.session_type_name,  ))
         session_type_record=self.cursor_1.fetchall()
-        for i in session_type_record:
-            self.session_type_id=i[0]
+        # for i in session_type_record:
+        self.session_type_id=session_type_record[0][0]
+        print(self.session_type_id)
         #list comp maybe
+
+        #Some of your session_dict and other dictionary additions could possibly be consolidated into a function that takes user input, and if it gets an invalid format, can tell the user such and then try again without stopping the whole CLI. I noticed this in line ~46 that a try/except would just skip goals and notes.
+
+#This function could be general and take arguments like a **kwargs where each key is the key in the dict you want to return results for, and the value might be a tuple of (prompt, type_expected) like ("Did you have notes? ", str). We can talk about this more on the next call
 
         course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
 
@@ -81,7 +88,7 @@ class Cli:
         except mysql.connector.Error as err:
             print(err)
 
-
+#Yes, I think so! What might that look like? list comp
         try:
             session_id_query="SELECT DISTINCT session_id from golf.self_session WHERE session_id=(SELECT MAX(session_id) FROM GOLF.SELF_SESSION);"
             self.cursor_1.execute(session_id_query)
@@ -90,7 +97,7 @@ class Cli:
             for i in session_id_record:
                 self.session_id=i[0]
                 #list comp maybe
-
+#Actually I'm not sure why this is here. Why is the same variable assigned multiple times? It only keeps the last value assigned to it. Is that desired?
             print(f"{self.session_id} is the session id")
             self.ch_1.commit()
         except mysql.connector.Error as err:

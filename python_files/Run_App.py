@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 import pymysql
 from Cli import Cli
 from File_Reader import File_Reader
-from Data_Cleaner import Data_Cleaner
+from data_cleaner import Data_Cleaner
 from Database import *
 def Run_App():
     pass
@@ -24,7 +24,7 @@ def Run_App():
 
     c=Data_Cleaner(r, fd)
     c.clean_stat_data()
-    c.clean_rank_data()
+#     c.clean_rank_data()
     c.clean_pga_player_data()
     c.clean_lpga_player_data()
 
@@ -52,9 +52,7 @@ run=Run_App()
 
 #plotly - low
 """
-How to put the database instances in the right place? - low 
 
-How to insert the data and call it? - low 
         self.rank_dict={}
         self.rank_list=[]
         self.stat_dict={}
@@ -96,7 +94,6 @@ How to insert the data and call it? - low
 # decorators
 # list comp
 # generator
-# lambda function
 # testing
 # inheritance
 
