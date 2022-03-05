@@ -58,9 +58,7 @@ class Cli:
 
         self.cursor_1.execute(session_type_code_query, (self.session_type_name,  ))
         session_type_record=self.cursor_1.fetchall()
-        # for i in session_type_record:
         self.session_type_id=session_type_record[0][0]
-        print(self.session_type_id)
         #list comp maybe
 
         #Some of your session_dict and other dictionary additions could possibly be consolidated into a function that takes user input, and if it gets an invalid format, can tell the user such and then try again without stopping the whole CLI. I noticed this in line ~46 that a try/except would just skip goals and notes.
@@ -73,8 +71,8 @@ class Cli:
         self.cursor_1.execute(course_id_query, (self.round_course, ))
 
         course_id_record=self.cursor_1.fetchall()
-        for i in course_id_record:
-            self.course_id=i[0]
+        self.course_id_record=course_id_record[0][0]
+
                 #list comp maybe
 
         self.session_dict["course_id"]=self.course_id
@@ -94,10 +92,8 @@ class Cli:
             self.cursor_1.execute(session_id_query)
 
             session_id_record=self.cursor_1.fetchall()
-            for i in session_id_record:
-                self.session_id=i[0]
+            self.session_id=session_id_record[0][0]
                 #list comp maybe
-#Actually I'm not sure why this is here. Why is the same variable assigned multiple times? It only keeps the last value assigned to it. Is that desired?
             print(f"{self.session_id} is the session id")
             self.ch_1.commit()
         except mysql.connector.Error as err:
@@ -198,8 +194,7 @@ class Cli:
                 shot_type_record=self.cursor_1.fetchall()
 
                 #not sure where to put a lambda. But, I can probably put this as a list comp again
-                for i in shot_type_record:
-                    self.practice_shot_type_id=i[0]
+                self.practice_shot_type_id=shot_type_record[0][0]
 
                 self.session_dict["course_id"]=self.course_id
 
@@ -215,8 +210,7 @@ class Cli:
                 self.cursor_1.execute(club_query, (self.practice_club, ))
 
                 club_record=self.cursor_1.fetchall()
-                for i in club_record:
-                    self.practice_club_id=i[0]
+                self.practice_club_id=club_record[0][0]
 
 
                 self.practice_dict['club_id']=self.practice_club_id
