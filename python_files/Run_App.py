@@ -44,12 +44,13 @@ def Run_App():
     # me.insert_data_round()
 
     g=Graph(ch_1)
-    g.putting_distance_accuracy()
+#     g.putting_distance_accuracy()
 #     g.earnings()
 #     g.gir_pct()
 #     g.drive_avg()
 #     g.sand_saves_pct()
 #     g.avg_putting()
+    g.score()
 
 run=Run_App()
 

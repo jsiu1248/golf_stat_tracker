@@ -1,4 +1,3 @@
-from msilib.schema import Class
 import plotly.express as px
 from Database import *
 import pandas as pd
@@ -19,12 +18,15 @@ class Graph:
 #I need to add title
 
         putting_distance_accurary_graph_df=pd.read_sql(self.practice_graph_query, self.ch_1)
-        putting_distance_accurary_graph_df_select=putting_distance_accurary_graph_df[["SHOT_TYPE_ID","SUCCESS","TOTAL","DISTANCE","CLUB_ID"]]
-        putting_distance_accurary_graph_df_clean = putting_distance_accurary_graph_df_select[putting_distance_accurary_graph_df_select["SHOT_TYPE_ID"]==2]
+        putting_distance_accurary_graph_df_select=putting_distance_accurary_graph_df[["DATE","SHOT_TYPE_NAME","SUCCESS","TOTAL","DISTANCE","CLUB_NAME"]]
+        putting_distance_accurary_graph_df_select["ACCURACY"] =  round(putting_distance_accurary_graph_df_select["SUCCESS"] / putting_distance_accurary_graph_df_select["TOTAL"],2)
+        putting_distance_accurary_graph_df_clean = putting_distance_accurary_graph_df_select[putting_distance_accurary_graph_df_select["SHOT_TYPE_NAME"]=="chip"]
+        #change this so that it actually uses putting
+
         print(putting_distance_accurary_graph_df_clean)
-        # putting_distance_accurary_graph_df.sort_values(by="world_rank", ascending=True)
-        # putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df, x="world_rank", y="putt_avg", )
-        # putting_distance_accuracy_fig.show()
+        putting_distance_accurary_graph_df.sort_values(by="DATE", ascending=True)
+        putting_distance_accuracy_fig = px.line(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY" )
+        putting_distance_accuracy_fig.show()
 #actually need to change this data
 
     def earnings(self):
@@ -75,7 +77,6 @@ class Graph:
 #score tracking
 #average putting per round
 #proximity to hold
-#avg putting
     def avg_putting(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
@@ -83,7 +84,18 @@ class Graph:
 
         avg_putting_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         avg_putting_graph_df.sort_values(by="world_rank", ascending=True)
-        avg_putting_fig = px.scatter(avg_putting_graph_df, x="world_rank", y="putt_avg", )
+        avg_putting_fig = px.scatter(avg_putting_graph_df, x="world_rank", y="putt_avg")
         avg_putting_fig.show()
 
 
+    def score(self):
+        # average_score_graph_query="CALL GOLF.average_score_GRAPH;"
+
+#I need to add title
+
+        score_graph_df=pd.read_sql(self.round_graph_query, self.ch_1)
+        score_graph_df_select=score_graph_df[["SESSION_ID","SCORE","DATE"]]
+        # #change this so that it actually uses putting
+        score_graph_df_clean=score_graph_df_select.groupby([score_graph_df_select.SESSION_ID, "DATE"]).sum()
+        score_fig = px.bar(score_graph_df_clean, x=score_graph_df_clean.index, y="SCORE")
+        # score_fig.show()
