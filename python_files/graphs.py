@@ -8,6 +8,9 @@ class Graph:
         self.ch_1=ch_1
         self.cursor_1 = self.ch_1.cursor() 
         self.pga_graph_query="SELECT * from golf.pga_data;"
+        self.round_graph_query='SELECT * FROM golf.round_data;'
+        self.practice_graph_query='SELECT * FROM golf.practice_data;'
+   
 
 
     def putting_distance_accuracy(self):
@@ -15,11 +18,14 @@ class Graph:
 
 #I need to add title
 
-        putting_distance_accurary_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
-        putting_distance_accurary_graph_df.sort_values(by="world_rank", ascending=True)
-        putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df, x="world_rank", y="putt_avg", )
-        putting_distance_accuracy_fig.show()
-
+        putting_distance_accurary_graph_df=pd.read_sql(self.practice_graph_query, self.ch_1)
+        putting_distance_accurary_graph_df_select=putting_distance_accurary_graph_df[["SHOT_TYPE_ID","SUCCESS","TOTAL","DISTANCE","CLUB_ID"]]
+        putting_distance_accurary_graph_df_clean = putting_distance_accurary_graph_df_select[putting_distance_accurary_graph_df_select["SHOT_TYPE_ID"]==2]
+        print(putting_distance_accurary_graph_df_clean)
+        # putting_distance_accurary_graph_df.sort_values(by="world_rank", ascending=True)
+        # putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df, x="world_rank", y="putt_avg", )
+        # putting_distance_accuracy_fig.show()
+#actually need to change this data
 
     def earnings(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
@@ -28,7 +34,7 @@ class Graph:
 
         earnings_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         earnings_graph_df.sort_values(by="world_rank", ascending=True)
-        earnings_fig = px.scatter(earnings_graph_df, x="world_rank", y="earnings", hover_data=["first_name", "last_name","earnings"])
+        earnings_fig = px.scatter(earnings_graph_df, x="world_rank", y="earnings", color="country",size='earnings', hover_data=["first_name", "last_name","earnings"])
         earnings_fig.show()
 
     def gir_pct(self):
@@ -61,6 +67,23 @@ class Graph:
         sand_saves_pct_fig = px.scatter(sand_saves_pct_graph_df, x="world_rank", y="sand_saves_pct", hover_data=["first_name", "last_name","sand_saves_pct"])
         sand_saves_pct_fig.show()
 
+#personal fairway
 
+#average scores
+
+#distance tracking
+#score tracking
+#average putting per round
+#proximity to hold
+#avg putting
+    def avg_putting(self):
+        # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
+
+#I need to add title
+
+        avg_putting_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
+        avg_putting_graph_df.sort_values(by="world_rank", ascending=True)
+        avg_putting_fig = px.scatter(avg_putting_graph_df, x="world_rank", y="putt_avg", )
+        avg_putting_fig.show()
 
 
