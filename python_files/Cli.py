@@ -16,10 +16,6 @@ class Cli:
     def session(self): 
         # *arg and **kwags maybe here
         #This is a possibility, but I'd like to hear from you what you think can be *args/**kwargs in this function :)
-        """trying to not call self.cursor_1 here again"""
-        # d_2=Database()
-        # ch_1=d_2.try_connection("localhost", "root", config("mysql_pass"))
-        # d_2.create_connection()
         self.cursor_1 = self.ch_1.cursor() 
         try:
             self.round_course=str(input("What is the name of the course? i.e. Harding Park "))

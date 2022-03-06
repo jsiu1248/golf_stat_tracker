@@ -14,6 +14,7 @@ from Cli import Cli
 from File_Reader import File_Reader
 from data_cleaner import Data_Cleaner
 from Database import *
+from graphs import Graph
 def Run_App():
     pass
     # pull=Api()
@@ -37,10 +38,13 @@ def Run_App():
 
     me=Cli(ch_1)
 
-    me.session()
+#     me.session()
     #me.session_type()
     #me.insert_data_practice()
     # me.insert_data_round()
+
+    g=Graph(ch_1)
+    g.putting_distance_accuracy()
 
 run=Run_App()
 
