@@ -44,7 +44,11 @@ def Run_App():
     # me.insert_data_round()
 
     g=Graph(ch_1)
-    g.putting_distance_accuracy()
+#     g.putting_distance_accuracy()
+#     g.earnings()
+#     g.gir_pct()
+#     g.drive_avg()
+    g.sand_saves_pct()
 
 run=Run_App()
 
@@ -54,7 +58,6 @@ run=Run_App()
         #can be encapsulated like properties
 # date add to the files, think about if it is going to be rerunned. - low
 
-#plotly - low
 """
 
         self.rank_dict={}
