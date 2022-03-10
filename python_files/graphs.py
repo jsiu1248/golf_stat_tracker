@@ -25,7 +25,7 @@ class Graph:
 
         print(putting_distance_accurary_graph_df_clean)
         putting_distance_accurary_graph_df.sort_values(by="DATE", ascending=True)
-        putting_distance_accuracy_fig = px.line(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY" )
+        putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY" )
         putting_distance_accuracy_fig.show()
 #actually need to change this data
 
@@ -36,7 +36,7 @@ class Graph:
 
         earnings_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         earnings_graph_df.sort_values(by="world_rank", ascending=True)
-        earnings_fig = px.scatter(earnings_graph_df, x="world_rank", y="earnings", color="country",size='earnings', hover_data=["first_name", "last_name","earnings"])
+        earnings_fig = px.scatter(earnings_graph_df, x="world_rank", y="earnings",  color="country",size='earnings', hover_data=["first_name", "last_name","earnings"])
         earnings_fig.show()
 
     def gir_pct(self):
@@ -92,10 +92,13 @@ class Graph:
         # average_score_graph_query="CALL GOLF.average_score_GRAPH;"
 
 #I need to add title
-
+#maybe at the date in the future
         score_graph_df=pd.read_sql(self.round_graph_query, self.ch_1)
-        score_graph_df_select=score_graph_df[["SESSION_ID","SCORE","DATE"]]
+        score_graph_df_select=score_graph_df[["SESSION_ID","SCORE"]]
         # #change this so that it actually uses putting
-        score_graph_df_clean=score_graph_df_select.groupby([score_graph_df_select.SESSION_ID, "DATE"]).sum()
-        score_fig = px.bar(score_graph_df_clean, x=score_graph_df_clean.index, y="SCORE")
-        # score_fig.show()
+        score_graph_df_clean=score_graph_df_select.groupby([score_graph_df_select.SESSION_ID]).sum()
+        score_graph_df_clean_filtered= score_graph_df_clean[score_graph_df_clean["SCORE"]>0]
+
+        score_fig = px.bar(score_graph_df_clean_filtered, x=score_graph_df_clean.index, y="SCORE")
+        score_fig.show()
+#how to filter out the nas
