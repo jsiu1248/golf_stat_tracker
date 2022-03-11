@@ -114,3 +114,5 @@ run=Run_App()
 #* unpacks iterables ** unpacks dictionaries
 
 #add putter to club_id
+
+#maybe allow the user to make the app do different things

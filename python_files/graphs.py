@@ -74,7 +74,6 @@ class Graph:
 #average scores
 
 #distance tracking
-#score tracking
 #average putting per round
 #proximity to hold
     def avg_putting(self):

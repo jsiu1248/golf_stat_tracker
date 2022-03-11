@@ -13,6 +13,20 @@ class Cli:
         self.ch_1=ch_1
         #You can pass a few things here to set some of the classes self variables ####
     # maybe some things can be added to the constructor
+    #clean up not everything self
+    #set self at the end of method
+    #cli that only gets questions
+    #then another class to use the data 
+    #having individual roles lets me put all of the pieces together
+
+    # user ability for graphs and changing data
+    #update sql statment
+    # ONLY  access to self tables
+    #grab id to edit this
+    #how to reuse class already
+    #can reuse for inputting data 
+
+
     def session(self): 
         # *arg and **kwags maybe here
         #This is a possibility, but I'd like to hear from you what you think can be *args/**kwargs in this function :)
@@ -23,9 +37,9 @@ class Cli:
             print("Has to be text.")
 
 
-        self.session_type_name=input("Is it a round or a practice? ")
-        self.new_course=input("Is it a new course? yes or no.")
-        if self.new_course == "yes":
+        session_type_name=input("Is it a round or a practice? ")
+        new_course=input("Is it a new course? yes or no.")
+        if new_course == "yes":
             self.hole=input("How many holes? 9 or 18?")
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
             self.golf_course_dict={}
@@ -35,7 +49,7 @@ class Cli:
             self.ch_1.commit()
 
 
-        elif self.new_course == "no":
+        elif new_course == "no":
             pass
         self.session_dict={}
         self.session_dict["date"]=input("What date is it? i.e. 2021-12-30")
@@ -52,14 +66,15 @@ class Cli:
 
 
 
-        self.cursor_1.execute(session_type_code_query, (self.session_type_name,  ))
+        self.cursor_1.execute(session_type_code_query, (session_type_name,  ))
         session_type_record=self.cursor_1.fetchall()
         self.session_type_id=session_type_record[0][0]
-        #list comp maybe
 
-        #Some of your session_dict and other dictionary additions could possibly be consolidated into a function that takes user input, and if it gets an invalid format, can tell the user such and then try again without stopping the whole CLI. I noticed this in line ~46 that a try/except would just skip goals and notes.
+        #Some of your session_dict and other dictionary additions could possibly be consolidated into a function that takes user input, 
+        # and if it gets an invalid format, can tell the user such and then try again without stopping the whole CLI. I noticed this in line ~46 that a try/except would just skip goals and notes.
 
-#This function could be general and take arguments like a **kwargs where each key is the key in the dict you want to return results for, and the value might be a tuple of (prompt, type_expected) like ("Did you have notes? ", str). We can talk about this more on the next call
+#This function could be general and take arguments like a **kwargs where each key is the key in the dict you want to return results for,
+#  and the value might be a tuple of (prompt, type_expected) like ("Did you have notes? ", str). We can talk about this more on the next call
 
         course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
 
@@ -69,7 +84,6 @@ class Cli:
         course_id_record=self.cursor_1.fetchall()
         self.course_id_record=course_id_record[0][0]
 
-                #list comp maybe
 
         self.session_dict["course_id"]=self.course_id
         self.session_dict["session_type_id"]=self.session_type_id
@@ -89,14 +103,14 @@ class Cli:
 
             session_id_record=self.cursor_1.fetchall()
             self.session_id=session_id_record[0][0]
-                #list comp maybe
+
             print(f"{self.session_id} is the session id")
             self.ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
-        if self.session_type_name=="round":
+        if session_type_name=="round":
             Cli.round(self)
-        if self.session_type_name=="practice":
+        if session_type_name=="practice":
             Cli.practice(self)
 
 
@@ -158,7 +172,7 @@ class Cli:
             
             #insert data here if round
             # id should be cascaded here
-    def practice(self):
+    def practice(self): # can use arguements here if I want to
         #*arg and **kwags maybe here
             # how do I change the data when I did something wrong?
             try:
