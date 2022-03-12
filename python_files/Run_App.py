@@ -116,3 +116,5 @@ run=Run_App()
 #add putter to club_id
 
 #maybe allow the user to make the app do different things
+#maybe add a golf hole table so that can analyze the averages later.
+#maybe separate the classes into just the inputs from cli and then class to changing the data

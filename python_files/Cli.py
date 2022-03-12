@@ -138,7 +138,7 @@ class Cli:
                     self.round_score=int(input("What was the score? i.e. 5 "))
                     self.round_putt=int(input("How many putts? i.e. 2 "))
                     self.round_fairway=int(input("Did you hit the fairway? i.e. 1 or 0 "))
-                    self.round_proximity_to_hole=int(input("What was the promity to the hole in feet? i.e. 39 "))
+                    self.round_proximity_to_hole=int(input("What was the promity to the hole in yards? i.e. 39 "))
                     self.round_scramble=int(input("Did you scramble? i.e. 1 or 0 "))
                 except ValueError:
                     print("Has to be a number.")
@@ -176,7 +176,7 @@ class Cli:
         #*arg and **kwags maybe here
             # how do I change the data when I did something wrong?
             try:
-                self.num_type=int(input("How many types of shots were you try this time?"))
+                self.num_type=int(input("How many types of shots were you try this time? i.e 2 "))
             except ValueError:
                 print("Has to be a number")
             self.practice_list=[]
@@ -187,12 +187,12 @@ class Cli:
                 except ValueError:
                     print("Has to be text.")
                 try: 
-                    self.practice_success=int(input(f"What many times did you success the {self.practice_shot_type} "))
-                    self.practice_total=int(input(f"How many total {self.practice_shot_type} did you make? "))
-                    self.practice_club=input(f"What club did you use for the {self.practice_shot_type}? ")
+                    self.practice_success=int(input(f"What many times did you success the {self.practice_shot_type} i.e. 2 "))
+                    self.practice_total=int(input(f"How many total {self.practice_shot_type} did you make? i.e. 3"))
+                    self.practice_club=input(f"What club did you use for the {self.practice_shot_type}? i.e. 9_iron ")
                 except ValueError:
                     print("Has to be a number")
-                self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying? "))
+                self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying in yards? i.e. 123 "))
                 self.practice_dict["session_id"]=self.session_id
 
 
