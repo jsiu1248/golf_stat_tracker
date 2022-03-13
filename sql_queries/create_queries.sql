@@ -125,14 +125,3 @@ ADD player_id char(255);
 
 ALTER TABLE golf.round
 ADD player_id char(255);
-
--- have to change safe mode for a bit
-SET SQL_SAFE_UPDATES = 0;
-
-UPDATE golf.round
-SET player_id='00000000-0000-0000-0000-000000000001';
-
-UPDATE golf.practice
-SET player_id='00000000-0000-0000-0000-000000000001';
-
-SET SQL_SAFE_UPDATES = 1;

@@ -1,9 +1,6 @@
 USE GOLF;
 
- CREATE OR REPLACE VIEW pga_data AS 
-SELECT stat.id, stat.earnings, stat.drive_avg, stat.gir_pct, stat.putt_avg, stat.sand_saves_pct, stat.birdies_per_round, stat.hole_proximity_avg, stat.scrambling_pct, stat.world_rank, 
-player.first_name, player.last_name, player.height, player.birthday, player.country, player.residence, player.birth_place, player.college FROM GOLF.STAT stat
-LEFT JOIN  golf.pga_player player ON stat.id=player.id;
+
 
 
  CREATE OR REPLACE VIEW practice_data AS 
@@ -43,7 +40,15 @@ SELECT player_id, session_id, shot_type_id, ROUND(SUM(success)/SUM(total),2) suc
  CREATE OR REPLACE VIEW practice_data_dim AS 
 SELECT player_id, shot_type_id, ROUND(SUM(success)/SUM(total),2) succes_rate FROM GOLF.PRACTICE GROUP BY SESSION_ID, SHOT_TYPE_ID;
 
+-- this table has both the pga summary data and my data
+ CREATE OR REPLACE VIEW player_pga_data AS 
+SELECT stat.id, stat.earnings, stat.drive_avg, stat.gir_pct, stat.putt_avg, stat.sand_saves_pct, stat.birdies_per_round, stat.hole_proximity_avg, stat.scrambling_pct, stat.world_rank, 
+player.first_name, player.last_name, player.height, player.birthday, player.country, player.residence, player.birth_place, player.college FROM GOLF.STAT stat
+LEFT JOIN  golf.pga_player player ON stat.id=player.id
+LEFT JOIN 
+
+
 
  CREATE OR REPLACE VIEW pga_stat_summary AS
 SELECT ROUND(AVG(EARNINGS),1) EARNINGS_AVG, ROUND(AVG(DRIVE_AVG),1) DRIVE_AVG, ROUND(AVG(GIR_PCT),1) GIR_PCT_AVG, ROUND(AVG(PUTT_AVG),1) PUTT_AVG, 
-ROUND(AVG(SAND_SAVES_PCT),1) SAND_SAVES_PCT_AVG, ROUND(AVG(BIRDIES_PER_ROUND),1) BIRDIES_PER_ROUND_AVG, ROUND(AVG(SCRAMBLING_PCT),1) SCRAMBLING_PCT_AVG FROM golf.pga_data;
+ROUND(AVG(SAND_SAVES_PCT),1) SAND_SAVES_PCT_AVG, ROUND(AVG(BIRDIES_PER_ROUND),1) BIRDIES_PER_ROUND_AVG, ROUND(AVG(SCRAMBLING_PCT),1) SCRAMBLING_PCT_AVG FROM golf.player_pga_data;

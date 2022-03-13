@@ -171,3 +171,26 @@ INSERT IGNORE INTO golf.club
     (name)
 VALUES
     ('5_iron'), ('6_iron'), ('7_iron'), ('8_iron'), ('9_iron'), ('pitching wedge'), ('52 degree'), ('58 degree'), ('3 hybrid'),('4 hybrid'),('driver'),('putter');
+
+
+    -- have to change safe mode for a bit
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE golf.round
+SET player_id='00000000-0000-0000-0000-000000000001';
+
+UPDATE golf.practice
+SET player_id='00000000-0000-0000-0000-000000000001';
+
+SET SQL_SAFE_UPDATES = 1;
+
+INSERT IGNORE INTO pga_player
+(id, first_name, last_name, height, birthday, country, residence, birth_place, college)
+VALUES
+('00000000-0000-0000-0000-000000000001', 'Jonathan','Siu',64, '1992-01-24 00:00:00', 'UNITED STATES','Mountain View, CA, USA', 'San Francisco, CA, USA', 'Case Western Reserve University')
+
+
+INSERT IGNORE INTO GOLF.STAT
+(id)
+VALUES
+('00000000-0000-0000-0000-000000000001')
