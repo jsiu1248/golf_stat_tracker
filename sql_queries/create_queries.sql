@@ -119,3 +119,9 @@ CREATE TABLE IF NOT EXISTS club
         name VARCHAR(255),
         UNIQUE(name),
         PRIMARY KEY(club_id));
+
+ALTER TABLE golf.practice
+ADD player_id char(255);
+
+ALTER TABLE golf.round
+ADD player_id char(255);
