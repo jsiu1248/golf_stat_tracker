@@ -24,7 +24,7 @@ class Graph:
 
         print(putting_distance_accurary_graph_df_clean)
         putting_distance_accurary_graph_df.sort_values(by="DATE", ascending=True)
-        putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY", range_x=(0,max(putting_distance_accurary_graph_df_clean.DISTANCE)), range_y=(0,max(putting_distance_accurary_graph_df_clean.ACCURACY)))
+        putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY", range_x=(0,max(putting_distance_accurary_graph_df_clean.DISTANCE)), range_y=(0,max(putting_distance_accurary_graph_df_clean.ACCURACY)), title='Putting Distance Accuracy')
         putting_distance_accuracy_fig.show()
 #actually need to change this data
 

@@ -89,7 +89,6 @@ run=Run_App()
 
 """
 
-#need to figure out how to compare data
 #do I want to average all of the players?
 
 #join all of my data and make my own stats
@@ -113,15 +112,17 @@ run=Run_App()
 #*args pass a variable positional arguements not list, but tuple
 #* unpacks iterables ** unpacks dictionaries
 
-#add putter to club_id
 
 #maybe allow the user to make the app do different things
 #maybe add a golf hole table so that can analyze the averages later.
 #maybe separate the classes into just the inputs from cli and then class to changing the data
 
 
-#finish compare self
 #avg
 #skip sort
 # figure out improvement more
 #exit survey
+
+#add data to putt distance
+#add data to club distance
+#add data to sand save
