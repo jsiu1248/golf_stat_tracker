@@ -24,13 +24,13 @@ LEFT JOIN GOLF.GOLF_COURSE ON SELF_SESSION.COURSE_ID=GOLF_COURSE.ID;
 
 
  CREATE OR REPLACE VIEW round_data_summary AS 
-SELECT player_id, session_id, ROUND(AVG(green_reg),1)  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
- ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),1) scramble_avg FROM golf.round group by session_id;
+SELECT player_id, session_id, ROUND(AVG(green_reg),2)*100  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
+ ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),2)*100 scramble_avg FROM golf.round group by session_id;
 
 
  CREATE OR REPLACE VIEW round_data_dim AS
- SELECT player_id, ROUND(AVG(green_reg),1)  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
- ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),1) scramble_avg FROM golf.round;
+ SELECT player_id, ROUND(AVG(green_reg),2)*100  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
+ ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),2)*100 scramble_avg FROM golf.round;
 
 
  CREATE OR REPLACE VIEW practice_data_summary AS 
