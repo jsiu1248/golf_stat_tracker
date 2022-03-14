@@ -45,7 +45,17 @@ SELECT player_id, shot_type_id, ROUND(SUM(success)/SUM(total),2) succes_rate FRO
 SELECT stat.id, stat.earnings, stat.drive_avg, stat.gir_pct, stat.putt_avg, stat.sand_saves_pct, stat.birdies_per_round, stat.hole_proximity_avg, stat.scrambling_pct, stat.world_rank, 
 player.first_name, player.last_name, player.height, player.birthday, player.country, player.residence, player.birth_place, player.college FROM GOLF.STAT stat
 LEFT JOIN  golf.pga_player player ON stat.id=player.id
-LEFT JOIN 
+LEFT JOIN golf.round_data_dim round_data_dim ON stat.id=round_data_dim.player_id
+
+
+-- a side note is that I am failing to update a mysql view. Strange. So, I'm updating the actual table
+UPDATE golf.stat
+SET gir_pct=(SELECT green_reg_avg FROM GOLF.round_data_dim), 
+putt_avg=(SELECT putt_avg FROM GOLF.round_data_dim), 
+drive_avg=(SELECT AVG(DISTANCE) AVG_DRIVE FROM golf.practice_data WHERE SHOT_TYPE_NAME='drive')
+WHERE ID='00000000-0000-0000-0000-000000000001'
+
+
 
 
 
