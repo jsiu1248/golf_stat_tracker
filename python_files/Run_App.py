@@ -38,14 +38,18 @@ def Run_App():
 
     me=Cli(ch_1)
 
-#     me.session()
-    #me.session_type()
-    #me.insert_data_practice()
+    me.session()
+    # me.session_type()
+
+    """ 
+    the following are unnecessary unless I will change the data to long form instead of wide
+    """
+    # me.insert_data_practice()
     # me.insert_data_round()
 
 
     g=Graph(ch_1)
-    g.putting_distance_accuracy()
+    # g.putting_distance_accuracy()
     # g.earnings()
     # g.gir_pct()
     # g.drive_avg()
@@ -126,3 +130,5 @@ run=Run_App()
 #add data to putt distance
 #add data to club distance
 #add data to sand save
+#logic if don't get to practice or round then remove session?
+#update practice and round tables so that the play id updates automatically

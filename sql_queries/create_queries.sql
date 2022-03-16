@@ -120,6 +120,13 @@ CREATE TABLE IF NOT EXISTS club
         UNIQUE(name),
         PRIMARY KEY(club_id));
 
+CREATE TABLE IF NOT EXISTS hole
+(
+golf_course_id INT(5), 
+hole INT(2),
+par INT(1)
+);
+
 ALTER TABLE golf.practice
 ADD player_id char(255);
 

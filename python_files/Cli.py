@@ -48,6 +48,23 @@ class Cli:
             self.cursor_1.execute(golf_course_insert_query, self.golf_course_dict)
             self.ch_1.commit()
 
+            # add a loop to ask for what par is each hole
+            #call query insert data
+            # for self.hole in range(1,self.round_num_holes+1):
+
+
+        # course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
+
+
+        # self.cursor_1.execute(course_id_query, (self.round_course, ))
+
+        # course_id_record=self.cursor_1.fetchall()
+        # self.course_id_record=course_id_record[0][0]
+
+
+        # self.session_dict["course_id"]=self.course_id
+
+
 
         elif new_course == "no":
             pass
@@ -82,7 +99,7 @@ class Cli:
         self.cursor_1.execute(course_id_query, (self.round_course, ))
 
         course_id_record=self.cursor_1.fetchall()
-        self.course_id_record=course_id_record[0][0]
+        self.course_id=course_id_record[0][0]
 
 
         self.session_dict["course_id"]=self.course_id
