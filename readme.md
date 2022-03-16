@@ -128,7 +128,6 @@ Some statistics were no longer needed or would be very hard to calculate, so I c
 - "Birdies Per Round" can also be included after the "Holes" Table is make in a further iteration.
 - "Sand Save Percentage" will be included soon.
 - With "Scoring Average," I'll have to double check if I actually pulled the data for it. I'll have to include it soon.
-- "Average Scores" with Pars 3,4,5 wasn't able to made because there are a design flaw. A table that has all of the pars for each hole needs to be made. After that table is made then I will need to calculate the averages. It was a good lesson to go back to the requirements to double check if I missed anything.
 - "Score on every hole" "Putt on Every hole"- I can have it for a further iteration. However, how it is built right now it feels cumbersome to extract the data. Such a graph would be easier when using Dash or Flask
 - Check if the API has fairway hit data
 - Currently, I can't select certain players to compare myself to. I plan to utilize Dash for this feature later.
@@ -138,5 +137,10 @@ Some statistics were no longer needed or would be very hard to calculate, so I c
 - As of this moment, I'm setting goals, however, I'm not tracking if I have succeeded in those goals. I can pull the goal each week and then input if I have succeeded in those goals.
 
 **What went wrong**
+- I didn't design my code as much as I designed the database. The different classes was an afterthought. So, reserve engineering was harder, took more time, and is less tidy.
+- figuring out SQL syntax took a long time especially when I was trying to read the SQL files through Python. It was much easier to do as much SQL in the Workbench
+- Similarly, I needed to design my folder structure more in the beginning. Also, I was trying to clear up the directories later on. Github was not as clear as it could have been if I took a bit more time planning folder structure.
+- "Average Scores" with Pars 3,4,5 wasn't able to made because there are a design flaw. A table that has all of the pars for each hole needs to be made. After that table is made then I will need to calculate the averages. It was a good lesson to go back to the requirements to double check if I missed anything.
+
 
 - add the graphs here?
