@@ -98,9 +98,21 @@ I have been able to complete most of the project.
 - I have CLI interactive prompts to input round and practice data.
 - I pulled data and saved it into a MYSQL Database.
 - I created multiple graphs through plotly that I can compare myself to the pro and also track my progress for various stats.
+
 **What did I learn?**
-- I learned to use association tables.
-- Although I use SQL on a daily basis, I learned CREATE tables, ALTER tables,
+- I spend most of my initial time designing how the database schema. There were a lot of design choices to be made in terms of efficiency and data validation.
+- I used https://app.dbdesigner.net/.
+- I learned to use association tables which allowed later inputs to be joined with their id and it forces the users to input proper values.
+- Although I use SQL on a daily basis, I learned CREATE tables, ALTER tables, INSERT data, creating PROCEDURES and VIEWS
+- I used git more consistently and used merge and branch for the first time.
+- Originally it was one single file, but I learned to break it up into multiple files and classes.
+- Instead of calling my SQL scripts through python, I learned that it was safer and more of a best practice to have sql files that I run directly in MYSQL Workbench.
+- I learned to clean my data in a more programmatic way through indexes and lists.
+- Instead of calling the SQL directly. I stored them into procedures in Workbench and then I called them from Python. This prevents against SQL injection easier.
+- I became more comfortable with try and except statements and making sure that the proper errors are shown and easier to debug.
+- I learned query maximum values from tables and then piping it back in python for calculations.
+- I tried using Pandas to converting data into long instead of wide. But, for the amount of data I have currently, wide data is fine.
+
 **What I wasn't about to do**
 Some statistics were no longer needed or would be very hard to calculate, so I chose to disregard them. The items are the following
 - Strokes Gained Putting
@@ -112,14 +124,12 @@ Some statistics were no longer needed or would be very hard to calculate, so I c
 	- Trying out how to calculate was difficult. I was debating if I should have used the practice table or the round table. Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
 
 
-"Proximity to Hole Average" was in text from the API. In further iterations, I may be able to do some conversion in order to utilize that data.
-"Birdies Per Round" can also be included after the "Holes" Table is make in a further iteration.
-"Sand Save Percentage" will be included soon.
-With "Scoring Average," I'll have to double check if I actually pulled the data for it. I'll have to include it soon
-"Average Scores" with Pars 3,4,5 wasn't able to made because there are a design flaw. A table that has all of the pars for each hole needs to be made. After that table is
-made then I will need to calculate the averages. It was a good lesson to go back to the requirements to double check if I missed anything.
-"Score on every hole" "Putt on Every hole"- I can have it for a further iteration. However, how it is built right now it feels cumbersome to extract the data.
-Such a graph would be easier when using Dash or Flask
+- "Proximity to Hole Average" was in text from the API. In further iterations, I may be able to do some conversion in order to utilize that data.
+- "Birdies Per Round" can also be included after the "Holes" Table is make in a further iteration.
+- "Sand Save Percentage" will be included soon.
+- With "Scoring Average," I'll have to double check if I actually pulled the data for it. I'll have to include it soon.
+- "Average Scores" with Pars 3,4,5 wasn't able to made because there are a design flaw. A table that has all of the pars for each hole needs to be made. After that table is made then I will need to calculate the averages. It was a good lesson to go back to the requirements to double check if I missed anything.
+- "Score on every hole" "Putt on Every hole"- I can have it for a further iteration. However, how it is built right now it feels cumbersome to extract the data. Such a graph would be easier when using Dash or Flask
 - Check if the API has fairway hit data
 - Currently, I can't select certain players to compare myself to. I plan to utilize Dash for this feature later.
 - I'm still figuring out how I can improve by tracking my goals
