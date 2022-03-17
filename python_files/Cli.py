@@ -29,14 +29,15 @@ class Cli:
 
     def session(self): 
         # *arg and **kwags maybe here
-        #This is a possibility, but I'd like to hear from you what you think can be *args/**kwargs in this function :)
         self.cursor_1 = self.ch_1.cursor() 
         try:
             self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
         except ValueError:
             print("Has to be text.")
 
-
+        """
+        If it is a new course, we are also inserting the number of holes.
+        """
         session_type_name=input("Is it a round or a practice? ")
         new_course=input("Is it a new course? yes or no.")
         if new_course == "yes":
@@ -54,7 +55,9 @@ class Cli:
             #call query insert data
 
 
-
+            """
+            We are doing a lookup for the course_id of the course_name.
+            """
             course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
 
 
@@ -68,6 +71,9 @@ class Cli:
             self.session_dict["course_id"]=self.course_id
 
 
+            """
+            The user is asked the par for each hole. Then, the data is inserted. 
+            """
             for hole_num in range(1,self.hole+1):
                 hole_dict["golf_course_id"]=self.session_dict["course_id"]
                 par=input(f"What was the par for hole number {hole_num}")
@@ -81,6 +87,11 @@ class Cli:
 
         elif new_course == "no":
             pass
+
+        """
+        The date, note, and goal is entered by the user. 
+        """
+        
         self.session_dict["date"]=input("What date is it? i.e. 2021-12-30")
         try:
             self.session_dict["notes"]=str(input("Did you have notes? "))
@@ -117,7 +128,6 @@ class Cli:
         except mysql.connector.Error as err:
             print(err)
 
-#Yes, I think so! What might that look like? list comp
         try:
             session_id_query="SELECT DISTINCT session_id from golf.self_session WHERE session_id=(SELECT MAX(session_id) FROM GOLF.SELF_SESSION);"
             self.cursor_1.execute(session_id_query)
@@ -129,18 +139,19 @@ class Cli:
             self.ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
+        
+        
+        """
+        If the session type name equals round or practice, then run the function.
+        """
         if session_type_name=="round":
             Cli.round(self)
         if session_type_name=="practice":
             Cli.practice(self)
 
 
-#invalid use of group gunction
 
 
-#how to get session_id to go to round and practice?
-#cascade to create a new row if round or practice
-# update the new row using update with data here in python - pretty sure this part is almost done unless I need to use update vs insert
 
     def round(self):
         #*arg and **kwags maybe here
