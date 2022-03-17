@@ -132,3 +132,4 @@ run=Run_App()
 #add data to sand save
 #logic if don't get to practice or round then remove session?
 #update practice and round tables so that the play id updates automatically
+#courses not unique and keep adding

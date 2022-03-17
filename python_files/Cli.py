@@ -52,15 +52,6 @@ class Cli:
 
             # add a loop to ask for what par is each hole
             #call query insert data
-            for hole_num in range(1,self.hole+1):
-                par=input(f"What was the par for hole number {hole_num}")
-                hole_dict["hole_number"]=hole_num
-                hole_dict["par"]=par
-                hole_list.append(hole_dict.copy())
-            hole_insert_query="CALL GOLF.INSERT_HOLE(%(hole_num)s, %(par)s);"
-            for element in hole_list:
-                    self.cursor_1.execute(hole_insert_query, element)
-            self.ch_1.commit()
 
 
 
@@ -72,14 +63,24 @@ class Cli:
             course_id_record=self.cursor_1.fetchall()
             self.course_id=course_id_record[0][0]
 
+            self.session_dict={}
 
             self.session_dict["course_id"]=self.course_id
 
 
+            for hole_num in range(1,self.hole+1):
+                hole_dict["golf_course_id"]=self.session_dict["course_id"]
+                par=input(f"What was the par for hole number {hole_num}")
+                hole_dict["hole_num"]=hole_num
+                hole_dict["par"]=par
+                hole_list.append(hole_dict.copy())
+                hole_insert_query="CALL GOLF.INSERT_HOLE(%(golf_course_id)s,%(hole_num)s, %(par)s);"
+            for element in hole_list:
+                self.cursor_1.execute(hole_insert_query, element)
+            self.ch_1.commit()
 
         elif new_course == "no":
             pass
-        self.session_dict={}
         self.session_dict["date"]=input("What date is it? i.e. 2021-12-30")
         try:
             self.session_dict["notes"]=str(input("Did you have notes? "))

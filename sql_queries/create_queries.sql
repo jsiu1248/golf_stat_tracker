@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS golf_course
         course_name VARCHAR(255),
         UNIQUE(course_name),
         hole INT(2), 
-        PRIMARY KEY(id));
+        PRIMARY KEY(id, course_name, hole));
 
 CREATE TABLE IF NOT EXISTS self_session
         (
@@ -124,7 +124,9 @@ CREATE TABLE IF NOT EXISTS hole
 (
 golf_course_id INT(5), 
 hole_num INT(2),
-par INT(1)
+par INT(1),
+PRIMARY KEY(golf_course_id, hole_num)
+
 );
 
 ALTER TABLE golf.practice

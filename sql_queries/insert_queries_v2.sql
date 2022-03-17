@@ -177,13 +177,14 @@ VALUES
 DROP PROCEDURE IF EXISTS insert_hole;
 CREATE PROCEDURE insert_hole
 (
+        IN golf_course_id INT(5),
         IN hole_num INT(2),
         IN par INT(1)
 )
 INSERT IGNORE INTO golf.hole
-    (hole_num, par)
+    (golf_course_id, hole_num, par)
 VALUES
-    (hole_num, par);
+    (golf_course_id, hole_num, par);
 
 
 
