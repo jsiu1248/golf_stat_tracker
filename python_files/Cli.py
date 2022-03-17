@@ -40,7 +40,9 @@ class Cli:
         session_type_name=input("Is it a round or a practice? ")
         new_course=input("Is it a new course? yes or no.")
         if new_course == "yes":
-            self.hole=input("How many holes? 9 or 18?")
+            hole_list=[]
+            hole_dict={}
+            self.hole=int(input("How many holes? 9 or 18?"))
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
             self.golf_course_dict={}
             self.golf_course_dict["course_name"]=self.round_course
@@ -50,19 +52,28 @@ class Cli:
 
             # add a loop to ask for what par is each hole
             #call query insert data
-            # for self.hole in range(1,self.round_num_holes+1):
+            for hole_num in range(1,self.hole+1):
+                par=input(f"What was the par for hole number {hole_num}")
+                hole_dict["hole_number"]=hole_num
+                hole_dict["par"]=par
+                hole_list.append(hole_dict.copy())
+            hole_insert_query="CALL GOLF.INSERT_HOLE(%(hole_num)s, %(par)s);"
+            for element in hole_list:
+                    self.cursor_1.execute(hole_insert_query, element)
+            self.ch_1.commit()
 
 
-        # course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
+
+            course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
 
 
-        # self.cursor_1.execute(course_id_query, (self.round_course, ))
+            self.cursor_1.execute(course_id_query, (self.round_course, ))
 
-        # course_id_record=self.cursor_1.fetchall()
-        # self.course_id_record=course_id_record[0][0]
+            course_id_record=self.cursor_1.fetchall()
+            self.course_id=course_id_record[0][0]
 
 
-        # self.session_dict["course_id"]=self.course_id
+            self.session_dict["course_id"]=self.course_id
 
 
 
@@ -93,16 +104,8 @@ class Cli:
 #This function could be general and take arguments like a **kwargs where each key is the key in the dict you want to return results for,
 #  and the value might be a tuple of (prompt, type_expected) like ("Did you have notes? ", str). We can talk about this more on the next call
 
-        course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
 
 
-        self.cursor_1.execute(course_id_query, (self.round_course, ))
-
-        course_id_record=self.cursor_1.fetchall()
-        self.course_id=course_id_record[0][0]
-
-
-        self.session_dict["course_id"]=self.course_id
         self.session_dict["session_type_id"]=self.session_type_id
 
 

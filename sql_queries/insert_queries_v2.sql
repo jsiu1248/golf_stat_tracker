@@ -173,6 +173,21 @@ VALUES
     ('5_iron'), ('6_iron'), ('7_iron'), ('8_iron'), ('9_iron'), ('pitching wedge'), ('52 degree'), ('58 degree'), ('3 hybrid'),('4 hybrid'),('driver'),('putter');
 
 
+
+DROP PROCEDURE IF EXISTS insert_hole;
+CREATE PROCEDURE insert_hole
+(
+        IN hole_num INT(2),
+        IN par INT(1)
+)
+INSERT IGNORE INTO golf.hole
+    (hole_num, par)
+VALUES
+    (hole_num, par);
+
+
+
+
     -- have to change safe mode for a bit
 SET SQL_SAFE_UPDATES = 0;
 

@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS club
 CREATE TABLE IF NOT EXISTS hole
 (
 golf_course_id INT(5), 
-hole INT(2),
+hole_num INT(2),
 par INT(1)
 );
 
