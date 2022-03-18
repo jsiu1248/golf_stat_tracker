@@ -61,13 +61,31 @@ def Run_App():
 
     if user_input==2:
         g=Graph(ch_1)
-        # g.putting_distance_accuracy()
-        # g.earnings()
-        # g.gir_pct()
-        # g.drive_avg()
-        # g.sand_saves_pct()
-        # g.avg_putting()
-        # g.score()
+        graph_input=int(input("""
+        Which graph do you want?
+        1. Putting Distance Accuracy
+        2. Earnings
+        3. Greens in Regulation
+        4. Drive Averages
+        5. Sand Save Percentages
+        6. Average Putting
+        7. Personal Score Tracking
+        """))
+        
+        if graph_input==1: 
+            g.putting_distance_accuracy()
+        elif graph_input==2:
+            g.earnings()
+        elif graph_input==3:
+            g.gir_pct()
+        elif graph_input==4: #working
+            g.drive_avg()
+        elif graph_input==5: #working
+            g.sand_saves_pct()
+        elif graph_input==6: #working
+            g.avg_putting()
+        elif graph_input==7: #working
+            g.score()
 
 run=Run_App()
 
@@ -75,6 +93,7 @@ run=Run_App()
 #decorator with property, how to loop through variables, indexing, try insert data
         #getters and setters
         #can be encapsulated like properties
+    
 # date add to the files, think about if it is going to be rerunned. - low
 
 """
@@ -127,19 +146,16 @@ run=Run_App()
 #* unpacks iterables ** unpacks dictionaries
 
 
-#maybe allow the user to make the app do different things
 #maybe add a golf hole table so that can analyze the averages later.
 #maybe separate the classes into just the inputs from cli and then class to changing the data
 
 
 #avg
-#skip sort
 # figure out improvement more
-#exit survey
 
 #add data to putt distance
 #add data to club distance
 #add data to sand save
 #logic if don't get to practice or round then remove session?
-#update practice and round tables so that the play id updates automatically
-#courses not unique and keep adding
+
+#how do I highlight myself on graphs
