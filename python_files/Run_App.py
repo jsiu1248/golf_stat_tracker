@@ -16,7 +16,9 @@ from data_cleaner import Data_Cleaner
 from Database import *
 from graphs import Graph
 def Run_App():
-    pass
+    
+
+
     # pull=Api()
     # pull.api()
     r=File_Reader()
@@ -36,26 +38,36 @@ def Run_App():
     d_2.create_connection()
     d_2.insert_file()
 
-    me=Cli(ch_1)
 
-    me.session()
-    # me.session_type()
+    user_input=int(input("""
+    1. Enter round or practice data.
+    2. Access my graphs.
+    3. Update data from table. (For the future)
+    4. Select data from table. (For the future)
+    5. Delete data from table. (For the future)
+    """))
 
-    """ 
-    the following are unnecessary unless I will change the data to long form instead of wide
-    """
-    # me.insert_data_practice()
-    # me.insert_data_round()
+    if user_input==1:
+        me=Cli(ch_1)
 
+        me.session()
+        # me.session_type()
 
-    g=Graph(ch_1)
-    # g.putting_distance_accuracy()
-    # g.earnings()
-    # g.gir_pct()
-    # g.drive_avg()
-    # g.sand_saves_pct()
-    # g.avg_putting()
-    # g.score()
+        """ 
+        the following are unnecessary unless I will change the data to long form instead of wide
+        """
+        # me.insert_data_practice()
+        # me.insert_data_round()
+
+    if user_input==2:
+        g=Graph(ch_1)
+        # g.putting_distance_accuracy()
+        # g.earnings()
+        # g.gir_pct()
+        # g.drive_avg()
+        # g.sand_saves_pct()
+        # g.avg_putting()
+        # g.score()
 
 run=Run_App()
 
@@ -95,10 +107,8 @@ run=Run_App()
 
 #do I want to average all of the players?
 
-#join all of my data and make my own stats
 #clean up the cli code into functions
 
-#run view script
 #Add data to distance tracking
 #do I need stat_type anymore?
 

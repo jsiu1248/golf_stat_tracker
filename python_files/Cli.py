@@ -91,7 +91,7 @@ class Cli:
         """
         The date, note, and goal is entered by the user. 
         """
-        
+
         self.session_dict["date"]=input("What date is it? i.e. 2021-12-30")
         try:
             self.session_dict["notes"]=str(input("Did you have notes? "))
@@ -101,7 +101,9 @@ class Cli:
 
         
 
-
+        """
+        Doing a lookup of the session_type_id where the name is either a round or practice. 
+        """
         session_type_code_query="SELECT DISTINCT session_type_id from golf.session_type WHERE name=%s;"
 
 
