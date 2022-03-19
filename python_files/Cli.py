@@ -26,21 +26,6 @@ class Cli:
     #how to reuse class already
     #can reuse for inputting data 
 
-    def course_id(self):    
-        """
-        We are doing a lookup for the course_id of the course_name.
-        """
-
-        self.course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
-
-
-        self.cursor_1.execute(self.course_id_query, (self.round_course, ))
-
-        self.course_id_record=self.cursor_1.fetchall()
-        self.course_id=self.course_id_record[0][0]
-
-
-        self.session_dict["course_id"]=self.course_id
 
     def session(self): 
         # *arg and **kwags maybe here
@@ -72,6 +57,19 @@ class Cli:
             #call query insert data
 
 
+            """
+            We are doing a lookup for the course_id of the course_name.
+            """
+            course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
+
+
+            self.cursor_1.execute(course_id_query, (self.round_course, ))
+
+            course_id_record=self.cursor_1.fetchall()
+            self.course_id=course_id_record[0][0]
+
+
+            self.session_dict["course_id"]=self.course_id
 
 
             """
@@ -92,6 +90,16 @@ class Cli:
             pass
 
 #I'm repeating these lines. How can I not repeat them?
+            course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
+
+
+            self.cursor_1.execute(course_id_query, (self.round_course, ))
+
+            course_id_record=self.cursor_1.fetchall()
+            self.course_id=course_id_record[0][0]
+
+
+            self.session_dict["course_id"]=self.course_id
 
         """
         The date, note, and goal is entered by the user. 

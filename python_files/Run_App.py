@@ -49,7 +49,6 @@ def Run_App():
 
     if user_input==1:
         me=Cli(ch_1)
-
         me.session()
         # me.session_type()
 
