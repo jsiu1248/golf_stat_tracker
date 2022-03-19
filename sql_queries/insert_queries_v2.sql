@@ -190,6 +190,7 @@ VALUES
 
 
     -- have to change safe mode for a bit
+
 SET SQL_SAFE_UPDATES = 0;
 
 UPDATE golf.round

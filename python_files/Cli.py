@@ -26,6 +26,21 @@ class Cli:
     #how to reuse class already
     #can reuse for inputting data 
 
+    def course_id(self):    
+        """
+        We are doing a lookup for the course_id of the course_name.
+        """
+
+        self.course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
+
+
+        self.cursor_1.execute(self.course_id_query, (self.round_course, ))
+
+        self.course_id_record=self.cursor_1.fetchall()
+        self.course_id=self.course_id_record[0][0]
+
+
+        self.session_dict["course_id"]=self.course_id
 
     def session(self): 
         # *arg and **kwags maybe here
@@ -40,6 +55,8 @@ class Cli:
         """
         session_type_name=input("Is it a round or a practice? ")
         new_course=input("Is it a new course? yes or no.")
+        self.session_dict={}
+
         if new_course == "yes":
             hole_list=[]
             hole_dict={}
@@ -55,20 +72,6 @@ class Cli:
             #call query insert data
 
 
-            """
-            We are doing a lookup for the course_id of the course_name.
-            """
-            course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
-
-
-            self.cursor_1.execute(course_id_query, (self.round_course, ))
-
-            course_id_record=self.cursor_1.fetchall()
-            self.course_id=course_id_record[0][0]
-
-            self.session_dict={}
-
-            self.session_dict["course_id"]=self.course_id
 
 
             """
@@ -87,6 +90,8 @@ class Cli:
 
         elif new_course == "no":
             pass
+
+#I'm repeating these lines. How can I not repeat them?
 
         """
         The date, note, and goal is entered by the user. 
@@ -176,7 +181,7 @@ class Cli:
                     self.round_scramble=int(input("Did you scramble? i.e. 1 or 0 "))
                 except ValueError:
                     print("Has to be a number.")
-
+                self.round_dict["player_id"]='00000000-0000-0000-0000-000000000001'
                 self.round_dict["session_id"]=self.session_id
                 self.round_dict["hole"]=self.round_hole
                 self.round_dict["green_reg"]=self.round_green_reg
@@ -187,7 +192,7 @@ class Cli:
                 self.round_dict["scramble"]=self.round_scramble
                 self.round_list.append(self.round_dict.copy())
             try:
-                round_insert_query="CALL GOLF.insert_ROUND(%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
+                round_insert_query="CALL GOLF.insert_ROUND(%(player_id)s,%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
                 for element in self.round_list:
                         self.cursor_1.execute(round_insert_query, element)
                 self.ch_1.commit()
@@ -240,9 +245,10 @@ class Cli:
                 #not sure where to put a lambda. But, I can probably put this as a list comp again
                 self.practice_shot_type_id=shot_type_record[0][0]
 
-                self.session_dict["course_id"]=self.course_id
+                # self.sess_dict["course_id"]=self.course_id
 
-                
+                self.practice_dict["player_id"]='00000000-0000-0000-0000-000000000001'
+
                 self.practice_dict['shot_type_id']=self.practice_shot_type_id
 
 
@@ -262,7 +268,7 @@ class Cli:
 
                 self.practice_list.append(self.practice_dict.copy())
             try:
-                    practice_insert_query="CALL GOLF.insert_PRACTICE(%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s);"
+                    practice_insert_query="CALL GOLF.insert_PRACTICE(%(player_id)s,%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s);"
                     for element in self.practice_list:
                         self.cursor_1.execute(practice_insert_query, element)
                     self.ch_1.commit()
