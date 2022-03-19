@@ -103,6 +103,7 @@ VALUES
 DROP PROCEDURE IF EXISTS insert_round;
 CREATE PROCEDURE insert_round
 (
+        IN player_id VARCHAR(255),
         IN session_id INT(10),
         IN hole INT(2),
         IN green_reg INT(1),
@@ -113,14 +114,15 @@ CREATE PROCEDURE insert_round
         IN scramble INT(1)
 )
 INSERT IGNORE INTO golf.round
-    (session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble)
+    (player_id, session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble)
 VALUES
-    (session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble);
+    (player_id, session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble);
 
 
 DROP PROCEDURE IF EXISTS insert_practice;
 CREATE PROCEDURE insert_practice
 (
+        IN player_id VARCHAR(255), 
         IN session_id INT(10),
         IN shot_type_id INT(3), 
         IN success INT(3),
@@ -130,9 +132,9 @@ CREATE PROCEDURE insert_practice
 
 )
 INSERT IGNORE INTO golf.practice
-    (session_id, shot_type_id, success, total, distance, club_id)
+    (player_id, session_id, shot_type_id, success, total, distance, club_id)
 VALUES
-    (session_id, shot_type_id, success, total, distance, club_id);
+    (player_id, session_id, shot_type_id, success, total, distance, club_id);
 
 
 DROP PROCEDURE IF EXISTS insert_session;

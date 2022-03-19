@@ -185,7 +185,7 @@ class Cli:
                     self.round_score=int(input("What was the score? i.e. 5 "))
                     self.round_putt=int(input("How many putts? i.e. 2 "))
                     self.round_fairway=int(input("Did you hit the fairway? i.e. 1 or 0 "))
-                    self.round_proximity_to_hole=int(input("What was the promity to the hole in yards? i.e. 39 "))
+                    self.round_proximity_to_hole=int(input("What was the proximity to the hole in yards? i.e. 39 "))
                     self.round_scramble=int(input("Did you scramble? i.e. 1 or 0 "))
                 except ValueError:
                     print("Has to be a number.")
