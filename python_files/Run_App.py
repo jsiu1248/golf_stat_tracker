@@ -125,7 +125,6 @@ run=Run_App()
 
 #do I want to average all of the players?
 
-#clean up the cli code into functions
 
 #Add data to distance tracking
 #do I need stat_type anymore?
@@ -140,7 +139,6 @@ run=Run_App()
 
 #pull request
 #testing 
-#static method - don't use self or cls
 #*args pass a variable positional arguements not list, but tuple
 #* unpacks iterables ** unpacks dictionaries
 

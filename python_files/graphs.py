@@ -24,7 +24,8 @@ class Graph:
 
         print(putting_distance_accurary_graph_df_clean)
         putting_distance_accurary_graph_df.sort_values(by="DATE", ascending=True)
-        putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY", range_x=(0,max(putting_distance_accurary_graph_df_clean.DISTANCE)), range_y=(0,max(putting_distance_accurary_graph_df_clean.ACCURACY)), title='Putting Distance Accuracy')
+        putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY", 
+        title="Putting Distance Accuracy", range_x=(0,max(putting_distance_accurary_graph_df_clean.DISTANCE)), range_y=(0,max(putting_distance_accurary_graph_df_clean.ACCURACY)), title='Putting Distance Accuracy')
         putting_distance_accuracy_fig.show()
 #actually need to change this data
 
@@ -35,7 +36,8 @@ class Graph:
 
         earnings_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         earnings_graph_df.sort_values(by="world_rank", ascending=True)
-        earnings_fig = px.scatter(earnings_graph_df, x="world_rank", y="earnings",  color="country",size='earnings', hover_data=["first_name", "last_name","earnings"], range_y=(0,max(earnings_graph_df.earnings)))
+        earnings_fig = px.scatter(earnings_graph_df, x="world_rank", y="earnings",  color="country",size='earnings',
+        title="Earnings Comparision", hover_data=["first_name", "last_name","earnings"], range_y=(0,max(earnings_graph_df.earnings)))
         earnings_fig.show()
 
     def gir_pct(self):
@@ -45,7 +47,8 @@ class Graph:
 
         gir_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         gir_pct_graph_df.sort_values(by="world_rank", ascending=True)
-        gir_pct_fig = px.scatter(gir_pct_graph_df, x="world_rank", y="gir_pct", hover_data=["first_name", "last_name","gir_pct"], range_y=(0,max(gir_pct_graph_df.gir_putt)))
+        gir_pct_fig = px.scatter(gir_pct_graph_df, x="world_rank", y="gir_pct",
+        title="GIR Comparision", hover_data=["first_name", "last_name","gir_pct"], range_y=(0,max(gir_pct_graph_df.gir_putt)))
         gir_pct_fig.show()
 
     def drive_avg(self):
@@ -55,7 +58,8 @@ class Graph:
 
         drive_avg_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         drive_avg_graph_df.sort_values(by="world_rank", ascending=True)
-        drive_avg_fig = px.scatter(drive_avg_graph_df, x="world_rank", y="drive_avg", hover_data=["first_name", "last_name","drive_avg"], range_y=(0,max(drive_avg_graph_df.drive_avg)))
+        drive_avg_fig = px.scatter(drive_avg_graph_df, x="world_rank", y="drive_avg",
+        title="Drive Avg Comparision", hover_data=["first_name", "last_name","drive_avg"], range_y=(0,max(drive_avg_graph_df.drive_avg)))
         drive_avg_fig.show()
 
     def sand_saves_pct(self):
@@ -65,7 +69,8 @@ class Graph:
 
         sand_saves_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         sand_saves_pct_graph_df.sort_values(by="world_rank", ascending=True)
-        sand_saves_pct_fig = px.scatter(sand_saves_pct_graph_df, x="world_rank", y="sand_saves_pct", hover_data=["first_name", "last_name","sand_saves_pct"], range_y=(0,max(sand_saves_pct_graph_df.sand_saves_pct)))
+        sand_saves_pct_fig = px.scatter(sand_saves_pct_graph_df, x="world_rank", y="sand_saves_pct", 
+        title="Sand Save Pct Comparision", hover_data=["first_name", "last_name","sand_saves_pct"], range_y=(0,max(sand_saves_pct_graph_df.sand_saves_pct)))
         sand_saves_pct_fig.show()
 
 #personal fairway
@@ -74,7 +79,8 @@ class Graph:
 
 #distance tracking
 #average putting per round
-#proximity to hold
+#proximity to hole
+
     def avg_putting(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
@@ -82,7 +88,7 @@ class Graph:
 
         avg_putting_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         avg_putting_graph_df.sort_values(by="world_rank", ascending=True)
-        avg_putting_fig = px.scatter(avg_putting_graph_df, x="world_rank", y="putt_avg", range_y=(0,max(avg_putting_graph_df.putt_avg)))
+        avg_putting_fig = px.scatter(avg_putting_graph_df, x="world_rank", y="putt_avg", title="Putting Average Comparision", range_y=(0,max(avg_putting_graph_df.putt_avg)))
         avg_putting_fig.show()
 
 
@@ -97,6 +103,7 @@ class Graph:
         score_graph_df_clean=score_graph_df_select.groupby([score_graph_df_select.SESSION_ID]).sum()
         score_graph_df_clean_filtered= score_graph_df_clean[score_graph_df_clean["SCORE"]>0]
 
-        score_fig = px.bar(score_graph_df_clean_filtered, x=score_graph_df_clean.index, y="SCORE", range_y=(0,max(score_graph_df_clean_filtered.SCORE)))
+        score_fig = px.bar(score_graph_df_clean_filtered, x=score_graph_df_clean.index, y="SCORE", 
+        title="Score Tracking",range_y=(0,max(score_graph_df_clean_filtered.SCORE)))
         score_fig.show()
 #how to filter out the nas
