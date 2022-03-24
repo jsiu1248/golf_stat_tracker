@@ -156,3 +156,4 @@ run=Run_App()
 #logic if don't get to practice or round then remove session?
 
 #how do I highlight myself on graphs
+#maybe I can add a column that is me and others so that it can be different colors

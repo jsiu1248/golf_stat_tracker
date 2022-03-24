@@ -1,6 +1,7 @@
 import plotly.express as px
 from Database import *
 import pandas as pd
+import plotly.graph_objects as go
 
 class Graph: 
     def __init__(self,ch_1):
@@ -15,7 +16,6 @@ class Graph:
     def putting_distance_accuracy(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
-#I need to add title
 
         putting_distance_accurary_graph_df=pd.read_sql(self.practice_graph_query, self.ch_1)
         putting_distance_accurary_graph_df_select=putting_distance_accurary_graph_df[["DATE","SHOT_TYPE_NAME","SUCCESS","TOTAL","DISTANCE","CLUB_NAME"]]
@@ -25,14 +25,13 @@ class Graph:
         print(putting_distance_accurary_graph_df_clean)
         putting_distance_accurary_graph_df.sort_values(by="DATE", ascending=True)
         putting_distance_accuracy_fig = px.scatter(putting_distance_accurary_graph_df_clean, x="DISTANCE", y="ACCURACY", 
-        title="Putting Distance Accuracy", range_x=(0,max(putting_distance_accurary_graph_df_clean.DISTANCE)), range_y=(0,max(putting_distance_accurary_graph_df_clean.ACCURACY)), title='Putting Distance Accuracy')
+        title="Putting Distance Accuracy", range_x=(0,max(putting_distance_accurary_graph_df_clean.DISTANCE)), range_y=(0,max(putting_distance_accurary_graph_df_clean.ACCURACY)))
         putting_distance_accuracy_fig.show()
 #actually need to change this data
 
     def earnings(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
-#I need to add title
 
         earnings_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         earnings_graph_df.sort_values(by="world_rank", ascending=True)
@@ -43,7 +42,6 @@ class Graph:
     def gir_pct(self):
     # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
-#I need to add title
 
         gir_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         gir_pct_graph_df.sort_values(by="world_rank", ascending=True)
@@ -54,7 +52,6 @@ class Graph:
     def drive_avg(self):
     # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
-#I need to add title
 
         drive_avg_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         drive_avg_graph_df.sort_values(by="world_rank", ascending=True)
@@ -65,7 +62,6 @@ class Graph:
     def sand_saves_pct(self):
     # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
-#I need to add title
 
         sand_saves_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         sand_saves_pct_graph_df.sort_values(by="world_rank", ascending=True)
@@ -84,7 +80,6 @@ class Graph:
     def avg_putting(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
-#I need to add title
 
         avg_putting_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         avg_putting_graph_df.sort_values(by="world_rank", ascending=True)
@@ -95,7 +90,6 @@ class Graph:
     def score(self):
         # average_score_graph_query="CALL GOLF.average_score_GRAPH;"
 
-#I need to add title
 #maybe at the date in the future
         score_graph_df=pd.read_sql(self.round_graph_query, self.ch_1)
         score_graph_df_select=score_graph_df[["SESSION_ID","SCORE"]]
