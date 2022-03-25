@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS stat
         hole_proximity_avg VARCHAR(255),
         scrambling_pct FLOAT(4), 
         world_rank INT(4),
+        scoring_avg FLOAT(5),
         PRIMARY KEY(id));
 
 CREATE TABLE IF NOT EXISTS pga_player
@@ -134,3 +135,9 @@ ADD player_id char(255);
 
 ALTER TABLE golf.round
 ADD player_id char(255);
+
+ALTER TABLE golf.stat
+ADD score_avg FLOAT(5)
+
+ALTER TABLE golf.stat
+RENAME COLUMN score_avg TO scoring_avg;

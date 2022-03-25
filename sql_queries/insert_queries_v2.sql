@@ -12,12 +12,14 @@ CREATE PROCEDURE insert_stat
     IN birdies_per_round FLOAT(4),
     IN hole_proximity_avg VARCHAR(255),
     IN scrambling_pct FLOAT(4),
-    IN world_rank INT(4)
+    IN world_rank INT(4),
+    IN scoring_avg FLOAT(5)
+
 )
 INSERT IGNORE INTO golf.stat
-    (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank)
+    (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank, scoring_avg)
 VALUES
-    (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank);
+    (id,earnings, drive_avg, gir_pct, putt_avg, sand_saves_pct, birdies_per_round, hole_proximity_avg, scrambling_pct, world_rank, scoring_avg);
 
 
 DROP PROCEDURE IF EXISTS insert_pga_player;

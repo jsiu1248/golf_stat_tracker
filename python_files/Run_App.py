@@ -45,6 +45,7 @@ def Run_App():
     3. Update data from table. (For the future)
     4. Select data from table. (For the future)
     5. Delete data from table. (For the future)
+    6. Last goal check.
     """))
 
     if user_input==1:
@@ -85,6 +86,9 @@ def Run_App():
             g.avg_putting()
         elif graph_input==7: #working
             g.score()
+    
+    if user_input==6:
+        pass
 
 run=Run_App()
 
@@ -157,3 +161,8 @@ run=Run_App()
 
 #how do I highlight myself on graphs
 #maybe I can add a column that is me and others so that it can be different colors
+#API fairway data
+#Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
+#Sand Save Percentage" will be included soon.
+#With "Scoring Average," I'll have to double check if I actually pulled the data for it. I'll have to include it soon.
+#I'm still figuring out how I can improve by tracking my goals

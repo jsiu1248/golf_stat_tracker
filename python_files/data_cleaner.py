@@ -37,7 +37,7 @@ class Data_Cleaner():
         for stat_element in self.fd["stat_data"]["players"]:
             for element in (['id'],(self.stat,'earnings'),(self.stat,'drive_avg'),
             (self.stat,'gir_pct'),(self.stat,'putt_avg'),(self.stat,'sand_saves_pct'),(self.stat,'birdies_per_round'),
-            (self.stat,'hole_proximity_avg'),(self.stat,'scrambling_pct'),(self.stat,'world_rank')):
+            (self.stat,'hole_proximity_avg'),(self.stat,'scrambling_pct'),(self.stat,'world_rank'), (self.stat, 'scoring_avg')):
                 try:
                     if len(element)==1:
                         self.stat_dict[element[0]]=stat_element[element[0]]
