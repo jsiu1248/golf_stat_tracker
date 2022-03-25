@@ -166,3 +166,20 @@ run=Run_App()
 #Sand Save Percentage" will be included soon.
 #With "Scoring Average," I'll have to double check if I actually pulled the data for it. I'll have to include it soon.
 #I'm still figuring out how I can improve by tracking my goals
+
+
+# you improved int your score
+# you did your lowest score
+#you did your highest score.
+#You decreased on your score. 
+#decrease
+
+# increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
+# decrease putt_avg, hole_prox_avg, scoring_avg
+#highest - ddrive, 
+# lowest - score
+
+# so, I have an old drive avg. 
+# I have to insert new data that will either increase or decrease the drive age. 
+#if I increase the drive avg then say the number and then final drive avg from the old drive avg
+# by x percentage
