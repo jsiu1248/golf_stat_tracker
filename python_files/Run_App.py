@@ -183,3 +183,13 @@ run=Run_App()
 # I have to insert new data that will either increase or decrease the drive age. 
 #if I increase the drive avg then say the number and then final drive avg from the old drive avg
 # by x percentage
+
+
+# lowest score
+# go to round_summary
+# after entering round then if the lowest or highest score then return 
+# find the lowest score and then highest score
+#before entering a round then get the avg
+# enter the latest score then get new avg. 
+#if the old avg < new avg then say improvement
+# if the new total is higher that the old highest score and lower than the old newest score then return it

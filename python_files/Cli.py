@@ -11,6 +11,8 @@ from Database import *
 class Cli:
     def __init__(self,ch_1):
         self.ch_1=ch_1
+        self.cursor_1 = self.ch_1.cursor() 
+
         #You can pass a few things here to set some of the classes self variables ####
     # maybe some things can be added to the constructor
     #clean up not everything self
@@ -29,7 +31,6 @@ class Cli:
 
     def session(self): 
         # *arg and **kwags maybe here
-        self.cursor_1 = self.ch_1.cursor() 
         try:
             self.round_course=str(input("What is the name of the course? i.e. Harding Park "))
         except ValueError:
@@ -172,6 +173,19 @@ class Cli:
         #*arg and **kwags maybe here
             self.round_list=[]
             self.round_dict={}
+            #call query that gets the lowest score and the highest score
+            old_max_score_query="SELECT MAX(total_score) from golf.round_data_summary;"
+            old_min_score_query="SELECT MIN(total_score) from golf.round_data_summary;"
+            #store the scores
+            old_max_score_df=pd.read_sql(old_max_score_query, self.ch_1)
+            print(old_max_score_df) # how to subset for the first
+            old_min_score_df=pd.read_sql(old_min_score_query, self.ch_1)
+            print(old_min_score_df)
+            #query the old average
+            old_avg_score_query="SELECT SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
+            old_avg_score_df=pd.read_sql(old_avg_score_query,self.ch_1)
+            print(old_avg_score_df)
+
             try:
                 self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
             except ValueError:
@@ -208,6 +222,8 @@ class Cli:
                 print(err)
 
             self.df_round=pd.DataFrame(self.round_list)
+            # compare if the score is higher or lower than the highest and the lowest
+            #compare the old average and the new average
 
 
 
