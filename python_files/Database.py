@@ -117,24 +117,3 @@ class Database:
 
 
 
-# c=Data_Cleaner()
-# c.clean_stat_data()
-# c.clean_rank_data()
-# c.clean_pga_player_data()
-# c.clean_lpga_player_data()
-
-# rank_list=c.get_rank_list()
-# stat_list=c.get_stat_list()
-# pga_player_list=c.get_pga_player_list()
-# lpga_player_list=c.get_lpga_player_list()
-
-# d=Database()
-
-# ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
-# ch_2=d.try_connection_db("localhost", "root", config("mysql_pass"), "golf")
-
-# engine = create_engine(f"mysql+pymysql://root:{config('mysql_pass')}@localhost/golf")
-# d.create_connection()
-# d.create_connection_db()
-# d.insert_file()
-#d.create_database()

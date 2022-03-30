@@ -178,13 +178,16 @@ class Cli:
             old_min_score_query="SELECT MIN(total_score) from golf.round_data_summary;"
             #store the scores
             old_max_score_df=pd.read_sql(old_max_score_query, self.ch_1)
-            print(old_max_score_df) # how to subset for the first
+            old_max_score_df_value=old_max_score_df.iloc[0][0]
+            #64.0
+
             old_min_score_df=pd.read_sql(old_min_score_query, self.ch_1)
-            print(old_min_score_df)
+            old_min_score_df_value=old_min_score_df.iloc[0][0]
+            #4.0
             #query the old average
             old_avg_score_query="SELECT SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
             old_avg_score_df=pd.read_sql(old_avg_score_query,self.ch_1)
-            print(old_avg_score_df)
+            print(old_avg_score_df) #why is it returning None
 
             try:
                 self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))

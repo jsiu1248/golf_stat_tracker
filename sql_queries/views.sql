@@ -49,11 +49,13 @@ LEFT JOIN golf.round_data_dim round_data_dim ON stat.id=round_data_dim.player_id
 
 
 -- a side note is that I am failing to update a mysql view. Strange. So, I'm updating the actual table
+-- maybe this need to been a trigger
 UPDATE golf.stat
 SET gir_pct=(SELECT green_reg_avg FROM GOLF.round_data_dim), 
 putt_avg=(SELECT putt_avg FROM GOLF.round_data_dim), 
 drive_avg=(SELECT AVG(DISTANCE) AVG_DRIVE FROM golf.practice_data WHERE SHOT_TYPE_NAME='drive'),
-scrambling_pct=(SELECT scramble_avg FROM GOLF.round_data_dim)
+scrambling_pct=(SELECT scramble_avg FROM GOLF.round_data_dim), 
+scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary)
 -- I need to add average_score
 
 WHERE ID='00000000-0000-0000-0000-000000000001'
