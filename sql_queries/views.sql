@@ -56,7 +56,6 @@ putt_avg=(SELECT putt_avg FROM GOLF.round_data_dim),
 drive_avg=(SELECT AVG(DISTANCE) AVG_DRIVE FROM golf.practice_data WHERE SHOT_TYPE_NAME='drive'),
 scrambling_pct=(SELECT scramble_avg FROM GOLF.round_data_dim), 
 scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary)
--- I need to add average_score
 
 WHERE ID='00000000-0000-0000-0000-000000000001'
 

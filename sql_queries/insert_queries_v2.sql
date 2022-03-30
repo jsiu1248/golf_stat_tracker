@@ -219,3 +219,23 @@ VALUES
 UPDATE golf.stat
 SET world_rank=0
 WHERE id='00000000-0000-0000-0000-000000000001';
+
+
+
+DROP PROCEDURE IF EXISTS personal_stat;
+CREATE PROCEDURE personal_stat
+(
+        IN GIR_PCT FLOAT(4),
+        IN PUTT_AVG FLOAT(4),
+        IN DRIVE_AVG FLOAT(6), 
+        IN SCRAMBLING_PCT FLOAT(4),
+        IN score_avg FLOAT(5)
+)
+UPDATE golf.stat
+SET gir_pct=(SELECT green_reg_avg FROM GOLF.round_data_dim), 
+putt_avg=(SELECT putt_avg FROM GOLF.round_data_dim), 
+drive_avg=(SELECT AVG(DISTANCE) AVG_DRIVE FROM golf.practice_data WHERE SHOT_TYPE_NAME='drive'),
+scrambling_pct=(SELECT scramble_avg FROM GOLF.round_data_dim), 
+scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary)
+
+WHERE ID='00000000-0000-0000-0000-000000000001';
