@@ -176,6 +176,9 @@ class Cli:
             #call query that gets the lowest score and the highest score
             old_max_score_query="SELECT MAX(total_score) from golf.round_data_summary;"
             old_min_score_query="SELECT MIN(total_score) from golf.round_data_summary;"
+            new_max_score_query= old_max_score_query
+            new_min_score_query=old_min_score_query
+
             #store the scores
             old_max_score_df=pd.read_sql(old_max_score_query, self.ch_1)
             old_max_score_df_value=old_max_score_df.iloc[0][0]
@@ -186,8 +189,10 @@ class Cli:
             #4.0
             #query the old average
             old_avg_score_query="SELECT SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
+            new_avg_score_query=old_avg_score_query
             old_avg_score_df=pd.read_sql(old_avg_score_query,self.ch_1)
-            print(old_avg_score_df) #why is it returning None
+            old_avg_score_df_value=old_avg_score_df.iloc[0][0]
+
 
             try:
                 self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
@@ -225,6 +230,26 @@ class Cli:
                 print(err)
 
             self.df_round=pd.DataFrame(self.round_list)
+
+            new_max_score_df=pd.read_sql(new_max_score_query, self.ch_1)
+            new_max_score_df_value=new_max_score_df.iloc[0][0]
+
+            new_min_score_df=pd.read_sql(new_min_score_query, self.ch_1)
+            new_min_score_df_value=new_min_score_df.iloc[0][0]
+
+
+            new_avg_score_df=pd.read_sql(new_avg_score_query, self.ch_1)
+            new_avg_score_df_value=new_avg_score_df.iloc[0][0]
+
+
+
+            if old_max_score_df_value<new_max_score_df_value:
+                print(f"Aw. You you have a new high score from {old_max_score_df_value} to {new_max_score_df_value} for your total score. Keep practicing.")
+            if old_min_score_df_value>new_min_score_df_value:
+                print(f"Yay. You improved from {old_min_score_df_value} to {new_min_score_df_value} for your total score.")
+            if old_avg_score_df_value>new_avg_score_df_value:
+                print(f"Yay. You improved from {old_avg_score_df_value} to {new_avg_score_df_value} for your average score.")
+
             # compare if the score is higher or lower than the highest and the lowest
             #compare the old average and the new average
 
