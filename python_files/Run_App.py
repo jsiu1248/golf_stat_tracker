@@ -147,7 +147,6 @@ run=Run_App()
 #* unpacks iterables ** unpacks dictionaries
 
 
-#maybe add a golf hole table so that can analyze the averages later.
 #maybe separate the classes into just the inputs from cli and then class to changing the data
 
 
@@ -161,30 +160,26 @@ run=Run_App()
 
 #how do I highlight myself on graphs
 #maybe I can add a column that is me and others so that it can be different colors
-#API fairway data
 #Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
 #Sand Save Percentage" will be included soon.
-#With "Scoring Average," I'll have to double check if I actually pulled the data for it. I'll have to include it soon.
-#I'm still figuring out how I can improve by tracking my goals
 
 
-# you improved int your score
-# you did your lowest score
-#you did your highest score.
-#You decreased on your score. 
-#decrease
 
 # increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
 # decrease putt_avg, hole_prox_avg, scoring_avg
 #highest - ddrive, 
 # lowest - score
 
-# so, I have an old drive avg. 
-# I have to insert new data that will either increase or decrease the drive age. 
-#if I increase the drive avg then say the number and then final drive avg from the old drive avg
-# by x percentage
 
 
+
+
+##Put in markdown
+# you improved int your score
+# you did your lowest score
+#you did your highest score.
+#You decreased on your score. 
+#decrease
 # lowest score
 # go to round_summary
 # after entering round then if the lowest or highest score then return 
@@ -193,3 +188,4 @@ run=Run_App()
 # enter the latest score then get new avg. 
 #if the old avg < new avg then say improvement
 # if the new total is higher that the old highest score and lower than the old newest score then return it
+

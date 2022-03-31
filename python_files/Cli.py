@@ -179,6 +179,7 @@ class Cli:
             new_max_score_query= old_max_score_query
             new_min_score_query=old_min_score_query
 
+
             #store the scores
             old_max_score_df=pd.read_sql(old_max_score_query, self.ch_1)
             old_max_score_df_value=old_max_score_df.iloc[0][0]
@@ -188,10 +189,24 @@ class Cli:
             old_min_score_df_value=old_min_score_df.iloc[0][0]
             #4.0
             #query the old average
-            old_avg_score_query="SELECT SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
-            new_avg_score_query=old_avg_score_query
-            old_avg_score_df=pd.read_sql(old_avg_score_query,self.ch_1)
-            old_avg_score_df_value=old_avg_score_df.iloc[0][0]
+            # old_avg_score_query="SELECT SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
+            # new_avg_score_query=old_avg_score_query
+            # old_avg_score_df=pd.read_sql(old_avg_score_query,self.ch_1)
+            # old_avg_score_df_value=old_avg_score_df.iloc[0][0]
+
+            #get the drive avg
+            old_query="SELECT DRIVE_AVG, GIR_PCT, SAND_SAVES_PCT, BIRDIES_PER_ROUND, HOLE_PROXIMITY_AVG, SCRAMBLING_PCT, SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
+            new_query=old_query
+            old_df=pd.read_sql(old_query,self.ch_1)
+
+
+            #so only this line needs to change for each variable. 
+            old_drive_avg_df_value=old_df.iloc[0][0]
+            old_gir_pct_df_value=old_df.iloc[0][1]
+            # old_sand_saves_pct_df_value=old_df.iloc[0][2]
+            old_scrambling_pct_df_value=old_df.iloc[0][5]
+            old_avg_score_df_value=old_df.iloc[0][6]
+
 
 
             try:
@@ -238,22 +253,44 @@ class Cli:
             new_min_score_df_value=new_min_score_df.iloc[0][0]
 
 
-            new_avg_score_df=pd.read_sql(new_avg_score_query, self.ch_1)
-            new_avg_score_df_value=new_avg_score_df.iloc[0][0]
+#need to call code here to update stat my player's data
+
+            new_df=pd.read_sql(new_query, self.ch_1)
+            new_drive_avg_df_value=new_df.iloc[0][0]
+            new_gir_pct_df_value=new_df.iloc[0][1]
+            # new_sand_saves_pct_df_value=new_df.iloc[0][2]
+            new_scrambling_pct_df_value=new_df.iloc[0][5]
+            new_avg_score_df_value=new_df.iloc[0][6]
+            #which avg score should I use?
 
 
 
             if old_max_score_df_value<new_max_score_df_value:
                 print(f"Aw. You you have a new high score from {old_max_score_df_value} to {new_max_score_df_value} for your total score. Keep practicing.")
             if old_min_score_df_value>new_min_score_df_value:
-                print(f"Yay. You improved from {old_min_score_df_value} to {new_min_score_df_value} for your total score.")
+                print(f"Yay. You improved from {old_min_score_df_value} to {new_min_score_df_value} for your total score. A {(new_min_score_df_value-old_min_score_df_value)/old_min_score_df_value*100}% decrease.")
             if old_avg_score_df_value>new_avg_score_df_value:
-                print(f"Yay. You improved from {old_avg_score_df_value} to {new_avg_score_df_value} for your average score.")
-
-            # compare if the score is higher or lower than the highest and the lowest
-            #compare the old average and the new average
+                print(f"Yay. You improved from {old_avg_score_df_value} to {new_avg_score_df_value} for your average score. A {(new_avg_score_df_value-old_avg_score_df_value)/old_avg_score_df_value*100}% decrease.")
 
 
+            if old_drive_avg_df_value<new_avg_score_df_value:
+                print(f"Yay. You improved from {old_drive_avg_df_value} to {new_drive_avg_df_value} for your drive average. A {(new_drive_avg_df_value - old_drive_avg_df_value)/old_drive_avg_df_value*100}% increase.")
+            if old_gir_pct_df_value<new_gir_pct_df_value:
+                print(f"Yay. You improved from {old_gir_pct_df_value} to {new_gir_pct_df_value} for your greens in regulation pct. A {(new_gir_pct_df_value - old_gir_pct_df_value)/old_gir_pct_df_value*100}% increase.")
+            if old_scrambling_pct_df_value<new_scrambling_pct_df_value:
+                print(f"Yay. You improved from {old_scrambling_pct_df_value} to {new_scrambling_pct_df_value} for your scrambling pct. A {(new_scrambling_pct_df_value - old_scrambling_pct_df_value)/old_scrambling_pct_df_value*100}% increase.")
+
+
+
+
+
+            # increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
+# decrease putt_avg, hole_prox_avg, scoring_avg
+#highest - ddrive, 
+# lowest - score
+
+
+#update the stat table by running the personal_stat procedure
 
             #print(df)
             # self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
