@@ -141,7 +141,6 @@ run=Run_App()
 # testing
 # inheritance
 
-#pull request
 #testing 
 #*args pass a variable positional arguements not list, but tuple
 #* unpacks iterables ** unpacks dictionaries
@@ -150,8 +149,6 @@ run=Run_App()
 #maybe separate the classes into just the inputs from cli and then class to changing the data
 
 
-#avg
-# figure out improvement more
 
 #add data to putt distance
 #add data to club distance
@@ -165,11 +162,7 @@ run=Run_App()
 
 
 
-# increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
 # decrease putt_avg, hole_prox_avg, scoring_avg
-#highest - ddrive, 
-# lowest - score
-
 
 
 
@@ -189,3 +182,4 @@ run=Run_App()
 #if the old avg < new avg then say improvement
 # if the new total is higher that the old highest score and lower than the old newest score then return it
 
+# increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing

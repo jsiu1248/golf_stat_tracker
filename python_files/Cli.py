@@ -195,7 +195,7 @@ class Cli:
             # old_avg_score_df_value=old_avg_score_df.iloc[0][0]
 
             #get the drive avg
-            old_query="SELECT DRIVE_AVG, GIR_PCT, SAND_SAVES_PCT, BIRDIES_PER_ROUND, HOLE_PROXIMITY_AVG, SCRAMBLING_PCT, SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
+            old_query="SELECT DRIVE_AVG, GIR_PCT, SAND_SAVES_PCT, BIRDIES_PER_ROUND, HOLE_PROXIMITY_AVG, SCRAMBLING_PCT, SCORING_AVG, PUTT_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
             new_query=old_query
             old_df=pd.read_sql(old_query,self.ch_1)
 
@@ -206,6 +206,7 @@ class Cli:
             # old_sand_saves_pct_df_value=old_df.iloc[0][2]
             old_scrambling_pct_df_value=old_df.iloc[0][5]
             old_avg_score_df_value=old_df.iloc[0][6]
+            old_putt_avg_df_value=old_df.iloc[0][7]
 
 
 
@@ -254,6 +255,8 @@ class Cli:
 
 
 #need to call code here to update stat my player's data
+#update the stat table by running the personal_stat procedure
+
 
             new_df=pd.read_sql(new_query, self.ch_1)
             new_drive_avg_df_value=new_df.iloc[0][0]
@@ -261,6 +264,8 @@ class Cli:
             # new_sand_saves_pct_df_value=new_df.iloc[0][2]
             new_scrambling_pct_df_value=new_df.iloc[0][5]
             new_avg_score_df_value=new_df.iloc[0][6]
+            new_putt_avg_df_value=new_df.iloc[0][7]
+
             #which avg score should I use?
 
 
@@ -279,18 +284,15 @@ class Cli:
                 print(f"Yay. You improved from {old_gir_pct_df_value} to {new_gir_pct_df_value} for your greens in regulation pct. A {(new_gir_pct_df_value - old_gir_pct_df_value)/old_gir_pct_df_value*100}% increase.")
             if old_scrambling_pct_df_value<new_scrambling_pct_df_value:
                 print(f"Yay. You improved from {old_scrambling_pct_df_value} to {new_scrambling_pct_df_value} for your scrambling pct. A {(new_scrambling_pct_df_value - old_scrambling_pct_df_value)/old_scrambling_pct_df_value*100}% increase.")
+            if old_putt_avg_df_value>new_putt_avg_df_value:
+                print(f"Yay. You improved from {old_putt_avg_df_value} to {new_putt_avg_df_value} for your scrambling pct. A {(new_putt_avg_df_value - old_putt_avg_df_value)/old_putt_avg_df_value*100}% increase.")
 
 
 
 
-
-            # increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
-# decrease putt_avg, hole_prox_avg, scoring_avg
-#highest - ddrive, 
-# lowest - score
+# hole_prox_avg
 
 
-#update the stat table by running the personal_stat procedure
 
             #print(df)
             # self.df_round_melt=pd.melt(self.df_round, id_vars=['id','date','round_course','round_hole'],value_vars=['round_drive','round_green_reg','round_score','round_putt','round_fairway','round_proximity_to_hole',
