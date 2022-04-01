@@ -160,9 +160,8 @@ run=Run_App()
 #Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
 #Sand Save Percentage" will be included soon.
 
+#hole_prox_avg,
 
-
-# decrease putt_avg, hole_prox_avg, scoring_avg
 
 
 
@@ -183,3 +182,4 @@ run=Run_App()
 # if the new total is higher that the old highest score and lower than the old newest score then return it
 
 # increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
+# decrease putt_avg,  scoring_avg

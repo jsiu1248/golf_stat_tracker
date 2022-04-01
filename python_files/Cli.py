@@ -289,6 +289,11 @@ class Cli:
 
 
 
+#3/31/2022
+#add data to sand save
+#maybe I can add a column that is me and others so that it can be different colors - add a column to the view
+#Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
+
 
 # hole_prox_avg
 

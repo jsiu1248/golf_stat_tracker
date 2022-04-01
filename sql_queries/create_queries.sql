@@ -54,6 +54,8 @@ CREATE TABLE IF NOT EXISTS round
         fairway INT(1),
         proximity_to_hole FLOAT(5), 
         scramble INT(1),
+        sand_success INT(1),
+        sand_total INT(1),
         PRIMARY KEY(id));
 
 CREATE TABLE IF NOT EXISTS practice 
@@ -141,3 +143,7 @@ ADD score_avg FLOAT(5)
 
 ALTER TABLE golf.stat
 RENAME COLUMN score_avg TO scoring_avg;
+
+ALTER TABLE golf.round
+ADD sand_success INT(1),
+ADD sand_total INT(1);
