@@ -45,7 +45,7 @@ SELECT player_id, shot_type_id, ROUND(SUM(success)/SUM(total),2) succes_rate FRO
 
 -- this table has both the pga summary data and my data
  CREATE OR REPLACE VIEW player_pga_data AS 
-SELECT stat.id, stat.earnings, stat.drive_avg, stat.gir_pct, stat.putt_avg, stat.sand_saves_pct, stat.birdies_per_round, stat.hole_proximity_avg, stat.scrambling_pct, stat.world_rank, 
+SELECT stat.id, stat.earnings, stat.drive_avg, stat.gir_pct, stat.putt_avg, stat.sand_saves_pct, stat.birdies_per_round, stat.hole_proximity_avg, stat.scrambling_pct, stat.world_rank, stat.scoring_avg, stat.player_type,
 player.first_name, player.last_name, player.height, player.birthday, player.country, player.residence, player.birth_place, player.college FROM GOLF.STAT stat
 LEFT JOIN  golf.pga_player player ON stat.id=player.id
 LEFT JOIN golf.round_data_dim round_data_dim ON stat.id=round_data_dim.player_id

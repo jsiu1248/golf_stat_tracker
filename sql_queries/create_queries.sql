@@ -147,3 +147,6 @@ RENAME COLUMN score_avg TO scoring_avg;
 ALTER TABLE golf.round
 ADD sand_success INT(1),
 ADD sand_total INT(1);
+
+ALTER TABLE GOLF.STAT
+ADD player_type VARCHAR(255);

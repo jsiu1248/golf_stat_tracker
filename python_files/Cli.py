@@ -261,9 +261,6 @@ class Cli:
             new_min_score_df_value=new_min_score_df.iloc[0][0]
 
 
-#need to call code here to update stat my player's data
-#update the stat table by running the personal_stat procedure
-
 
             new_df=pd.read_sql(new_query, self.ch_1)
             new_drive_avg_df_value=new_df.iloc[0][0]

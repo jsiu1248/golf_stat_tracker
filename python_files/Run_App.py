@@ -154,9 +154,7 @@ run=Run_App()
 #add data to club distance
 #add data to sand save
 #logic if don't get to practice or round then remove session?
-
-#how do I highlight myself on graphs
-#maybe I can add a column that is me and others so that it can be different colors
+#fix all of the graphs
 
 #hole_prox_avg,
 
@@ -183,3 +181,5 @@ run=Run_App()
 # decrease putt_avg,  scoring_avg
 #Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
 #Sand Save Percentage" will be included soon.
+#how do I highlight myself on graphs
+#maybe I can add a column that is me and others so that it can be different colors

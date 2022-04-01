@@ -7,7 +7,7 @@ class Graph:
     def __init__(self,ch_1):
         self.ch_1=ch_1
         self.cursor_1 = self.ch_1.cursor() 
-        self.pga_graph_query="SELECT * from golf.pga_data;"
+        self.pga_graph_query="SELECT * from golf.player_pga_data;"
         self.round_graph_query='SELECT * FROM golf.round_data;'
         self.practice_graph_query='SELECT * FROM golf.practice_data;'
    
@@ -45,7 +45,7 @@ class Graph:
 
         gir_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         gir_pct_graph_df.sort_values(by="world_rank", ascending=True)
-        gir_pct_fig = px.scatter(gir_pct_graph_df, x="world_rank", y="gir_pct",
+        gir_pct_fig = px.scatter(gir_pct_graph_df, x="world_rank", y="gir_pct", color="player_type",
         title="GIR Comparision", hover_data=["first_name", "last_name","gir_pct"], range_y=(0,max(gir_pct_graph_df.gir_putt)))
         gir_pct_fig.show()
 
@@ -55,7 +55,7 @@ class Graph:
 
         drive_avg_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         drive_avg_graph_df.sort_values(by="world_rank", ascending=True)
-        drive_avg_fig = px.scatter(drive_avg_graph_df, x="world_rank", y="drive_avg",
+        drive_avg_fig = px.scatter(drive_avg_graph_df, x="world_rank", y="drive_avg", color="player_type",
         title="Drive Avg Comparision", hover_data=["first_name", "last_name","drive_avg"], range_y=(0,max(drive_avg_graph_df.drive_avg)))
         drive_avg_fig.show()
 
@@ -65,7 +65,7 @@ class Graph:
 
         sand_saves_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         sand_saves_pct_graph_df.sort_values(by="world_rank", ascending=True)
-        sand_saves_pct_fig = px.scatter(sand_saves_pct_graph_df, x="world_rank", y="sand_saves_pct", 
+        sand_saves_pct_fig = px.scatter(sand_saves_pct_graph_df, x="world_rank", y="sand_saves_pct", color="player_type",
         title="Sand Save Pct Comparision", hover_data=["first_name", "last_name","sand_saves_pct"], range_y=(0,max(sand_saves_pct_graph_df.sand_saves_pct)))
         sand_saves_pct_fig.show()
 

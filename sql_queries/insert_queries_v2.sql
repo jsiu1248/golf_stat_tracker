@@ -243,3 +243,11 @@ scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary),
 sand_saves_pct=(SELECT SAND_SAVES_PCT FROM GOLF.round_data_dim)
 
 WHERE ID='00000000-0000-0000-0000-000000000001';
+
+UPDATE golf.stat
+SET player_type='non-pga'
+WHERE id='00000000-0000-0000-0000-000000000001';
+
+UPDATE golf.stat
+SET player_type='pga'
+WHERE id <> '00000000-0000-0000-0000-000000000001';
