@@ -203,7 +203,7 @@ class Cli:
             #so only this line needs to change for each variable. 
             old_drive_avg_df_value=old_df.iloc[0][0]
             old_gir_pct_df_value=old_df.iloc[0][1]
-            # old_sand_saves_pct_df_value=old_df.iloc[0][2]
+            old_sand_saves_pct_df_value=old_df.iloc[0][2]
             old_scrambling_pct_df_value=old_df.iloc[0][5]
             old_avg_score_df_value=old_df.iloc[0][6]
             old_putt_avg_df_value=old_df.iloc[0][7]
@@ -225,6 +225,9 @@ class Cli:
                     self.round_fairway=int(input("Did you hit the fairway? i.e. 1 or 0 "))
                     self.round_proximity_to_hole=int(input("What was the proximity to the hole in yards? i.e. 39 "))
                     self.round_scramble=int(input("Did you scramble? i.e. 1 or 0 "))
+                    self.round_sand_success=int(input("How many sand successes did you have? i.e. 2 "))
+                    self.round_sand_total=int(input("How many total sand shots did you have? i.e. 4 "))
+
                 except ValueError:
                     print("Has to be a number.")
                 self.round_dict["player_id"]='00000000-0000-0000-0000-000000000001'
@@ -236,9 +239,13 @@ class Cli:
                 self.round_dict["fairway"]=self.round_fairway
                 self.round_dict["proximity_to_hole"]=self.round_proximity_to_hole
                 self.round_dict["scramble"]=self.round_scramble
+                self.round_dict["sand_success"]=self.round_sand_success
+                self.round_dict["sand_total"]=self.round_sand_total
+
+
                 self.round_list.append(self.round_dict.copy())
             try:
-                round_insert_query="CALL GOLF.insert_ROUND(%(player_id)s,%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s);"
+                round_insert_query="CALL GOLF.insert_ROUND(%(player_id)s,%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s, %(sand_success)s, %(sand_total)s);"
                 for element in self.round_list:
                         self.cursor_1.execute(round_insert_query, element)
                 self.ch_1.commit()
@@ -261,7 +268,7 @@ class Cli:
             new_df=pd.read_sql(new_query, self.ch_1)
             new_drive_avg_df_value=new_df.iloc[0][0]
             new_gir_pct_df_value=new_df.iloc[0][1]
-            # new_sand_saves_pct_df_value=new_df.iloc[0][2]
+            new_sand_saves_pct_df_value=new_df.iloc[0][2]
             new_scrambling_pct_df_value=new_df.iloc[0][5]
             new_avg_score_df_value=new_df.iloc[0][6]
             new_putt_avg_df_value=new_df.iloc[0][7]
@@ -285,14 +292,15 @@ class Cli:
             if old_scrambling_pct_df_value<new_scrambling_pct_df_value:
                 print(f"Yay. You improved from {old_scrambling_pct_df_value} to {new_scrambling_pct_df_value} for your scrambling pct. A {(new_scrambling_pct_df_value - old_scrambling_pct_df_value)/old_scrambling_pct_df_value*100}% increase.")
             if old_putt_avg_df_value>new_putt_avg_df_value:
-                print(f"Yay. You improved from {old_putt_avg_df_value} to {new_putt_avg_df_value} for your scrambling pct. A {(new_putt_avg_df_value - old_putt_avg_df_value)/old_putt_avg_df_value*100}% increase.")
+                print(f"Yay. You improved from {old_putt_avg_df_value} to {new_putt_avg_df_value} for your putting average. A {(new_putt_avg_df_value - old_putt_avg_df_value)/old_putt_avg_df_value*100}% decrease.")
+            if old_sand_saves_pct_df_value<new_sand_saves_pct_df_value:
+                print(f"Yay. You improved from {old_sand_saves_pct_df_value} to {new_sand_saves_pct_df_value} for your sand save pct. A {(new_sand_saves_pct_df_value - old_sand_saves_pct_df_value)/old_sand_saves_pct_df_value*100}% increase.")
+
 
 
 
 #3/31/2022
-#add data to sand save
 #maybe I can add a column that is me and others so that it can be different colors - add a column to the view
-#Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
 
 
 # hole_prox_avg

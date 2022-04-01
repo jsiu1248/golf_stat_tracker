@@ -113,12 +113,14 @@ CREATE PROCEDURE insert_round
         IN putt INT(1), 
         IN fairway INT(1),
         IN proximity_to_hole FLOAT(5), 
-        IN scramble INT(1)
+        IN scramble INT(1), 
+        IN sand_success INT(1),
+        IN sand_total INT(1)
 )
 INSERT IGNORE INTO golf.round
-    (player_id, session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble)
+    (player_id, session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble, sand_success, sand_total)
 VALUES
-    (player_id, session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble);
+    (player_id, session_id, hole, green_reg, score, putt, fairway, proximity_to_hole, scramble, sand_success, sand_total);
 
 
 DROP PROCEDURE IF EXISTS insert_practice;
@@ -231,11 +233,13 @@ CREATE PROCEDURE personal_stat
         IN SCRAMBLING_PCT FLOAT(4),
         IN score_avg FLOAT(5)
 )
+
 UPDATE golf.stat
 SET gir_pct=(SELECT green_reg_avg FROM GOLF.round_data_dim), 
 putt_avg=(SELECT putt_avg FROM GOLF.round_data_dim), 
 drive_avg=(SELECT AVG(DISTANCE) AVG_DRIVE FROM golf.practice_data WHERE SHOT_TYPE_NAME='drive'),
 scrambling_pct=(SELECT scramble_avg FROM GOLF.round_data_dim), 
-scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary)
+scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary), 
+sand_saves_pct=(SELECT SAND_SAVES_PCT FROM GOLF.round_data_dim)
 
 WHERE ID='00000000-0000-0000-0000-000000000001';

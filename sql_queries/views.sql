@@ -23,14 +23,17 @@ LEFT JOIN GOLF.SESSION_TYPE ON SELF_SESSION.SESSION_TYPE_ID=SESSION_TYPE.SESSION
 LEFT JOIN GOLF.GOLF_COURSE ON SELF_SESSION.COURSE_ID=GOLF_COURSE.ID;
 
 
+-- check the logic of sand_saves_pct
  CREATE OR REPLACE VIEW round_data_summary AS 
 SELECT player_id, session_id, ROUND(AVG(green_reg),2)*100  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
- ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),2)*100 scramble_avg, SUM(SCORE) total_score FROM golf.round group by session_id;
+ ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),2)*100 scramble_avg, SUM(SCORE) total_score, 
+ ROUND(AVG(sand_success/sand_total),2)*100 sand_saves_pct FROM golf.round group by session_id;
 
 
  CREATE OR REPLACE VIEW round_data_dim AS
  SELECT player_id, ROUND(AVG(green_reg),2)*100  green_reg_avg, ROUND(AVG(score),1) score_avg, ROUND(AVG(putt),1) putt_avg,
- ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),2)*100 scramble_avg FROM golf.round;
+ ROUND(AVG(fairway),1) fairway_avg, ROUND(AVG(proximity_to_hole),1) proximity_to_hole_avg, ROUND(AVG(scramble),2)*100 scramble_avg, 
+ ROUND(AVG(sand_success/sand_total),2)*100 sand_saves_pct FROM golf.round;
 
 
  CREATE OR REPLACE VIEW practice_data_summary AS 
@@ -48,16 +51,7 @@ LEFT JOIN  golf.pga_player player ON stat.id=player.id
 LEFT JOIN golf.round_data_dim round_data_dim ON stat.id=round_data_dim.player_id
 
 
--- a side note is that I am failing to update a mysql view. Strange. So, I'm updating the actual table
--- maybe this need to been a trigger
-UPDATE golf.stat
-SET gir_pct=(SELECT green_reg_avg FROM GOLF.round_data_dim), 
-putt_avg=(SELECT putt_avg FROM GOLF.round_data_dim), 
-drive_avg=(SELECT AVG(DISTANCE) AVG_DRIVE FROM golf.practice_data WHERE SHOT_TYPE_NAME='drive'),
-scrambling_pct=(SELECT scramble_avg FROM GOLF.round_data_dim), 
-scoring_avg=(SELECT AVG(TOTAL_SCORE) FROM GOLF.round_data_summary)
 
-WHERE ID='00000000-0000-0000-0000-000000000001'
 
 
 
