@@ -72,11 +72,11 @@ def Run_App():
         7. Personal Score Tracking
         """))
         
-        if graph_input==1: 
+        if graph_input==1: #working
             g.putting_distance_accuracy()
-        elif graph_input==2:
+        elif graph_input==2: # working
             g.earnings()
-        elif graph_input==3:
+        elif graph_input==3: #working
             g.gir_pct()
         elif graph_input==4: #working
             g.drive_avg()
@@ -127,7 +127,6 @@ run=Run_App()
 
 """
 
-#do I want to average all of the players?
 
 
 #Add data to distance tracking
@@ -152,34 +151,12 @@ run=Run_App()
 
 #add data to putt distance
 #add data to club distance
-#add data to sand save
-#logic if don't get to practice or round then remove session?
-#fix all of the graphs
 
 #hole_prox_avg,
 
+#do I need to make everything non-null average? Does sql know auto
 
 
 
 
-##Put in markdown
-# you improved int your score
-# you did your lowest score
-#you did your highest score.
-#You decreased on your score. 
-#decrease
-# lowest score
-# go to round_summary
-# after entering round then if the lowest or highest score then return 
-# find the lowest score and then highest score
-#before entering a round then get the avg
-# enter the latest score then get new avg. 
-#if the old avg < new avg then say improvement
-# if the new total is higher that the old highest score and lower than the old newest score then return it
 
-# increase - drive avg, gir_pct, sand save pct, birdies_per_round, scrambing
-# decrease putt_avg,  scoring_avg
-#Most likely it needed to be the round table. And, I could have had two columns: sand_success and sand_total.
-#Sand Save Percentage" will be included soon.
-#how do I highlight myself on graphs
-#maybe I can add a column that is me and others so that it can be different colors

@@ -180,21 +180,12 @@ class Cli:
             new_min_score_query=old_min_score_query
 
 
-            #store the scores
             old_max_score_df=pd.read_sql(old_max_score_query, self.ch_1)
             old_max_score_df_value=old_max_score_df.iloc[0][0]
-            #64.0
 
             old_min_score_df=pd.read_sql(old_min_score_query, self.ch_1)
             old_min_score_df_value=old_min_score_df.iloc[0][0]
-            #4.0
-            #query the old average
-            # old_avg_score_query="SELECT SCORING_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
-            # new_avg_score_query=old_avg_score_query
-            # old_avg_score_df=pd.read_sql(old_avg_score_query,self.ch_1)
-            # old_avg_score_df_value=old_avg_score_df.iloc[0][0]
 
-            #get the drive avg
             old_query="SELECT DRIVE_AVG, GIR_PCT, SAND_SAVES_PCT, BIRDIES_PER_ROUND, HOLE_PROXIMITY_AVG, SCRAMBLING_PCT, SCORING_AVG, PUTT_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
             new_query=old_query
             old_df=pd.read_sql(old_query,self.ch_1)
@@ -214,6 +205,7 @@ class Cli:
                 self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
             except ValueError:
                 print("Has to be a number.")
+                self.ch_1.rollback()
 
             for self.round_hole in range(1,self.round_num_holes+1):
                 try:
@@ -230,6 +222,7 @@ class Cli:
 
                 except ValueError:
                     print("Has to be a number.")
+                    self.ch_1.rollback()
                 self.round_dict["player_id"]='00000000-0000-0000-0000-000000000001'
                 self.round_dict["session_id"]=self.session_id
                 self.round_dict["hole"]=self.round_hole
@@ -290,17 +283,15 @@ class Cli:
                 print(f"Yay. You improved from {old_scrambling_pct_df_value} to {new_scrambling_pct_df_value} for your scrambling pct. A {(new_scrambling_pct_df_value - old_scrambling_pct_df_value)/old_scrambling_pct_df_value*100}% increase.")
             if old_putt_avg_df_value>new_putt_avg_df_value:
                 print(f"Yay. You improved from {old_putt_avg_df_value} to {new_putt_avg_df_value} for your putting average. A {(new_putt_avg_df_value - old_putt_avg_df_value)/old_putt_avg_df_value*100}% decrease.")
-            if old_sand_saves_pct_df_value<new_sand_saves_pct_df_value:
+            if old_sand_saves_pct_df_value is not None and new_sand_saves_pct_df_value is not None and old_sand_saves_pct_df_value<new_sand_saves_pct_df_value :
                 print(f"Yay. You improved from {old_sand_saves_pct_df_value} to {new_sand_saves_pct_df_value} for your sand save pct. A {(new_sand_saves_pct_df_value - old_sand_saves_pct_df_value)/old_sand_saves_pct_df_value*100}% increase.")
 
 
 
 
-#3/31/2022
-#maybe I can add a column that is me and others so that it can be different colors - add a column to the view
+#4/1/2022
+#do I want to average all of the players?
 
-
-# hole_prox_avg
 
 
 
@@ -314,11 +305,12 @@ class Cli:
             # id should be cascaded here
     def practice(self): # can use arguements here if I want to
         #*arg and **kwags maybe here
-            # how do I change the data when I did something wrong?
             try:
                 self.num_type=int(input("How many types of shots were you try this time? i.e 2 "))
             except ValueError:
                 print("Has to be a number")
+                self.ch_1.rollback()
+
             self.practice_list=[]
             self.practice_dict={}
             for num in range(1,self.num_type+1):
@@ -326,14 +318,19 @@ class Cli:
                     self.practice_shot_type=str(input("What is the shot type? ie. chip, drive, putt, pitch, sand, iron "))
                 except ValueError:
                     print("Has to be text.")
+                    self.ch_1.rollback()
+
                 try: 
                     self.practice_success=int(input(f"What many times did you success the {self.practice_shot_type} i.e. 2 "))
                     self.practice_total=int(input(f"How many total {self.practice_shot_type} did you make? i.e. 3"))
-                    self.practice_club=input(f"What club did you use for the {self.practice_shot_type}? i.e. 9_iron ")
+                    self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying in yards? i.e. 123 "))
+
                 except ValueError:
                     print("Has to be a number")
-                self.practice_distance=int(input(f"What was the distance of {self.practice_shot_type} were you trying in yards? i.e. 123 "))
+                    self.ch_1.rollback()
+
                 self.practice_dict["session_id"]=self.session_id
+                self.practice_club=input(f"What club did you use for the {self.practice_shot_type}? i.e. 9_iron ")
 
 
                 shot_type_query="SELECT DISTINCT shot_id from golf.shot_type WHERE name=%s;"

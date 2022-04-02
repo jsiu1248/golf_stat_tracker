@@ -46,7 +46,7 @@ class Graph:
         gir_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
         gir_pct_graph_df.sort_values(by="world_rank", ascending=True)
         gir_pct_fig = px.scatter(gir_pct_graph_df, x="world_rank", y="gir_pct", color="player_type",
-        title="GIR Comparision", hover_data=["first_name", "last_name","gir_pct"], range_y=(0,max(gir_pct_graph_df.gir_putt)))
+        title="GIR Comparision", hover_data=["first_name", "last_name","gir_pct"], range_y=(0,max(gir_pct_graph_df.gir_pct)))
         gir_pct_fig.show()
 
     def drive_avg(self):
