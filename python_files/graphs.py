@@ -3,6 +3,10 @@ from Database import *
 import pandas as pd
 import plotly.graph_objects as go
 
+
+"""
+Functions for the different graphs
+"""
 class Graph: 
     def __init__(self,ch_1):
         self.ch_1=ch_1
@@ -12,7 +16,9 @@ class Graph:
         self.practice_graph_query='SELECT * FROM golf.practice_data;'
    
 
-
+    """
+    Graph for putting distance accuracy
+    """
     def putting_distance_accuracy(self):
         # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
@@ -29,8 +35,11 @@ class Graph:
         putting_distance_accuracy_fig.show()
 #actually need to change this data
 
+
+    """
+    Graph for earnings comparision
+    """
     def earnings(self):
-        # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
 
         earnings_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
@@ -39,8 +48,10 @@ class Graph:
         title="Earnings Comparision", hover_data=["first_name", "last_name","earnings"], range_y=(0,max(earnings_graph_df.earnings)))
         earnings_fig.show()
 
+    """
+    Graph for greens in regulation comparision
+    """
     def gir_pct(self):
-    # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
 
         gir_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
@@ -49,8 +60,10 @@ class Graph:
         title="GIR Comparision", hover_data=["first_name", "last_name","gir_pct"], range_y=(0,max(gir_pct_graph_df.gir_pct)))
         gir_pct_fig.show()
 
+    """
+    Graph for driving average
+    """
     def drive_avg(self):
-    # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
 
         drive_avg_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
@@ -59,8 +72,10 @@ class Graph:
         title="Drive Avg Comparision", hover_data=["first_name", "last_name","drive_avg"], range_y=(0,max(drive_avg_graph_df.drive_avg)))
         drive_avg_fig.show()
 
+    """
+    Graph for sand save percentage
+    """
     def sand_saves_pct(self):
-    # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
 
         sand_saves_pct_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
@@ -77,8 +92,10 @@ class Graph:
 #average putting per round
 #proximity to hole
 
+    """
+    Graph for putting average comparision
+    """
     def avg_putting(self):
-        # putting_distance_accurary_graph_query="CALL GOLF.PUTTING_DISTANCE_ACCURARY_GRAPH;"
 
 
         avg_putting_graph_df=pd.read_sql(self.pga_graph_query, self.ch_1)
@@ -87,8 +104,10 @@ class Graph:
         avg_putting_fig.show()
 
 
+    """
+    Graph for personal score tracking
+    """
     def score(self):
-        # average_score_graph_query="CALL GOLF.average_score_GRAPH;"
 
 #maybe at the date in the future
         score_graph_df=pd.read_sql(self.round_graph_query, self.ch_1)

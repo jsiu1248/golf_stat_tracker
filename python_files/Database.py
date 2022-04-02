@@ -8,6 +8,10 @@ import pymysql
 # from Data_Cleaner import Data_Cleaner
 import os
 
+
+"""
+Connecting to database and then inserting data
+"""
 class Database:
     def __init__(self,c):
         self.cwd=os.getcwd()
@@ -38,30 +42,32 @@ class Database:
 
 
 
-    def try_connection_db(self, host_name, user_name, user_password , db_name):
-        connection = None
-        try:
-            connection = mysql.connector.connect(
-                host=host_name,
-                user=user_name,
-                passwd=user_password,
-                database=db_name)
-            print("Connection to MySQL DB successful")
-        except Error as e:
-            print(f"The error '{e}' occurred")
+    # def try_connection_db(self, host_name, user_name, user_password , db_name):
+    #     connection = None
+    #     try:
+    #         connection = mysql.connector.connect(
+    #             host=host_name,
+    #             user=user_name,
+    #             passwd=user_password,
+    #             database=db_name)
+    #         print("Connection to MySQL DB successful")
+    #     except Error as e:
+    #         print(f"The error '{e}' occurred")
 
-        return connection
+    #     return connection
 
 
 
     def create_connection(self):
         self.cursor_1 = self.ch_1.cursor() 
 
-    def create_connection_db(self):
-        self.cursor_2 = self.ch_2.cursor()
+    # def create_connection_db(self):
+    #     self.cursor_2 = self.ch_2.cursor()
 
 
-
+        """
+        Inserting data through paramenters and calling the queries through procedures
+        """
     def insert_file(self):
 
         try: #don't need this

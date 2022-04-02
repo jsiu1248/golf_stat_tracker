@@ -3,8 +3,10 @@ from mysql.connector import Error
 from datetime import datetime 
 import pandas as pd
 from sqlalchemy import create_engine
-# from File_Reader import File_Reader
 
+"""
+Cleaning the data for each dataset
+"""
 class Data_Cleaner():
     def __init__(self,r, fd):
 
@@ -32,6 +34,10 @@ class Data_Cleaner():
     #         self.rank_list.append(self.rank_dict.copy())
         # return self.rank_list
         #print(self.rank_list)
+
+    """
+    Cleaning stat data. Accessing the elements differently that have a length of one or two.
+    """
     def clean_stat_data(self):
         self.stat="statistics"
         for stat_element in self.fd["stat_data"]["players"]:
@@ -58,6 +64,11 @@ class Data_Cleaner():
 
 
         #print(self.stat_list)
+
+
+    """
+    Cleaning pga_player data
+    """
     def clean_pga_player_data(self):
         for pga_player_element in self.fd["pga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
@@ -74,6 +85,10 @@ class Data_Cleaner():
             self.pga_player_list.append(self.pga_player_dict.copy())
         #return self.pga_player_list
         # print(self.pga_player_list)
+
+    """
+    Cleaning lpga_player data
+    """
     def clean_lpga_player_data(self):
         for lpga_player_element in self.fd["lpga_player_data"]["players"]:
             for element in (['id'],['first_name'],['last_name'],['height'],['birthday'],['country'],['residence'],['birth_place'],['college']):
@@ -92,11 +107,16 @@ class Data_Cleaner():
             self.lpga_player_list.append(self.lpga_player_dict.copy())
         # return self.lpga_player_list
         # print(self.lpga_player_list)
+
+    """
+    Cleaning lpga tournament data
+    """
     def clean_lpga_tournament_data(self):
         for lpga_tournament_element in self.fd["lpga_tournament_data"]["tournaments"]:
             print(lpga_tournament_element)
     # def get_rank_list(self):
     #     return self.rank_list
+
 
     def get_stat_list(self):
         return self.stat_list

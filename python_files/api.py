@@ -4,7 +4,9 @@ import os
 import json
 from Url import url
 
-
+""""
+looping through the links and then write the content into a json file.
+"""
 class Api:
     def __init__(self):
         self.cwd=os.getcwd()

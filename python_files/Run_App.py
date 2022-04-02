@@ -154,7 +154,6 @@ run=Run_App()
 
 #hole_prox_avg,
 
-#do I need to make everything non-null average? Does sql know auto
 
 
 

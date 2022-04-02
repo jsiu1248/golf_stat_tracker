@@ -1,3 +1,9 @@
+
+"""
+dictionary of keys with the links
+
+"""
+
 year=2021
 url= {#'ranking':f'https://api.sportradar.us/golf/trial/v3/en/players/wgr/{year}/rankings.json?',
 'stat':f'https://api.sportradar.us/golf/trial/pga/v3/en/{year}/players/statistics.json?',

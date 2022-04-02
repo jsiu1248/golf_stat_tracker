@@ -29,6 +29,9 @@ class Cli:
     #can reuse for inputting data 
 
 
+    """
+    creating a session for each round or practice. It gets removed later it the round or practice round doesn't go through.
+    """
     def session(self): 
         # *arg and **kwags maybe here
         try:
@@ -168,7 +171,9 @@ class Cli:
 
 
 
-
+    """
+    
+    """
     def round(self):
         #*arg and **kwags maybe here
             self.round_list=[]
