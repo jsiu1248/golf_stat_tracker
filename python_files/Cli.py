@@ -79,6 +79,8 @@ class Cli:
             """
             The user is asked the par for each hole. Then, the data is inserted. 
             """
+# this can be a function lines 85 to 90. The for loop 
+            
             for hole_num in range(1,self.hole+1):
                 hole_dict["golf_course_id"]=self.session_dict["course_id"]
                 par=input(f"What was the par for hole number {hole_num}")
