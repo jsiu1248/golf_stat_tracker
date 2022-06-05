@@ -1,6 +1,11 @@
 
 """
-dictionary of keys with the links
+Dictionary of keys with the links.
+You can try changing the year  to 2022, but the data may not be out yet. 
+stat contains the statistics of the tour players. 
+pga_player has the demogrpahics information for pga players. 
+lpga_player has the demopgrahics information for lpga players. It is currently not used because, their statistics are currently not avaliable. 
+lpga_tournament is currently not used. It contains tournament information for lpga players.  
 
 """
 
