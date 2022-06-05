@@ -40,16 +40,20 @@ class Data_Cleaner():
     """
     def clean_stat_data(self):
         self.stat="statistics"
+        #accessing the data from file_reader
         for stat_element in self.fd["stat_data"]["players"]:
+            #choosing only the elements needed from statistics
             for element in (['id'],(self.stat,'earnings'),(self.stat,'drive_avg'),
             (self.stat,'gir_pct'),(self.stat,'putt_avg'),(self.stat,'sand_saves_pct'),(self.stat,'birdies_per_round'),
             (self.stat,'hole_proximity_avg'),(self.stat,'scrambling_pct'),(self.stat,'world_rank'), (self.stat, 'scoring_avg')):
+            # there is different logic for elements of different sizes.
                 try:
                     if len(element)==1:
                         self.stat_dict[element[0]]=stat_element[element[0]]
                     elif len(element)==2:
                         self.stat_dict[element[1]]=stat_element[element[0]][element[1]]
-
+            
+            #this is to account for elements that have None.
                 except KeyError: 
                     if len(element)==1:
 
