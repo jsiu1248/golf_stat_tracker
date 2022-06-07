@@ -25,6 +25,7 @@ class Graph:
 
         putting_distance_accurary_graph_df=pd.read_sql(self.practice_graph_query, self.ch_1)
         putting_distance_accurary_graph_df_select=putting_distance_accurary_graph_df[["DATE","SHOT_TYPE_NAME","SUCCESS","TOTAL","DISTANCE","CLUB_NAME"]]
+        # creating accuracy
         putting_distance_accurary_graph_df_select["ACCURACY"] =  round(putting_distance_accurary_graph_df_select["SUCCESS"] / putting_distance_accurary_graph_df_select["TOTAL"],2)
         putting_distance_accurary_graph_df_clean = putting_distance_accurary_graph_df_select[putting_distance_accurary_graph_df_select["SHOT_TYPE_NAME"]=="putt"]
 
