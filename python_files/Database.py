@@ -16,13 +16,15 @@ class Database:
     def __init__(self,c):
         self.cwd=os.getcwd()
         self.path="Documents\codingnomads\python_capstone"
+        
+        # getting the clean data from the data cleaner
         # self.rank_list=c.get_rank_list()
         self.stat_list=c.get_stat_list()
         self.pga_player_list=c.get_pga_player_list()
         self.lpga_player_list=c.get_lpga_player_list()
         
 
-
+# testing the connection
     def try_connection(self, host_name, user_name, user_password):
         connection = None
         try:
@@ -36,6 +38,7 @@ class Database:
 
         return connection
 
+#creating this as a class method
     @classmethod
     def connection(cls,ch_1 ):
         cls.ch_1=ch_1
@@ -84,7 +87,7 @@ class Database:
 
 
 
-        
+        # going through the tuple of lists of data and if it equals the name then the data would insert and if it has the data already then it won't kick back an error
 
             for list in (self.lpga_player_list, self.pga_player_list, self.stat_list):
                 for element in list: #put try except here
@@ -103,6 +106,8 @@ class Database:
             #In this case: maybe. It may work for calling the execute function multiple times for your queries, but usually list comp is used for lists of things and not for calling something a bunch of times.
 
 #I would stick with a standard for loop
+            
+            #inserting data for club, shot_type, and stat_type. All of these are reference tables. 
             for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
             session_type_insert_query):
                 self.cursor_1.execute(query)

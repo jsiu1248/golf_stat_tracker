@@ -10,6 +10,7 @@ from Database import *
 
 class Cli:
     def __init__(self,ch_1):
+        # these are passed through here because we will need to insert data later, so we need the connection
         self.ch_1=ch_1
         self.cursor_1 = self.ch_1.cursor() 
 
@@ -52,8 +53,12 @@ class Cli:
             self.hole=int(input("How many holes? 9 or 18?"))
             golf_course_insert_query="CALL GOLF.INSERT_GOLF_COURSE(%(course_name)s, %(hole)s);"
             self.golf_course_dict={}
+
+        # The course name is set to the name of the course.
             self.golf_course_dict["course_name"]=self.round_course
             self.golf_course_dict["hole"]=self.hole
+            
+            #when executed this will insert a new course name to the course table
             self.cursor_1.execute(golf_course_insert_query, self.golf_course_dict)
             self.ch_1.commit()
 
@@ -65,7 +70,6 @@ class Cli:
             We are doing a lookup for the course_id of the course_name.
             """
             course_id_query="SELECT DISTINCT id from golf.golf_course WHERE course_name=%s;"
-
 
             self.cursor_1.execute(course_id_query, (self.round_course, ))
 
@@ -86,6 +90,8 @@ class Cli:
                 par=input(f"What was the par for hole number {hole_num}")
                 hole_dict["hole_num"]=hole_num
                 hole_dict["par"]=par
+
+                #The data for each hole is appended
                 hole_list.append(hole_dict.copy())
                 hole_insert_query="CALL GOLF.INSERT_HOLE(%(golf_course_id)s,%(hole_num)s, %(par)s);"
             for element in hole_list:
@@ -141,7 +147,7 @@ class Cli:
 
         self.session_dict["session_type_id"]=self.session_type_id
 
-
+        #inserting the session and commiting it
         try:
             session_insert_query="CALL GOLF.INSERT_SESSION(%(session_type_id)s, %(course_id)s, %(date)s, %(notes)s, %(goals)s);"
             self.cursor_1.execute(session_insert_query, self.session_dict)
@@ -149,6 +155,8 @@ class Cli:
         except mysql.connector.Error as err:
             print(err)
 
+
+        #We are finding the max session_id. 
         try:
             session_id_query="SELECT DISTINCT session_id from golf.self_session WHERE session_id=(SELECT MAX(session_id) FROM GOLF.SELF_SESSION);"
             self.cursor_1.execute(session_id_query)
@@ -186,13 +194,14 @@ class Cli:
             new_max_score_query= old_max_score_query
             new_min_score_query=old_min_score_query
 
-
+# using pd to real the sql and then access the value od the max
             old_max_score_df=pd.read_sql(old_max_score_query, self.ch_1)
             old_max_score_df_value=old_max_score_df.iloc[0][0]
 
             old_min_score_df=pd.read_sql(old_min_score_query, self.ch_1)
             old_min_score_df_value=old_min_score_df.iloc[0][0]
 
+#the query for the old statistics
             old_query="SELECT DRIVE_AVG, GIR_PCT, SAND_SAVES_PCT, BIRDIES_PER_ROUND, HOLE_PROXIMITY_AVG, SCRAMBLING_PCT, SCORING_AVG, PUTT_AVG FROM GOLF.STAT WHERE ID='00000000-0000-0000-0000-000000000001'"
             new_query=old_query
             old_df=pd.read_sql(old_query,self.ch_1)
@@ -212,6 +221,7 @@ class Cli:
                 self.round_num_holes=int(input("How many number of holes did you play? 9 or 18 "))
             except ValueError:
                 print("Has to be a number.")
+                # we are rolling back because it wasn't a number and shouldn't be created. 
                 self.ch_1.rollback()
 
             for self.round_hole in range(1,self.round_num_holes+1):
@@ -230,6 +240,8 @@ class Cli:
                 except ValueError:
                     print("Has to be a number.")
                     self.ch_1.rollback()
+                    # rolling back because doesn't be created because of invalid input
+                    #setting values for personal scores
                 self.round_dict["player_id"]='00000000-0000-0000-0000-000000000001'
                 self.round_dict["session_id"]=self.session_id
                 self.round_dict["hole"]=self.round_hole
@@ -247,6 +259,7 @@ class Cli:
             try:
                 round_insert_query="CALL GOLF.insert_ROUND(%(player_id)s,%(session_id)s, %(hole)s, %(green_reg)s, %(score)s, %(putt)s, %(fairway)s, %(proximity_to_hole)s, %(scramble)s, %(sand_success)s, %(sand_total)s);"
                 for element in self.round_list:
+                    #inserting round data
                         self.cursor_1.execute(round_insert_query, element)
                 self.ch_1.commit()
             except mysql.connector.Error as err:
@@ -254,6 +267,7 @@ class Cli:
 
             self.df_round=pd.DataFrame(self.round_list)
 
+            # using pd to set new max score and access it
             new_max_score_df=pd.read_sql(new_max_score_query, self.ch_1)
             new_max_score_df_value=new_max_score_df.iloc[0][0]
 
@@ -273,7 +287,7 @@ class Cli:
             #which avg score should I use?
 
 
-
+            # logic for if I improved or not
             if old_max_score_df_value<new_max_score_df_value:
                 print(f"Aw. You you have a new high score from {old_max_score_df_value} to {new_max_score_df_value} for your total score. Keep practicing.")
             if old_min_score_df_value>new_min_score_df_value:
@@ -342,7 +356,7 @@ class Cli:
 
                 shot_type_query="SELECT DISTINCT shot_id from golf.shot_type WHERE name=%s;"
 
-
+                # doing a lookup of shot_type
                 self.cursor_1.execute(shot_type_query, (self.practice_shot_type, ))
 
                 shot_type_record=self.cursor_1.fetchall()
@@ -356,11 +370,12 @@ class Cli:
 
                 self.practice_dict['shot_type_id']=self.practice_shot_type_id
 
-
+                #inputting the stats for aggregation later
                 self.practice_dict['success']=self.practice_success
                 self.practice_dict['total']=self.practice_total
                 self.practice_dict['distance']=self.practice_distance
 
+                #lookup of the club
                 club_query="SELECT DISTINCT club_id from golf.club WHERE name=%s;"
                 self.cursor_1.execute(club_query, (self.practice_club, ))
 
@@ -375,6 +390,7 @@ class Cli:
             try:
                     practice_insert_query="CALL GOLF.insert_PRACTICE(%(player_id)s,%(session_id)s, %(shot_type_id)s, %(success)s, %(total)s, %(distance)s, %(club_id)s);"
                     for element in self.practice_list:
+                        # insert data for practice
                         self.cursor_1.execute(practice_insert_query, element)
                     self.ch_1.commit()
             except mysql.connector.Error as err:

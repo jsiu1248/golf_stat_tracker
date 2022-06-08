@@ -18,24 +18,35 @@ from graphs import Graph
 def Run_App():
     
 
-
+    """
+    The file runs all of functions. After all of the pga data is created and inserted, you will be inserting your own data with new practice rounds of 9/18 holes. 
+    The graphs may not be created without data.
+    """
+    #pull the data from the Golf Rader API.
     # pull=Api()
     # pull.api()
+
+
     r=File_Reader()
+    # creates the file paths and then reads the json files
     r.read_files()
+    # this just returns the data 
     fd=r.get_file_dict()
 
     c=Data_Cleaner(r, fd)
+    #cleans the respective datasets
     c.clean_stat_data()
 #     c.clean_rank_data()
     c.clean_pga_player_data()
     c.clean_lpga_player_data()
 
     d=Database(c)
+    #makes sure that the connection works. 
     ch_1=d.try_connection("localhost", "root", config("mysql_pass"))
     d_2=Database(c)
     d_2.connection(ch_1)
     d_2.create_connection()
+    #insert the data into mysql database if list name matches
     d_2.insert_file()
 
 
@@ -48,6 +59,7 @@ def Run_App():
     6. Last goal check.
     """))
 
+# when selected you will either choose to either enter round or practice data through the CLI class.
     if user_input==1:
         me=Cli(ch_1)
         me.session()
