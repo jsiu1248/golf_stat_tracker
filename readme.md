@@ -13,7 +13,7 @@
 - Create a clone of the repo.
 - Set up a MySQL database. I used MySQL Workbench.
 - Create an account with Sportradar's Golf API and get a key for their golf API.
-Create an env file within your repo. Include your your key called "golf_demo." And, your mysql password should be named "mysql_pass."
+Create an env file within your repo. Include your your api_key in a variable called "golf_demo." And, your mysql password should be stored in a variable named "mysql_pass."
 - I will include a requirements.txt soon. In the meantime, you can pip install the packages utilized in the top section of Run_App.py.
 - Run the create_queries.sql file from the sql_queries folder. This will create all of the tables needed for your database.
 - Url.py in python_files currently provide the 2021 data and so does the json files. - If you wish to update the data to 2022, which I'm not sure if it is out yet then change the year to 2022.
