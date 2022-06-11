@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS golf;
 
 USE GOLF;
 
-CREATE TABLE IF NOT EXISTS stat 
+CREATE TABLE IF NOT EXISTS stat
         (
         id VARCHAR(255),
         earnings FLOAT(13),
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS practice
         total INT(3),
         distance FLOAT(5),
         club_id INT(5),
-        PRIMARY KEY(session_id));
+        PRIMARY KEY(id));
 
 CREATE TABLE IF NOT EXISTS golf_course 
         (
