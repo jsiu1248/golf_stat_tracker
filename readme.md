@@ -20,7 +20,7 @@ Create an env file within your repo. Include your your api_key in a variable cal
 - Within the Run_App.py file, you can run uncomment pull=Api() and pull.api() if you wish to run the Api.py file. This will allow you to pull data from Sportradar's Golf API. If you run the API's, it may rewrite the JSON files in the "data" folder.
 - Regardless of if you pull from the API, you will have to run the File_Reader.py file through the Run_App.py. This reads the JSON files.
 - You will also need to run data_cleaner.py through the Run_App.py. This cleans the data and picks the columns that we want that will later be comparable to our own data.
-- Run the insert_queries_v2.sql file in your MySQL database. This will set up all of the procedures needed to insert data.
+- Open insert_queries_v2.sql. There is an insert that inserts data to pga_player. Change my data into the data that you want for yourself. You can add more personal players in the future, but for right now it is easiest for one player. Run the insert_queries_v2.sql file in your MySQL database. This will set up all of the procedures needed to insert data.
 - Use Run_App.py to run Database.py. There is a method called insert_file() that will be called over and over again. But, that is alright because there is the logic won't kick back an error. The first go around should insert all of the data from the JSON files.
 - Now, we should be all ready to run the Run_App.py file as a whole if everything else runs properly. Choose 1 to add data to a round/practice. Choose 2 to see graphs, but it needs data first.
 - Once you have created a couple of rounds of data for both practice and 9/18 holes. - Then, you can run the view.sql file in MySQL Database. It may kick an error if there is no data.
