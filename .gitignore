@@ -2,4 +2,5 @@
 venv
 text.env
 env.py
-.env
+.env.rtf
+env
