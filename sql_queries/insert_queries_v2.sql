@@ -1,7 +1,7 @@
 USE GOLF;
 
 -- Currently, I am dropping the procedure everytime that it is being run again.
---But, I tried to find another function that would not drop it every time such as IF EXISTS.
+-- But, I tried to find another function that would not drop it every time such as IF EXISTS.
 
 -- This procedure inserts data to the stat table.
 DROP PROCEDURE IF EXISTS insert_stat;
