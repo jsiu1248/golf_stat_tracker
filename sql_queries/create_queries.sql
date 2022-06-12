@@ -138,12 +138,6 @@ ADD player_id char(255);
 ALTER TABLE golf.round
 ADD player_id char(255);
 
-ALTER TABLE golf.stat
-ADD score_avg FLOAT(5)
-
-ALTER TABLE golf.stat
-RENAME COLUMN score_avg TO scoring_avg;
-
 ALTER TABLE golf.round
 ADD sand_success INT(1),
 ADD sand_total INT(1);
