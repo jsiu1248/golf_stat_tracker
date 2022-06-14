@@ -203,11 +203,18 @@ VALUES
 
 SET SQL_SAFE_UPDATES = 0;
 
+
 -- Manually setting personal player_id
+DROP PROCEDURE IF EXISTS update_round_player_id;
+CREATE PROCEDURE update_round_player_id
+(IN player_id CHAR(255))
 UPDATE golf.round
 SET player_id='00000000-0000-0000-0000-000000000001';
 
 -- Manually setting personal player_id
+DROP PROCEDURE IF EXISTS update_practice_player_id;
+CREATE PROCEDURE update_practice_player_id
+(IN player_id CHAR(255))
 UPDATE golf.practice
 SET player_id='00000000-0000-0000-0000-000000000001';
 
@@ -224,7 +231,7 @@ VALUES
 INSERT IGNORE INTO GOLF.STAT
 (id)
 VALUES
-('00000000-0000-0000-0000-000000000001')
+('00000000-0000-0000-0000-000000000001');
 
 -- inserting world_rank into stat for player
 UPDATE golf.stat
@@ -254,11 +261,17 @@ sand_saves_pct=(SELECT SAND_SAVES_PCT FROM GOLF.round_data_dim)
 WHERE ID='00000000-0000-0000-0000-000000000001';
 
 -- Set player_type to non_pga
+DROP PROCEDURE IF EXISTS update_stat_player_type;
+CREATE PROCEDURE update_stat_player_type
+(IN player_id CHAR(255))
 UPDATE golf.stat
 SET player_type='non-pga'
 WHERE id='00000000-0000-0000-0000-000000000001';
 
 -- Setting pga_players to pga so that it is easier for visualizations later
+DROP PROCEDURE IF EXISTS update_stat_player_type;
+CREATE PROCEDURE update_stat_player_type
+(IN player_id CHAR(255))
 UPDATE golf.stat
 SET player_type='pga'
 WHERE id <> '00000000-0000-0000-0000-000000000001';
