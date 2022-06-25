@@ -108,12 +108,29 @@ class Database:
 #I would stick with a standard for loop
             
             #inserting data for club, shot_type, and stat_type. All of these are reference tables. 
-            for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query, 
+            for query in (club_insert_query, shot_type_insert_query, stat_type_insert_query,
             session_type_insert_query):
                 self.cursor_1.execute(query)
                 self.ch_1.commit()
         except mysql.connector.Error as err:
             print(err)
+
+    def pga_player_type (self):
+        try: #don't need this
+            pga_player_type_query="CALL GOLF.update_stat_player_type_pga;"
+            non_pga_player_type_query="CALL GOLF.update_stat_player_type_non_pga;"
+            for query in (pga_player_type_query, non_pga_player_type_query):
+                self.cursor_1.execute(query)
+                self.ch_1.commit()
+
+
+
+        except mysql.connector.Error as err:
+            print(err)
+
+
+
+
 
 
 

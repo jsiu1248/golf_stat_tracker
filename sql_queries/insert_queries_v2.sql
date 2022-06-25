@@ -261,16 +261,16 @@ sand_saves_pct=(SELECT SAND_SAVES_PCT FROM GOLF.round_data_dim)
 WHERE ID='00000000-0000-0000-0000-000000000001';
 
 -- Set player_type to non_pga
-DROP PROCEDURE IF EXISTS update_stat_player_type;
-CREATE PROCEDURE update_stat_player_type
+DROP PROCEDURE IF EXISTS update_stat_player_type_non_pga;
+CREATE PROCEDURE update_stat_player_type_non_pga
 (IN player_id CHAR(255))
 UPDATE golf.stat
 SET player_type='non-pga'
 WHERE id='00000000-0000-0000-0000-000000000001';
 
 -- Setting pga_players to pga so that it is easier for visualizations later
-DROP PROCEDURE IF EXISTS update_stat_player_type;
-CREATE PROCEDURE update_stat_player_type
+DROP PROCEDURE IF EXISTS update_stat_player_type_pga;
+CREATE PROCEDURE update_stat_player_type_pga
 (IN player_id CHAR(255))
 UPDATE golf.stat
 SET player_type='pga'
