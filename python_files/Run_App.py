@@ -16,10 +16,10 @@ from data_cleaner import Data_Cleaner
 from Database import *
 from graphs import Graph
 def Run_App():
-    
+
 
     """
-    The file runs all of functions. After all of the pga data is created and inserted, you will be inserting your own data with new practice rounds of 9/18 holes. 
+    The file runs all of functions. After all of the pga data is created and inserted, you will be inserting your own data with new practice rounds of 9/18 holes.
     The graphs may not be created without data.
     """
     #pull the data from the Golf Rader API.

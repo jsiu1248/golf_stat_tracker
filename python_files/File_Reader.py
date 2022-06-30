@@ -11,11 +11,11 @@ NOTE: May have to change self.path depending on where folders are stored.
 class File_Reader():
     def __init__(self):
         self.cwd=os.getcwd()
-        self.path="Documents\codingnomads\python_capstone\data"
+        self.path="Documents/python_capstone/data"
 
     def read_files(self):
         self.file_dict={}
-        for key, value in url.items(): 
+        for key, value in url.items():
             self.file_path=os.path.join(self.cwd,self.path,f'{key}_data.json')
 #how would I include the date?
 
