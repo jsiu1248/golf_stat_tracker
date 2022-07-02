@@ -30,7 +30,7 @@ def Run_App():
     r=File_Reader()
     # creates the file paths and then reads the json files
     r.read_files()
-    # this just returns the data 
+    # this just returns the data
     fd=r.get_file_dict()
 
     c=Data_Cleaner(r, fd)

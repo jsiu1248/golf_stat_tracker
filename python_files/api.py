@@ -12,7 +12,10 @@ NOTE: the self.path may need to be changed depending on where and how you store 
 class Api:
     def __init__(self):
         self.cwd=os.getcwd()
-        self.path="Documents\codingnomads\python_capstone"
+        #self.path="Documents/codingnomads/python_capstone"
+        self.home=os.path.expanduser('~')
+        self.path="Documents/python_capstone/data"
+
 
     def api(self):
 # often data don't need. class method and static methods used more
@@ -31,7 +34,7 @@ class Api:
 
             self.status=self.response.status_code
             #make the files with the json paths
-            self.file  = open(os.path.join(self.cwd,self.path,f"{key}_data.json"), "w+")
+            self.file  = open(os.path.join(self.home,self.path,f"{key}_data.json"), "w+")
 
             #get the text of the response
             self.golf_data=self.response.json()
